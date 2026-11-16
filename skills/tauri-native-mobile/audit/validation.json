@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "checked_at": "2026-11-16T13:54:33.453510+00:00",
+  "active_markdown_files": 38,
+  "local_links_checked": 136,
+  "preserved_sources_checked": 2,
+  "errors": [],
+  "scope": "Structure, local links and declared hashes; not semantic coverage",
+  "runtime_device_tests": "not performed; document/package validation only"
+}

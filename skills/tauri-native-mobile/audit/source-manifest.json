@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "description": "Generic authored integration examples; not application source snapshots",
+  "files": [
+    {
+      "copy": "examples/audio-acquisition.ts",
+      "sha256": "4745b2dbc7d3a9be2074e6bdb6faebe5c3ddf44d4fec0ca31d47853f0426a9ce"
+    },
+    {
+      "copy": "examples/capture-owner.ts",
+      "sha256": "03cb08e0c9e7684a161256070ee4032122ba59ca78270bf0f16fc4d2dadac171"
+    }
+  ]
+}

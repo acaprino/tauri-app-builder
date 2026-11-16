@@ -1,0 +1,8 @@
+{
+  "name": "tauri-app-builder",
+  "version": "1.0.0",
+  "description": "Build, audit and ship Tauri 2 apps with native behavior: desktop (Windows, macOS, Linux) windows, dialogs, frame, notifications and WebView lifecycle; mobile (Android, iOS) permissions, capture, auth, builds and store delivery.",
+  "homepage": "https://github.com/acaprino/tauri-app-builder",
+  "repository": "https://github.com/acaprino/tauri-app-builder",
+  "keywords": ["tauri", "desktop", "mobile", "android", "ios", "webview"]
+}

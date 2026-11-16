@@ -1,0 +1,15 @@
+# Package review
+
+Reviewed 2026-11-16. This anonymous standalone skill covers Android, iOS and web migration boundaries: permissions, exact alarms and reminders, camera/audio/video lifecycle, native Google identity, deep links, native file export, builds and version maintenance.
+
+Examples are generic integration contracts. The manifest hashes those examples. The validator checks nonempty documentation, frontmatter, local links and declared source hashes; regression tests exercise missing/malformed input and stale-result prevention. Structural coverage does not prove feature completeness.
+
+No APK/iOS build, real-device timing, live provider login, camera recording or destination-file write was executed for this package. Run the per-feature acceptance matrix on the target application before claiming runtime success. Version inventory entries are dated registry observations, not a compatibility certificate. No private application source, keys, personal paths or commit chronology is required.
+
+Final checks: 23 validator regressions passed; 38 Markdown files, 136 local links and 2 example hashes passed. Both TypeScript examples passed strict no-emit compilation with ES2020 and DOM libraries. Independent scenario review covered exact weekly alarms/snooze, native ZIP saving, camera timeout ownership, iOS Google and cold/warm links. No private identifiers or personal paths found in the text scan.
+
+Capability expansion reviewed against official Tauri, Android, Apple and Firebase documentation: geolocation/background/geofencing; NFC/tag sessions versus card emulation; BLE roles/permissions/reconnection; remote push and durable offline/background work; biometric-bound secret access; and a discovery inventory for photo import, contacts, calendar, health, sensors, local network and native navigation/accessibility. The baseline scenario review found missing ownership and delivery contracts; dedicated references and acceptance cases now supply those decisions. The broader inventory routes further implementation research rather than claiming every feature is implemented.
+
+Independent final scenario evaluation passed six integration/discovery cases: locked-screen location and geofence, retained NFC read/write session versus card capability, suspended BLE reconnect, account-switched push and idempotent offline retry, biometric-bound secret access, and delayed photo/limited contacts/cancelled calendar handling. No material findings remained; biometric cipher permission discovery was added with an installed-version/binding caveat. Device execution remains unverified.
+
+Native plugin map added 2026-11-16: support levels and notes for the 31 official plugins were copied from the `[package.metadata.platforms.support]` tables in the plugins-workspace `v2` manifests; community candidates come from the awesome-tauri list. No plugin was installed, built or run, and no community plugin source was reviewed. The map also names three maintained native plugins (Android camera, Android Google/Firebase sign-in, in-app purchases) with public repository links, described from their README, manifest, permission files and file tree.

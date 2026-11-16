@@ -1,0 +1,712 @@
+{
+  "checked": "2026-11-16",
+  "note": "Registry observations, not a tested compatibility set or installed app inventory",
+  "results": [
+    {
+      "component": "npm:@tauri-apps/cli",
+      "source": "https://registry.npmjs.org/@tauri-apps/cli/latest",
+      "version": "2.12.4",
+      "engines": {
+        "node": ">= 10"
+      },
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/api",
+      "source": "https://registry.npmjs.org/@tauri-apps/api/latest",
+      "version": "2.12.4",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-notification",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-notification/latest",
+      "version": "2.8.1",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-deep-link",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-deep-link/latest",
+      "version": "2.6.3",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-os",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-os/latest",
+      "version": "2.4.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-store",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-store/latest",
+      "version": "2.5.1",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-opener",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-opener/latest",
+      "version": "2.7.3",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-fs",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-fs/latest",
+      "version": "2.7.1",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-http",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-http/latest",
+      "version": "2.9.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-shell",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-shell/latest",
+      "version": "2.6.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-updater",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-updater/latest",
+      "version": "2.14.1",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-sql",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-sql/latest",
+      "version": "2.6.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-log",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-log/latest",
+      "version": "2.10.2",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-biometric",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-biometric/latest",
+      "version": "2.5.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-geolocation",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-geolocation/latest",
+      "version": "2.5.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-barcode-scanner",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-barcode-scanner/latest",
+      "version": "2.5.3",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:@tauri-apps/plugin-nfc",
+      "source": "https://registry.npmjs.org/@tauri-apps/plugin-nfc/latest",
+      "version": "2.4.2",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:firebase",
+      "source": "https://registry.npmjs.org/firebase/latest",
+      "version": "13.3.0",
+      "engines": null,
+      "deprecated": null
+    },
+    {
+      "component": "npm:vite",
+      "source": "https://registry.npmjs.org/vite/latest",
+      "version": "8.3.8",
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      },
+      "deprecated": null
+    },
+    {
+      "component": "npm:typescript",
+      "source": "https://registry.npmjs.org/typescript/latest",
+      "version": "7.0.2",
+      "engines": {
+        "node": ">=16.20.0"
+      },
+      "deprecated": null
+    },
+    {
+      "component": "npm:react",
+      "source": "https://registry.npmjs.org/react/latest",
+      "version": "19.3.1",
+      "engines": {
+        "node": ">=0.10.0"
+      },
+      "deprecated": null
+    },
+    {
+      "component": "cargo:tauri",
+      "source": "https://crates.io/api/v1/crates/tauri",
+      "version": "2.12.5",
+      "newest": "3.0.0-alpha.6"
+    },
+    {
+      "component": "cargo:tauri-build",
+      "source": "https://crates.io/api/v1/crates/tauri-build",
+      "version": "2.7.4",
+      "newest": "2.7.4"
+    },
+    {
+      "component": "cargo:tauri-cli",
+      "source": "https://crates.io/api/v1/crates/tauri-cli",
+      "version": "2.12.4",
+      "newest": "3.0.0-alpha.6"
+    },
+    {
+      "component": "cargo:wry",
+      "source": "https://crates.io/api/v1/crates/wry",
+      "version": "0.57.2",
+      "newest": "0.57.2"
+    },
+    {
+      "component": "cargo:tauri-plugin-native-camera",
+      "source": "https://crates.io/api/v1/crates/tauri-plugin-native-camera",
+      "version": "0.1.0",
+      "newest": "0.1.0"
+    },
+    {
+      "component": "cargo:tauri-plugin-notification",
+      "source": "https://crates.io/api/v1/crates/tauri-plugin-notification",
+      "version": "2.8.1",
+      "newest": "2.8.1"
+    },
+    {
+      "component": "cargo:tauri-plugin-deep-link",
+      "source": "https://crates.io/api/v1/crates/tauri-plugin-deep-link",
+      "version": "2.6.3",
+      "newest": "2.6.3"
+    },
+    {
+      "component": "maven:com/android/tools/build/gradle",
+      "source": "https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/maven-metadata.xml",
+      "version": "9.5.1",
+      "latest": "9.6.0-alpha03"
+    },
+    {
+      "component": "maven:androidx/camera/camera-core",
+      "source": "https://dl.google.com/dl/android/maven2/androidx/camera/camera-core/maven-metadata.xml",
+      "version": "1.6.2",
+      "latest": "1.7.0-rc02"
+    },
+    {
+      "component": "maven:androidx/credentials/credentials",
+      "source": "https://dl.google.com/dl/android/maven2/androidx/credentials/credentials/maven-metadata.xml",
+      "version": "1.6.0",
+      "latest": "1.7.0-alpha03"
+    },
+    {
+      "component": "maven:com/google/android/libraries/identity/googleid/googleid",
+      "source": "https://dl.google.com/dl/android/maven2/com/google/android/libraries/identity/googleid/googleid/maven-metadata.xml",
+      "version": "1.2.1",
+      "latest": "1.2.1"
+    },
+    {
+      "component": "maven:com/google/firebase/firebase-bom",
+      "source": "https://dl.google.com/dl/android/maven2/com/google/firebase/firebase-bom/maven-metadata.xml",
+      "version": "35.2.0",
+      "latest": "35.2.0"
+    },
+    {
+      "component": "maven:com/android/billingclient/billing",
+      "source": "https://dl.google.com/dl/android/maven2/com/android/billingclient/billing/maven-metadata.xml",
+      "version": "9.1.0",
+      "latest": "9.1.0"
+    },
+    {
+      "component": "maven:androidx/work/work-runtime",
+      "source": "https://dl.google.com/dl/android/maven2/androidx/work/work-runtime/maven-metadata.xml",
+      "version": "2.12.0",
+      "latest": "2.12.0"
+    },
+    {
+      "component": "gradle",
+      "source": "https://services.gradle.org/versions/current",
+      "version": "9.9.1",
+      "published": "20261110162215+0000"
+    },
+    {
+      "component": "rust",
+      "source": "https://static.rust-lang.org/dist/channel-rust-stable.toml",
+      "version": "1.100.0 (0ef1bc386 2026-11-09)",
+      "date": "2026-11-12"
+    },
+    {
+      "component": "node",
+      "source": "https://nodejs.org/dist/index.json",
+      "version": "v26.13.1",
+      "lts": "v26.13.1",
+      "newest_index_entry": "v27.0.0-alpha.0.1.0",
+      "note": "Highest non-prerelease entry; LTS v26.13.1"
+    },
+    {
+      "component": "kotlin",
+      "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/maven-metadata.xml",
+      "version": "2.4.21",
+      "latest": "2.5.0-RC"
+    },
+    {
+      "component": "ndk",
+      "source": "https://dl.google.com/android/repository/repository2-1.xml",
+      "packages": [
+        {
+          "path": "ndk;30.0.16248370",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;30.0.16138531",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;30.0.15729638",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;30.0.14904198",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;29.0.14206865",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;29.0.14033849",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;29.0.13846066",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;27.3.13750724",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;28.2.13676358",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;29.0.13599879",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;28.1.13356709",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;29.0.13113456",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;28.0.13004108",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;28.0.12916984",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;28.0.12674087",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;27.2.12479018",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;28.0.12433566",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;27.1.12297006",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;27.0.12077973",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;27.0.11902837",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;27.0.11718014",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;26.3.11579264",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;23.0.7344513",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;23.0.7272597",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;23.0.7196353",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;23.0.7123448",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;22.1.7171670",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;22.0.7026061",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;22.0.6917172",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;21.4.7075529",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;21.3.6528147",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;21.2.6472646",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;21.1.6352462",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;21.1.6363665",
+          "channel": {
+            "ref": "channel-2"
+          }
+        },
+        {
+          "path": "ndk;21.1.6273396",
+          "channel": {
+            "ref": "channel-2"
+          }
+        },
+        {
+          "path": "ndk;21.1.6210238",
+          "channel": {
+            "ref": "channel-2"
+          }
+        },
+        {
+          "path": "ndk;21.0.6113669",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;21.0.6011959",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;20.1.5948944",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;20.0.5594570",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;20.0.5471264",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;20.0.5392854",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;19.2.5345600",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;19.0.5232133",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;18.1.5063045",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;17.2.4988734",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;16.1.4479499",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;26.2.11394342",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;26.1.10909125",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;26.0.10792818",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;26.0.10636728",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;26.0.10404224",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;25.2.9519653",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;25.1.8937393",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;25.0.8775105",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;25.0.8528842",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;25.0.8355429",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;25.0.8221429",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;25.0.8151533",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;24.0.8079956",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;24.0.8215888",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;24.0.7956693",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;24.0.7856742",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;23.2.8568313",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;23.1.7779620",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;23.0.7599858",
+          "channel": {
+            "ref": "channel-0"
+          }
+        },
+        {
+          "path": "ndk;23.0.7530507",
+          "channel": {
+            "ref": "channel-1"
+          }
+        },
+        {
+          "path": "ndk;23.0.7421159",
+          "channel": {
+            "ref": "channel-1"
+          }
+        }
+      ]
+    },
+    {
+      "component": "GoogleSignIn-iOS",
+      "source": "https://api.github.com/repos/google/GoogleSignIn-iOS/releases/latest",
+      "version": "10.1.0",
+      "published": "2026-10-23T00:42:17Z"
+    },
+    {
+      "component": "firebase-ios",
+      "source": "https://api.github.com/repos/firebase/firebase-ios-sdk/releases/latest",
+      "version": "13.2.0",
+      "published": "2026-11-13T17:03:09Z"
+    },
+    {
+      "component": "Xcode",
+      "version": "27.2",
+      "prerelease": "27.3 beta",
+      "swift": "6.4",
+      "source": "https://developer.apple.com/xcode/system-requirements/",
+      "note": "Live official table differs from stale search snippets; verify availability and macOS before selecting"
+    },
+    {
+      "component": "AGP 9.5 compatibility",
+      "gradle_min": "9.6.0",
+      "jdk_min": "17",
+      "default_ndk": "28.2.13676358",
+      "source": "https://developer.android.com/build/releases/agp-9-5-0-release-notes"
+    }
+  ]
+}
