@@ -27,3 +27,7 @@ cd skills/tauri-native-mobile
 python scripts/validate_bundle.py
 python -m unittest discover -s scripts -p "test_*.py"
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
