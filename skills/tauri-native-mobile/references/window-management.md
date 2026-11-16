@@ -1,6 +1,6 @@
 # Window boundaries in shared projects
 
-Tray/global-shortcut and desktop window-chrome patterns are not mobile navigation patterns. Check the current Tauri/platform support before making blanket statements about mobile multi-window capabilities.
+Tray/global-shortcut and desktop window-chrome patterns are not mobile navigation patterns. Check the current Tauri/platform support before making blanket statements about mobile multi-window capabilities. Desktop windows, dialogs and frame are covered by the `tauri-native-desktop` skill in this plugin.
 
 On desktop, use Tauri's documented drag-region/dragging mechanism and permission, not Electron's CSS alone. Keep window labels unique, scope capabilities to the intended windows and handle concurrent create/focus attempts. Preventing close and hiding a window are separate actions; define restore and quit behavior explicitly.
 

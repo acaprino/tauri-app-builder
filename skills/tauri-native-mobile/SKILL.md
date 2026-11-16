@@ -35,7 +35,7 @@ Trace a failing feature through JS invocation → Tauri capability → plugin re
 | Purchases | [IAP](references/iap.md) |
 | Release | [Android](references/distribution-android.md), [iOS](references/distribution-ios.md), [mobile CI](references/ci-cd-mobile.md) |
 | Streaming/performance | [IPC](references/ipc-streaming.md), [rendering](references/high-frequency-ui.md) |
-| Shared desktop target | [desktop builds](references/build-deploy-desktop.md), [shell](references/shell-plugin.md), [windows](references/window-management.md), [CI](references/ci-cd.md) |
+| Shared desktop target (boundaries only; desktop behavior is the `tauri-native-desktop` skill) | [desktop builds](references/build-deploy-desktop.md), [shell](references/shell-plugin.md), [windows](references/window-management.md), [CI](references/ci-cd.md) |
 | Notifications, timed reminders, exact alarms, snooze | [scheduling contract](references/notifications-alarms.md) |
 | ZIP export, downloads, save/share files | [native file export](references/file-export.md) |
 | Dependency updates and compatibility | [version maintenance](references/version-maintenance.md), [sources](references/sources.md) |
@@ -56,5 +56,7 @@ For findings, report symptom, affected platform/version, source evidence, cause,
 Run `python scripts/validate_bundle.py` and `python -m unittest discover -s scripts -p "test_*.py"` to check package integrity and validator regressions. These checks do not run mobile features. The [manifest](audit/source-manifest.json) hashes generic examples; [review status](audit/REVIEW.md) states verification limits.
 
 For migrations, inventory each browser-dependent action (downloads, popup login, capture, timers, clipboard and links). Give each a platform adapter, cancellation/error contract and observable completion condition. Never show completion merely because a browser API returned without throwing. Apps may need notifications, exact alarms, or both: preserve each requested delivery contract.
+
+The plugin-wide data file `../../shared/native-plugins.md` (relative to this skill's folder) holds the official plugin support matrix for all five platforms, the maintained plugins and the community candidates; the desktop skill reads the same file.
 
 For a broad migration audit, start with the [capability inventory](references/migration-inventory.md), then load only the references for features the app actually uses. A browser API or foreground callback does not establish native background support.

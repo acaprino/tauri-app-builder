@@ -7,7 +7,7 @@ A Claude Code plugin with two skills for building, auditing and shipping Tauri 2
 | `tauri-native-desktop` | Windows, macOS and Linux: windows and dialogs, frame, system services, notifications, keyboard and accessibility, context menus, startup flash, WebView lifecycle and recovery |
 | `tauri-native-mobile` | Android and iOS: permissions, camera and microphone, sign-in, deep links, insets, location, NFC/BLE, biometrics, push and background work, file export, builds and store delivery |
 
-Both skills include a native plugin map: which official Tauri plugin covers a capability on each OS, which capabilities have no official plugin, and which community or maintained plugins to evaluate.
+Each skill has its own native plugin map: which plugin covers a capability on its platforms and which capabilities have no official plugin. The data both rely on is stated once in [`shared/native-plugins.md`](shared/native-plugins.md): the support matrix of the 31 official plugins on all five platforms, the maintained plugins and the community candidates.
 
 ## Install
 

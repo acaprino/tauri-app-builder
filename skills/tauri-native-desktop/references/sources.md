@@ -157,7 +157,6 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 
 - official plugins table: https://github.com/tauri-apps/plugins-workspace/blob/v2/README.md
 - plugin manifests: https://github.com/tauri-apps/plugins-workspace/tree/v2/plugins
-- awesome-tauri plugins: https://github.com/tauri-apps/awesome-tauri#plugins
 
 ## notifications.md
 

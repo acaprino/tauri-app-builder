@@ -31,7 +31,7 @@ For forms outside the main window the second level is often appropriate. If nati
 
 ## References
 
-Read the files the work in scope needs, not all of them. Each holds the reasons, the version facts and the illustrative code for its topic.
+Read the files the work in scope needs, not all of them. The plugin-wide data file `../../shared/native-plugins.md` (relative to this skill's folder) holds the official plugin support matrix for all five platforms, the maintained plugins and the community candidates; the `tauri-native-mobile` skill in this plugin reads the same file and owns Android and iOS work. Each holds the reasons, the version facts and the illustrative code for its topic.
 
 | Work in scope | File |
 |---|---|

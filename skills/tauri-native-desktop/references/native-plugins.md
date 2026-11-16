@@ -21,30 +21,30 @@ All are `full` on Windows, macOS and Linux unless noted.
 
 | Need | Plugin (crate `tauri-plugin-…`) | Desktop limit / note |
 |---|---|---|
-| Open/save/message dialogs | `dialog` 2.8.4 | Linux backend choice in [os-integration.md](os-integration.md) |
-| Disk access | `fs` 2.7.1 | No write access to `$RESOURCES` on macOS and Linux; on Windows, MSI/NSIS `perMachine` and `both` installs need admin rights to write there |
-| Keep user-granted paths across restarts | `persisted-scope` 2.4.3 | Register after `fs` |
-| Desktop notifications | `notification` 2.8.1 | Windows: only works for installed apps; shows the PowerShell name and icon in development ([notifications.md](notifications.md)) |
-| Biometric prompt | `biometric` 2.5.0 | **macOS only** on desktop; Windows and Linux `none` |
-| Login callback, URL handler | `deep-link` 2.6.3 | macOS `partial`: links must be registered in config, no runtime registration |
-| Open URL or file in the default app, reveal in file manager | `opener` 2.7.3 | Scope the allowed targets |
-| Second launch, forwarded arguments | `single-instance` 2.5.5 | Register first ([os-integration.md](os-integration.md)) |
-| Restore window size and position | `window-state` 2.5.1 | — |
-| Place a window at a known position, tray-relative | `positioner` 2.4.0 | — |
-| Start at login | `autostart` 2.7.0 | Product choice, user-controllable |
-| System-wide shortcuts | `global-shortcut` 2.4.1 | Needs a stronger reason than in-app shortcuts |
-| In-app updates | `updater` 2.14.1 | Signing required |
-| Clipboard (text, image, HTML) | `clipboard-manager` 2.5.0 | — |
-| Settings | `store` 2.5.1 | Not encrypted: no credentials |
-| Encrypted vault | `stronghold` 2.4.0 | App-managed vault, not the OS credential store |
-| SQL databases | `sql` 2.6.0 | — |
-| HTTP, upload, WebSocket from Rust | `http` 2.9.0, `upload` 2.5.0, `websocket` 2.5.1 | Scope the allowed URLs |
-| Logging | `log` 2.10.2 | — |
-| OS, version, arch, locale | `os` 2.4.0 | — |
-| Exit, relaunch | `process` 2.4.0 | Restart and locks in [recovery.md](recovery.md) |
-| Child processes, sidecars | `shell` 2.6.0 | Scope every command and argument |
-| Command-line arguments | `cli` 2.5.0 | — |
-| Assets over localhost | `localhost` 2.4.0 | The plugin page warns of considerable security risks |
+| Open/save/message dialogs | `dialog` | Linux backend choice in [os-integration.md](os-integration.md) |
+| Disk access | `fs` | No write access to `$RESOURCES` on macOS and Linux; on Windows, MSI/NSIS `perMachine` and `both` installs need admin rights to write there |
+| Keep user-granted paths across restarts | `persisted-scope` | Register after `fs` |
+| Desktop notifications | `notification` | Windows: only works for installed apps; shows the PowerShell name and icon in development ([notifications.md](notifications.md)) |
+| Biometric prompt | `biometric` | **macOS only** on desktop; Windows and Linux `none` |
+| Login callback, URL handler | `deep-link` | macOS `partial`: links must be registered in config, no runtime registration |
+| Open URL or file in the default app, reveal in file manager | `opener` | Scope the allowed targets |
+| Second launch, forwarded arguments | `single-instance` | Register first ([os-integration.md](os-integration.md)) |
+| Restore window size and position | `window-state` | — |
+| Place a window at a known position, tray-relative | `positioner` | — |
+| Start at login | `autostart` | Product choice, user-controllable |
+| System-wide shortcuts | `global-shortcut` | Needs a stronger reason than in-app shortcuts |
+| In-app updates | `updater` | Signing required |
+| Clipboard (text, image, HTML) | `clipboard-manager` | — |
+| Settings | `store` | Not encrypted: no credentials |
+| Encrypted vault | `stronghold` | App-managed vault, not the OS credential store |
+| SQL databases | `sql` | — |
+| HTTP, upload, WebSocket from Rust | `http`, `upload`, `websocket` | Scope the allowed URLs |
+| Logging | `log` | — |
+| OS, version, arch, locale | `os` | — |
+| Exit, relaunch | `process` | Restart and locks in [recovery.md](recovery.md) |
+| Child processes, sidecars | `shell` | Scope every command and argument |
+| Command-line arguments | `cli` | — |
+| Assets over localhost | `localhost` | The plugin page warns of considerable security risks |
 
 Declared `none` on all three desktop systems: `barcode-scanner`, `geolocation`, `haptics`, `nfc`, `torch`.
 
@@ -63,23 +63,9 @@ Do not promise these from the official catalog. The middle column names the nati
 | Screen capture, system permissions on macOS | ScreenCaptureKit, TCC | Community plugin or platform code; the user grants these in System Settings |
 | Native context menu | Tauri core `Menu` popup | Core API, no plugin ([context-menus.md](context-menus.md)) |
 
-## Community candidates
+## Shared data
 
-Listed in awesome-tauri with a Tauri v2 tag on 2026-11-16. None was installed, built or reviewed for this skill: evaluate before use. [awesome-tauri plugins].
-
-| Need | Candidate |
-|---|---|
-| Disable default browser shortcuts | [tauri-plugin-prevent-default](https://github.com/ferreira-tb/tauri-plugin-prevent-default) |
-| macOS panel windows, status-bar popover | [tauri-nspanel](https://github.com/ahkohd/tauri-nspanel), [tauri-nspopover-plugin](https://github.com/freethinkel/tauri-nspopover-plugin) |
-| Check and request macOS permissions | [tauri-plugin-macos-permissions](https://github.com/ayangweb/tauri-plugin-macos-permissions) |
-| macOS drag-out of files | [tauri-plugin-dragout](https://github.com/alexqqqqqq777/tauri-plugin-dragout) |
-| Clipboard with files, RTF and change monitoring | [tauri-plugin-clipboard](https://github.com/CrossCopy/tauri-plugin-clipboard) |
-| Bluetooth LE client | [tauri-plugin-blec](https://github.com/MnlPhlp/tauri-plugin-blec) |
-| Serial port | [tauri-plugin-serialplugin](https://github.com/s00d/tauri-plugin-serialplugin) |
-| Window and monitor screenshots | [tauri-plugin-screenshots](https://github.com/ayangweb/tauri-plugin-screenshots) |
-| In-app purchases (macOS, Windows) | [tauri-plugin-iap](https://github.com/Choochmeque/tauri-plugin-iap) |
-| Crash and error reporting | [sentry-tauri](https://github.com/timfish/sentry-tauri) |
-| Device info (battery, network, storage) | [tauri-plugin-device-info](https://github.com/edisdev/tauri-plugin-device-info) |
+The full support matrix for all 31 official plugins (version, level per OS, declared notes), the maintained plugins and the community candidates are in `../../shared/native-plugins.md` (at the plugin root, relative to this skill's folder). Read it when a need is not in the tables above, when you need a plugin's exact version, or before proposing a community plugin.
 
 The maintained mobile plugins do not fill desktop gaps: `tauri-plugin-native-camera` is Android-only and `tauri-plugin-google-auth-firebase` returns `UnsupportedPlatform` on desktop, so gate both behind mobile targets in a shared codebase and keep the desktop paths above.
 

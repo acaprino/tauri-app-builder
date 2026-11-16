@@ -17,28 +17,28 @@ For every plugin, check the five pieces in [plugin integration](plugins-core.md)
 
 | Need | Plugin (crate `tauri-plugin-…`) | Android | iOS | Mobile limit / note | Read next |
 |---|---|---|---|---|---|
-| Biometric prompt (fingerprint, face) | `biometric` 2.5.0 | full | full | A prompt alone does not protect a secret | [device security](device-security.md) |
-| Location, tracking | `geolocation` 2.5.0 | full | full | Background and geofencing need extra native work | [geolocation](geolocation.md) |
-| QR / barcode scan with the camera | `barcode-scanner` 2.5.3 | full | full | Scanning only: not photo or video capture | [camera and media](camera-media.md) |
-| NFC tag read/write | `nfc` 2.4.2 | full | full | Tags, not card emulation | [NFC and Bluetooth](nfc-bluetooth.md) |
-| Local notifications | `notification` 2.8.1 | full | full | Remote push is not included | [notifications and alarms](notifications-alarms.md), [push](push-background.md) |
-| Haptic feedback | `haptics` 2.4.2 | full | full | Android vibration is not standardized across devices | — |
-| Flashlight | `torch` 2.0.0 | full | full | — | — |
-| App links / custom schemes (login callbacks) | `deep-link` 2.6.3 | partial | partial | Links must be registered in config; no runtime registration | [mobile auth and links](authentication-mobile.md) |
-| Open an external URL | `opener` 2.7.3 | partial | partial | Only URLs via `open`; no file open or reveal | [plugin integration](plugins-core.md) |
-| File/message dialogs | `dialog` 2.8.4 | partial | partial | No folder picker | [file export](file-export.md) |
-| File access | `fs` 2.7.1 | partial | partial | Restricted to the application folder by default | [file export](file-export.md) |
-| Clipboard | `clipboard-manager` 2.5.0 | partial | partial | Plain text only | — |
-| Key-value settings | `store` 2.5.1 | full | full | Not encrypted: no credentials | [plugin integration](plugins-core.md) |
-| Encrypted vault | `stronghold` 2.4.0 | full | full | App-managed vault, not the OS Keychain/Keystore | [device security](device-security.md) |
-| SQLite and other SQL | `sql` 2.6.0 | full | full | Migrations must match the plugin version | [plugin integration](plugins-core.md) |
-| HTTP from Rust | `http` 2.9.0 | full | full | Scope the allowed URLs | [plugin integration](plugins-core.md) |
-| Upload/download to disk | `upload` 2.5.0 | full | full | — | — |
-| WebSocket from Rust | `websocket` 2.5.1 | full | full | — | — |
-| Logging | `log` 2.10.2 | full | full | — | [debugging](debugging-mobile.md) |
-| OS, version, arch | `os` 2.4.0 | full | full | — | [frontend](frontend-patterns.md) |
-| Persist runtime fs scopes | `persisted-scope` 2.4.3 | full | full | Register after `fs` | — |
-| Shell | `shell` 2.6.0 | partial | partial | Only URLs via `open`; no child processes | [shell](shell-plugin.md) |
+| Biometric prompt (fingerprint, face) | `biometric` | full | full | A prompt alone does not protect a secret | [device security](device-security.md) |
+| Location, tracking | `geolocation` | full | full | Background and geofencing need extra native work | [geolocation](geolocation.md) |
+| QR / barcode scan with the camera | `barcode-scanner` | full | full | Scanning only: not photo or video capture | [camera and media](camera-media.md) |
+| NFC tag read/write | `nfc` | full | full | Tags, not card emulation | [NFC and Bluetooth](nfc-bluetooth.md) |
+| Local notifications | `notification` | full | full | Remote push is not included | [notifications and alarms](notifications-alarms.md), [push](push-background.md) |
+| Haptic feedback | `haptics` | full | full | Android vibration is not standardized across devices | — |
+| Flashlight | `torch` | full | full | — | — |
+| App links / custom schemes (login callbacks) | `deep-link` | partial | partial | Links must be registered in config; no runtime registration | [mobile auth and links](authentication-mobile.md) |
+| Open an external URL | `opener` | partial | partial | Only URLs via `open`; no file open or reveal | [plugin integration](plugins-core.md) |
+| File/message dialogs | `dialog` | partial | partial | No folder picker | [file export](file-export.md) |
+| File access | `fs` | partial | partial | Restricted to the application folder by default | [file export](file-export.md) |
+| Clipboard | `clipboard-manager` | partial | partial | Plain text only | — |
+| Key-value settings | `store` | full | full | Not encrypted: no credentials | [plugin integration](plugins-core.md) |
+| Encrypted vault | `stronghold` | full | full | App-managed vault, not the OS Keychain/Keystore | [device security](device-security.md) |
+| SQLite and other SQL | `sql` | full | full | Migrations must match the plugin version | [plugin integration](plugins-core.md) |
+| HTTP from Rust | `http` | full | full | Scope the allowed URLs | [plugin integration](plugins-core.md) |
+| Upload/download to disk | `upload` | full | full | — | — |
+| WebSocket from Rust | `websocket` | full | full | — | — |
+| Logging | `log` | full | full | — | [debugging](debugging-mobile.md) |
+| OS, version, arch | `os` | full | full | — | [frontend](frontend-patterns.md) |
+| Persist runtime fs scopes | `persisted-scope` | full | full | Register after `fs` | — |
+| Shell | `shell` | partial | partial | Only URLs via `open`; no child processes | [shell](shell-plugin.md) |
 
 Declared `none` on Android and iOS: `autostart`, `cli`, `global-shortcut`, `localhost`, `positioner`, `process`, `single-instance`, `updater`, `window-state`. Store updates replace `updater` on mobile.
 
@@ -77,23 +77,8 @@ Do not promise these from the official catalog. Check the maintained plugins abo
 | Share sheet, save to user-chosen location | Sharesheet / SAF; UIActivityViewController / document picker | `fs` stays in the app folder | [file export](file-export.md) |
 | Contacts, calendar, health, sensors | Platform frameworks | — | [migration inventory](migration-inventory.md) |
 
-## Community candidates
+## Shared data
 
-Listed in awesome-tauri with a Tauri v2 tag on 2026-11-16. None was installed, built or reviewed for this skill: evaluate before use.
-
-| Need | Candidate |
-|---|---|
-| Android file access beyond the app folder | [tauri-plugin-android-fs](https://github.com/aiueo13/tauri-plugin-android-fs) |
-| iOS auth session with keychain access | [tauri-plugin-auth](https://github.com/inKibra/tauri-plugins/tree/main/packages/tauri-plugin-auth) |
-| Bluetooth LE client | [tauri-plugin-blec](https://github.com/MnlPhlp/tauri-plugin-blec) |
-| In-app review prompt | [tauri-plugin-in-app-review](https://github.com/Gbyte-Group/tauri-plugin-in-app-review) |
-| iOS Photos library | [tauri-plugin-ios-photos](https://github.com/Gbyte-Group/tauri-plugin-ios-photos) |
-| Share sheet (send) | [tauri-plugin-sharesheet](https://github.com/buildyourwebapp/tauri-plugin-sharesheet) |
-| Share target (receive) | [tauri-plugin-mobile-sharetarget](https://github.com/IT-ess/tauri-plugin-mobile-sharetarget) |
-| View/share files | [tauri-plugin-view](https://github.com/ecmel/tauri-plugin-view) |
-| Keep screen on | [tauri-plugin-keep-screen-on](https://gitlab.com/cristofa/tauri-plugin-keep-screen-on) |
-| Battery optimization exemption (Android) | [tauri-plugin-android-battery-optimization](https://github.com/NeoHuncho/tauri-plugin-android-battery-optimization) |
-| Home-screen widgets | [tauri-plugin-widgets](https://github.com/s00d/tauri-plugin-widgets) |
-| Device info (battery, network, storage) | [tauri-plugin-device-info](https://github.com/edisdev/tauri-plugin-device-info) |
+The full support matrix for all 31 official plugins (version, level per OS, declared notes), the maintained plugins and the community candidates are in `../../shared/native-plugins.md` (at the plugin root, relative to this skill's folder). Read it when a need is not in the tables above, when you need a plugin's exact version, or before proposing a community plugin.
 
 Sources: [official plugins table](https://github.com/tauri-apps/plugins-workspace/blob/v2/README.md), [plugin manifests](https://github.com/tauri-apps/plugins-workspace/tree/v2/plugins), [plugin catalog](https://v2.tauri.app/plugin/), [awesome-tauri plugins](https://github.com/tauri-apps/awesome-tauri#plugins). The official README marks several desktop-first plugins `?` on mobile where the manifests declare a level; the manifest is the more specific statement.
