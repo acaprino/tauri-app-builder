@@ -10,7 +10,7 @@ Part of the tauri-native-desktop references: versions, scope and limits are in [
 | External links into the app | Deep-link | Cold start and running app; validate and queue until the UI is ready |
 | Window restore | Window-state | Disconnected monitor; exclude temporary dialogs where appropriate |
 | Desktop alerts and completed-job notices | Official notification plugin | Installed app, identity, scoped permissions and callbacks; reminders also need a supported scheduler ([notifications.md](notifications.md)) |
-| Updates | Updater | Signing required and understandable restart |
+| Updates | Updater | Signing required and understandable restart ([packaging-updates.md](packaging-updates.md)) |
 | Unread count or status | `set_badge_count` (macOS; Linux with a matching `.desktop`), `set_overlay_icon` (Windows, per window) | On Windows `set_badge_count` is unsupported: the badge is an icon to generate |
 | Getting attention | `request_user_attention` | No effect if the app already has focus |
 | Long operations | `set_progress_bar` | Per window on Windows (ITaskbarList3), app-wide on macOS and Linux; on Linux only desktops with `libunity` |

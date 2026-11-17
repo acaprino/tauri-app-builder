@@ -65,7 +65,7 @@ Do not promise these from the official catalog. The middle column names the nati
 
 ## Shared data
 
-The full support matrix for all 31 official plugins (version, level per OS, declared notes), the maintained plugins and the community candidates are in `../../shared/native-plugins.md` (at the plugin root, relative to this skill's folder). Read it when a need is not in the tables above, when you need a plugin's exact version, or before proposing a community plugin.
+The full support matrix for all 31 official plugins (version, level per OS, declared notes), the maintained plugins and the community candidates are in [native-plugins-data.md](native-plugins-data.md) (synchronized with `shared/native-plugins.md` at the plugin root). Read it when a need is not in the tables above, when you need a plugin's exact version, or before proposing a community plugin.
 
 The maintained mobile plugins do not fill desktop gaps: `tauri-plugin-native-camera` is Android-only and `tauri-plugin-google-auth-firebase` returns `UnsupportedPlatform` on desktop, so gate both behind mobile targets in a shared codebase and keep the desktop paths above.
 

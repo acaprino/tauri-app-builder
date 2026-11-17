@@ -78,6 +78,8 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 ## boundaries.md
 
 - WebView2 user data folders: https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/user-data-folder#sharing-user-data-folders
+- WebviewWindowBuilder: https://docs.rs/tauri/2.12.5/tauri/webview/struct.WebviewWindowBuilder.html
+- tauri CHANGELOG: https://github.com/tauri-apps/tauri/blob/tauri-v2.12.5/crates/tauri/CHANGELOG.md
 - React createPortal: https://react.dev/reference/react-dom/createPortal
 - State management: https://v2.tauri.app/develop/state-management/
 - Capabilities: https://v2.tauri.app/security/capabilities/
@@ -96,6 +98,7 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - Settings: https://learn.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2settings
 - wry 0.57.2 source: https://docs.rs/crate/wry/0.57.2/source/src/webview2/mod.rs
 - Mouse interactions: https://learn.microsoft.com/en-us/windows/apps/develop/input/mouse-interactions
+- Focus visible: https://drafts.csswg.org/selectors/#the-focus-visible-pseudo
 - BCD user-select: https://github.com/mdn/browser-compat-data/blob/main/css/properties/user-select.json
 - W3C css-overscroll-1: https://www.w3.org/TR/css-overscroll-1/
 - Editor's draft: https://drafts.csswg.org/css-overscroll-1/
@@ -117,7 +120,6 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - Microsoft accessibility testing: https://learn.microsoft.com/en-us/windows/apps/design/accessibility/accessibility-testing
 - Forced colors: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors
 - Reduced motion: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
-- Focus visible: https://drafts.csswg.org/selectors/#the-focus-visible-pseudo
 - BCD color: https://github.com/mdn/browser-compat-data/blob/main/css/types/color.json
 - MDN system-color: https://developer.mozilla.org/en-US/docs/Web/CSS/system-color
 - GNOME dark style: https://blogs.gnome.org/alicem/2021/10/04/dark-style-preference/
@@ -145,13 +147,22 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - ThumbBarAddButtons: https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-itaskbarlist3-thumbbaraddbuttons
 - RunEvent Darwin: https://docs.rs/tauri/2.12.5/x86_64-apple-darwin/tauri/enum.RunEvent.html
 - app.rs: https://docs.rs/crate/tauri/2.12.5/source/src/app.rs
-- Toasts from unpackaged apps: https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast-other-apps
-- AppNotificationManager.Register: https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.windows.appnotifications.appnotificationmanager.register
 - dialog 2.8.4 Cargo.toml: https://docs.rs/crate/tauri-plugin-dialog/2.8.4/source/Cargo.toml
 - dialog lib.rs: https://docs.rs/crate/tauri-plugin-dialog/2.8.4/source/src/lib.rs
 - rfd source: https://docs.rs/rfd/latest/src/rfd/lib.rs.html
 - FileChooser XML: https://github.com/flatpak/xdg-desktop-portal/blob/main/data/org.freedesktop.portal.FileChooser.xml
 - window identifiers: https://github.com/flatpak/xdg-desktop-portal/blob/main/doc/window-identifiers.rst
+
+## packaging-updates.md
+
+- Distribute overview: https://v2.tauri.app/distribute/
+- Windows installer: https://v2.tauri.app/distribute/windows-installer/
+- macOS signing: https://v2.tauri.app/distribute/sign/macos/
+- Linux packaging: https://v2.tauri.app/distribute/debian/
+- Updater: https://v2.tauri.app/plugin/updater/
+- Sidecar: https://v2.tauri.app/develop/sidecar/
+- Shell plugin: https://v2.tauri.app/plugin/shell/
+- GitHub Actions: https://v2.tauri.app/distribute/pipelines/github/
 
 ## native-plugins.md
 
@@ -160,11 +171,14 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 
 ## notifications.md
 
+- Notification: https://v2.tauri.app/plugin/notification/
 - Notification permissions: https://github.com/tauri-apps/plugins-workspace/blob/notification-v2.8.1/plugins/notification/permissions/default.toml
 - Notification commands: https://github.com/tauri-apps/plugins-workspace/blob/notification-v2.8.1/plugins/notification/src/commands.rs
 - Notification desktop 2.8.1: https://github.com/tauri-apps/plugins-workspace/blob/notification-v2.8.1/plugins/notification/src/desktop.rs
 - Notification JS 2.8.1: https://github.com/tauri-apps/plugins-workspace/blob/notification-v2.8.1/plugins/notification/guest-js/index.ts
 - Notification changelog 2.8.1: https://github.com/tauri-apps/plugins-workspace/blob/notification-v2.8.1/plugins/notification/CHANGELOG.md
+- Toasts from unpackaged apps: https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast-other-apps
+- AppNotificationManager.Register: https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.windows.appnotifications.appnotificationmanager.register
 
 ## recovery.md
 

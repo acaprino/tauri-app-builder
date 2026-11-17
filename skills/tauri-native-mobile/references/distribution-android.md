@@ -2,7 +2,7 @@
 
 Reviewed 2026-11-15. The current Play target-API page states API 36 for new phone/tablet apps and updates from 2026-08-31, with platform-specific exceptions. Recheck the app's Play Console eligibility before each submission. [Target API policy](https://support.google.com/googleplay/android-developer/answer/11926878).
 
-The retrieved Android 16 KB guide now states 2027-02-01 for blocking incompatible updates; the backup's 2026-05-31 blanket deadline is superseded by that page. Recheck applicability/Console notices instead of treating this date as a permanent grace period. Technical compatibility still matters today. [Page sizes](https://developer.android.com/guide/practices/page-sizes).
+The retrieved Android 16 KB guide now states 2027-02-01 for blocking incompatible updates; older 2026-05-31 blanket deadline claims are superseded by that page. Recheck applicability/Console notices instead of treating this date as a permanent grace period. Technical compatibility still matters today. [Page sizes](https://developer.android.com/guide/practices/page-sizes).
 
 Before release: build a signed AAB; inspect its final package/versionCode and merged manifest; test generated APKs; preserve matching symbols; verify required account access, listing assets, privacy/data declarations and any account-specific testing requirements in Console. Review timing and internal-track review exemptions are not guaranteed.
 

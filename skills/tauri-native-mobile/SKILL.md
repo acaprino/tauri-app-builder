@@ -1,6 +1,6 @@
 ---
 name: tauri-native-mobile
-description: Build, debug and review Tauri 2 Android and iOS integrations, including native permissions, camera and microphone capture, Google/Firebase sign-in, deep links, WebView insets, native builds and store delivery. Includes location, NFC/BLE, biometrics, push, background work, exact alarms and native file export; use for native mobile work, not ordinary web-only UI changes.
+description: "Use when building, debugging or auditing Tauri 2 Android and iOS apps: native permissions, camera and microphone capture, Google/Firebase or Apple sign-in, deep links, WebView insets, geolocation, NFC/BLE, biometrics, push and background work, exact alarms, file export, native builds and store delivery. Not for web-only UI changes or desktop-only behavior."
 ---
 
 # Tauri native mobile
@@ -17,7 +17,7 @@ Trace a failing feature through JS invocation → Tauri capability → plugin re
 
 | Task | Local reference |
 |---|---|
-| Which plugin covers a capability, support per OS, gaps with no official plugin | [native plugin map](references/native-plugins.md) |
+| Which plugin covers a capability, support per OS, gaps with no official plugin | [native plugin map](references/native-plugins.md), [plugin data](references/native-plugins-data.md) |
 | Audit web-to-mobile capability gaps | [migration inventory](references/migration-inventory.md) |
 | Location, background journeys and geofencing | [geolocation](references/geolocation.md) |
 | NFC tags, card capability boundaries and BLE peripherals | [NFC and Bluetooth](references/nfc-bluetooth.md) |
@@ -53,10 +53,10 @@ Trace a failing feature through JS invocation → Tauri capability → plugin re
 
 For findings, report symptom, affected platform/version, source evidence, cause, correction and verification status. Recheck time-sensitive store requirements before submission using [sources](references/sources.md).
 
-Run `python scripts/validate_bundle.py` and `python -m unittest discover -s scripts -p "test_*.py"` to check package integrity and validator regressions. These checks do not run mobile features. The [manifest](audit/source-manifest.json) hashes generic examples; [review status](audit/REVIEW.md) states verification limits.
+Run `python scripts/validate_bundle.py` (read-only; add `--write` to refresh `audit/validation.json`) and `python -m unittest discover -s scripts -p "test_*.py"` to check package integrity and validator/example regressions. These checks do not run mobile features. The [manifest](audit/source-manifest.json) hashes generic examples; [review status](audit/REVIEW.md) states verification limits.
 
 For migrations, inventory each browser-dependent action (downloads, popup login, capture, timers, clipboard and links). Give each a platform adapter, cancellation/error contract and observable completion condition. Never show completion merely because a browser API returned without throwing. Apps may need notifications, exact alarms, or both: preserve each requested delivery contract.
 
-The plugin-wide data file `../../shared/native-plugins.md` (relative to this skill's folder) holds the official plugin support matrix for all five platforms, the maintained plugins and the community candidates; the desktop skill reads the same file.
+[native-plugins-data.md](references/native-plugins-data.md) holds the official plugin support matrix for all five platforms, the maintained plugins and the community candidates (kept in sync with the plugin's `shared/native-plugins.md` so this skill also works standalone).
 
 For a broad migration audit, start with the [capability inventory](references/migration-inventory.md), then load only the references for features the app actually uses. A browser API or foreground callback does not establish native background support.

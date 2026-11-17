@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tauri Native Mobile"
+  short_description: "Native Android and iOS integration for Tauri 2"
+  default_prompt: "Use $tauri-native-mobile to build, audit or debug the native Android and iOS behavior of this Tauri 2 app."

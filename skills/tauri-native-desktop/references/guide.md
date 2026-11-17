@@ -26,11 +26,12 @@ Many useful APIs are recent. Compare the tauri version resolved in the lockfile 
 
 | Goal | Solution | Limit |
 |---|---|---|
-| Open/save files, pick folders, show standard messages | OS dialogs through the dialog adapter/plugin | They do not build arbitrary forms |
-| Move a form outside the main window | A separate `WebviewWindow` with a frame and a relationship to the main window | Fields stay HTML/CSS |
+| Inspect or edit a selected item in context (detail sheet, right-hand drawer, inspector, quick modal) | In-window panel, split view, `<dialog>` or `popover` inside the main `WebviewWindow` | Cannot extend past the main window's frame; preserves list context, instant open and shared web parity |
+| Open/save files, pick folders, show standard OS messages, native menus/tray | OS controls through `tauri` core or `tauri-plugin-dialog` | They do not build arbitrary custom forms |
+| Detach a workspace/Settings window, work side by side, or exceed a compact host frame | A separate `WebviewWindow` (non-modal by default) with a defined relationship to main | Adds OS window chrome, WebView startup/memory cost and cross-context state sync; fields stay HTML/CSS |
 | Have fields, pickers and layout from the native toolkit | AppKit/GTK/WinUI integration or evaluating another toolkit | Platform-specific work, not a CSS property |
 
-The distinction follows the [dialog plugin] catalog and the [WebviewWindowBuilder] contract. Moving tooltips and dropdown menus into new windows is not needed to satisfy a request about dialogs.
+The distinction follows the [dialog plugin] catalog and the [WebviewWindowBuilder] contract. More OS windows do not make an app more native: never extract side drawers or lateral detail panels (such as a task or record sheet over a dimmed list) into separate OS windows, and do not assume ordinary in-page dialogs should become `WebviewWindow`s either. Turning a lateral drawer or routine dialog into a blocking OS window adds a duplicate title bar, breaks spatial context and slows down interaction. Keep side drawers, tooltips, dropdowns and in-page `<dialog>` modals inside the main window unless the user explicitly asks to detach a specific dialog or a multi-window/sizing constraint requires an external `WebviewWindow`.
 
 For in-page surfaces, prefer semantic browser primitives when the shipped engines support them: `<dialog>.showModal()` for modal dialogs and `popover` for non-modal layers. Define focus entry/return, Escape and light-dismiss behavior explicitly. Feature-detect newer dialog attributes, anchor positioning and interest/hover triggers against the project's oldest WebView, and retain a tested fallback where needed. CSS or a JavaScript popup inside the page does not become an OS window. A stable cross-engine behavior matters more than adopting every recent primitive. [MDN dialog], [BCD dialog], [Chrome anchor positioning], [Chrome popover hint].
 

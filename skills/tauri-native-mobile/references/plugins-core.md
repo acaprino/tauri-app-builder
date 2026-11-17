@@ -8,4 +8,39 @@ Store persists JSON and supports configurable auto-save. Use the installed API (
 
 Native HTTP avoids browser CORS enforcement but still needs authentication, TLS, URL validation and plugin scopes. Do not replace a broken backend origin policy with unrestricted native HTTP access by default. SQL migrations, notification configuration and log targets must match the actual plugin version.
 
+Split capability files by target OS (`src-tauri/capabilities/mobile.json` for shared mobile plugins; `src-tauri/capabilities/android.json` for Android-only plugins so `tauri-build` does not reject missing ACL manifests on iOS):
+
+```json
+{
+  "identifier": "mobile-shared",
+  "description": "Shared Android and iOS permissions for main window",
+  "platforms": ["android", "iOS"],
+  "windows": ["main"],
+  "permissions": ["biometric:allow-authenticate"]
+}
+```
+
+```json
+{
+  "identifier": "android-camera",
+  "description": "Android-only camera permission for main window",
+  "platforms": ["android"],
+  "windows": ["main"],
+  "permissions": ["native-camera:allow-take-picture"]
+}
+```
+
+```rust
+// src-tauri/src/lib.rs — gate mobile-only plugins behind target cfg
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    let builder = tauri::Builder::default();
+    #[cfg(mobile)]
+    let builder = builder.plugin(tauri_plugin_biometric::init());
+    #[cfg(target_os = "android")]
+    let builder = builder.plugin(tauri_plugin_native_camera::init());
+    builder.run(tauri::generate_context!()).expect("error while running tauri application");
+}
+```
+
 Sources: [catalog](https://v2.tauri.app/plugin/), [Store](https://v2.tauri.app/plugin/store/), [capabilities](https://v2.tauri.app/security/capabilities/).

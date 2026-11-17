@@ -1,6 +1,6 @@
 # IPC streams
 
-Use commands for request/response, events for notifications and Channels when the installed Tauri API fits ordered streaming. Measure payload size, frequency, latency, queue growth and device load. The backup's fixed event latency and 100 messages/second threshold were not supported by a benchmark.
+Use commands for request/response, events for notifications and Channels when the installed Tauri API fits ordered streaming. Measure payload size, frequency, latency, queue growth and device load. Avoid unbenchmarked rules of thumb such as fixed event latencies or arbitrary 100 messages/second cutoffs.
 
 Use bounded producer queues, explicit cancellation and an intentional overflow policy. Latest-value coalescing is suitable for replaceable display state, not financial events or durable operations. Handle broadcast lag distinctly from stream closure.
 

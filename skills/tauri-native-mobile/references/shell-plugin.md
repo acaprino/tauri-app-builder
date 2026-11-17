@@ -1,6 +1,6 @@
 # Shell/sidecar boundary
 
-Desktop process execution is distinct from mobile native APIs. Check installed plugin support per command; use opener for supported external URL operations.
+Desktop process execution is distinct from mobile native APIs; desktop sidecar packaging and behavior belong to the `tauri-native-desktop` skill in this plugin. Check installed plugin support per command; use opener for supported external URL operations.
 
 Scope executable names and arguments narrowly. A validator such as `.*` is not a useful protection for arbitrary command arguments. Keep executable paths separate from shell command strings, drain output, bound execution and arrange teardown. Missing ACLs are errors to inspect, not inherently silent release behavior.
 

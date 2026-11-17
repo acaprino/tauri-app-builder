@@ -10,7 +10,7 @@ Consulted 2026-11-15. Online sources change: this is a dated review, not a toolc
 | [Firebase Google Android](https://firebase.google.com/docs/auth/android/google-signin) | Credential Manager and server/Web client ID; native Firebase exchange |
 | [Tauri OS JS](https://v2.tauri.app/reference/javascript/os/) | `platform(): Platform`, synchronous |
 | [Tauri Store](https://v2.tauri.app/plugin/store/) | `load`, autoSave and save; API correction |
-| [Tauri deep linking](https://v2.tauri.app/plugin/deep-linking/) e [JS API](https://v2.tauri.app/reference/javascript/deep-link/) | Configuration per version, startup getCurrent and the onOpenUrl listener |
+| [Tauri deep linking](https://v2.tauri.app/plugin/deep-linking/) and [JS API](https://v2.tauri.app/reference/javascript/deep-link/) | Configuration per version, startup getCurrent and the onOpenUrl listener |
 | [Tauri capabilities](https://v2.tauri.app/security/capabilities/) | ACL per window/platform, separate from OS consent |
 | [Android runtime permissions](https://developer.android.com/training/permissions/requesting) | State and the request/recovery path |
 | [Android FileProvider](https://developer.android.com/reference/androidx/core/content/FileProvider) | URI grants and content sharing, not an implicit whole directory |

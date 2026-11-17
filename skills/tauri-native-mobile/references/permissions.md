@@ -21,4 +21,27 @@ For a custom native bridge, allow only trusted app origins and a small validated
 
 Test fresh request, denial, repeated denial, revoke in settings, grant in settings, background/resume and screen closed while prompt is open. Do not pre-grant permissions when testing the first-request UX.
 
-Sources: [Tauri capabilities](https://v2.tauri.app/security/capabilities/) and [Android permission requests](https://developer.android.com/training/permissions/requesting).
+```kotlin
+// Illustrative Android plugin permission + callback contract (app.tauri.plugin.Plugin)
+@TauriPlugin(
+  permissions = [Permission(strings = [Manifest.permission.CAMERA], alias = "camera")]
+)
+class CapturePlugin(private val activity: Activity) : Plugin(activity) {
+  @Command
+  fun capture(invoke: Invoke) {
+    if (getPermissionState("camera") != PermissionState.GRANTED) {
+      requestPermissionForAlias("camera", invoke, "onCameraPermission")
+      return
+    }
+    startCapture(invoke)
+  }
+
+  @PermissionCallback
+  fun onCameraPermission(invoke: Invoke) {
+    if (getPermissionState("camera") == PermissionState.GRANTED) startCapture(invoke)
+    else invoke.reject("PERMISSION_DENIED")
+  }
+}
+```
+
+Sources: [Tauri capabilities](https://v2.tauri.app/security/capabilities/), [Tauri mobile plugins](https://v2.tauri.app/develop/plugins/develop-mobile/) and [Android permission requests](https://developer.android.com/training/permissions/requesting).

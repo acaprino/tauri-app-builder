@@ -79,6 +79,6 @@ Do not promise these from the official catalog. Check the maintained plugins abo
 
 ## Shared data
 
-The full support matrix for all 31 official plugins (version, level per OS, declared notes), the maintained plugins and the community candidates are in `../../shared/native-plugins.md` (at the plugin root, relative to this skill's folder). Read it when a need is not in the tables above, when you need a plugin's exact version, or before proposing a community plugin.
+The full support matrix for all 31 official plugins (version, level per OS, declared notes), the maintained plugins and the community candidates are in [native-plugins-data.md](native-plugins-data.md) (synchronized with `shared/native-plugins.md` at the plugin root). Read it when a need is not in the tables above, when you need a plugin's exact version, or before proposing a community plugin.
 
 Sources: [official plugins table](https://github.com/tauri-apps/plugins-workspace/blob/v2/README.md), [plugin manifests](https://github.com/tauri-apps/plugins-workspace/tree/v2/plugins), [plugin catalog](https://v2.tauri.app/plugin/), [awesome-tauri plugins](https://github.com/tauri-apps/awesome-tauri#plugins). The official README marks several desktop-first plugins `?` on mobile where the manifests declare a level; the manifest is the more specific statement.

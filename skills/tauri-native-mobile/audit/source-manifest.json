@@ -4,7 +4,7 @@
   "files": [
     {
       "copy": "examples/audio-acquisition.ts",
-      "sha256": "4745b2dbc7d3a9be2074e6bdb6faebe5c3ddf44d4fec0ca31d47853f0426a9ce"
+      "sha256": "2bf80190cf0fbe537c6193560c3dc94a503e731109d2f93dff6b6f5a0662b1f3"
     },
     {
       "copy": "examples/capture-owner.ts",

@@ -1,14 +1,23 @@
 """Portable-bundle regressions using isolated, anonymous fixtures."""
 import hashlib
+import importlib.util
+import io
 import json
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
+import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 
 SCRIPT = Path(__file__).with_name('validate_bundle.py')
+_SPEC = importlib.util.spec_from_file_location('validate_bundle_under_test', SCRIPT)
+VALIDATE_BUNDLE = importlib.util.module_from_spec(_SPEC)
+_SPEC.loader.exec_module(VALIDATE_BUNDLE)
 
 class BundleValidationTests(unittest.TestCase):
     def setUp(self):
@@ -34,13 +43,24 @@ class BundleValidationTests(unittest.TestCase):
     def entry(self, path):
         return {'copy': path, 'sha256': hashlib.sha256((self.root / path).read_bytes()).hexdigest()}
 
-    def run_validator(self):
-        result = subprocess.run([sys.executable, str(self.root / 'scripts/validate_bundle.py')], capture_output=True, text=True, encoding='utf-8')
-        report = json.loads((self.root / 'audit/validation.json').read_text(encoding='utf-8'))
+    def run_validator(self, *extra_args, target=None, cli=False):
+        target_dir = str(target if target is not None else self.root)
+        if cli:
+            cmd = [sys.executable, str(self.root / 'scripts/validate_bundle.py'), target_dir, *extra_args]
+            result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')
+            report = json.loads(result.stdout) if result.stdout.strip().startswith('{') else None
+            return result, report
+        out_buf, err_buf = io.StringIO(), io.StringIO()
+        with redirect_stdout(out_buf), redirect_stderr(err_buf):
+            rc = VALIDATE_BUNDLE.main([target_dir, *extra_args])
+        stdout, stderr = out_buf.getvalue(), err_buf.getvalue()
+        result = types.SimpleNamespace(returncode=rc, stdout=stdout, stderr=stderr)
+        report = json.loads(stdout) if stdout.strip().startswith('{') else None
         return result, report
 
     def assert_invalid(self, expected):
-        result, report = self.run_validator()
+        result, _ = self.run_validator('--write')
+        report = json.loads((self.root / 'audit/validation.json').read_text(encoding='utf-8'))
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertFalse(report['ok'], result.stderr)
         self.assertNotIn('stale', report)
@@ -48,11 +68,113 @@ class BundleValidationTests(unittest.TestCase):
         self.assertNotIn('Traceback', result.stderr)
 
     def test_valid_bundle_needs_no_external_archive(self):
-        result, report = self.run_validator()
+        result, report = self.run_validator(cli=True)
         self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIsNotNone(report)
         self.assertTrue(report['ok'])
         self.assertEqual(report['preserved_sources_checked'], 1)
         self.assertEqual(report['local_links_checked'], 2)
+
+    def test_default_run_is_read_only_and_leaves_validation_json_untouched(self):
+        result, report = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(report['ok'])
+        disk_report = json.loads((self.root / 'audit/validation.json').read_text(encoding='utf-8'))
+        self.assertTrue(disk_report.get('stale'), 'Default check mode must not mutate audit/validation.json')
+
+    def test_default_run_succeeds_when_validation_json_is_read_only(self):
+        validation_file = self.root / 'audit/validation.json'
+        os.chmod(validation_file, stat.S_IREAD)
+        self.addCleanup(lambda: os.chmod(validation_file, stat.S_IWRITE | stat.S_IREAD))
+        result, report = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(report['ok'], report)
+
+    def test_code_fence_indexing_call_is_not_treated_as_markdown_link(self):
+        self.write('references/camera.md', '# Camera\n```ts\nhandlers[0](event);\n```\nUse [the example](../examples/capture.txt).\n')
+        result, report = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertTrue(report['ok'], report)
+
+    def test_crlf_example_matches_lf_manifest_hash(self):
+        lf_bytes = b'Capture ownership example\n'
+        self.write_json('audit/source-manifest.json', {'files': [{'copy': 'examples/capture.txt', 'sha256': hashlib.sha256(lf_bytes).hexdigest()}]})
+        (self.root / 'examples/capture.txt').write_bytes(b'Capture ownership example\r\n')
+        result, report = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertTrue(report['ok'], report)
+
+    def test_backtick_relative_escape_outside_bundle_is_rejected(self):
+        self.write('references/camera.md', '# Camera\nSee `../../shared/native-plugins.md` and [example](../examples/capture.txt).\n')
+        self.assert_invalid('outside bundle')
+
+    def test_validates_other_skill_directory_and_enforces_skills_folder_name(self):
+        plugin_root = self.root / 'plugin'
+        desktop = plugin_root / 'skills/tauri-native-desktop'
+        (desktop / 'references').mkdir(parents=True)
+        (desktop / 'SKILL.md').write_text(
+            '---\nname: tauri-native-desktop\ndescription: "Use when auditing Tauri 2 desktop behavior."\n---\n# Desktop\nRead [guide](references/guide.md).\n',
+            encoding='utf-8',
+        )
+        (desktop / 'references/guide.md').write_text('# Guide\nDetails [Tauri docs].\n\nSee [sources](sources.md).\n', encoding='utf-8')
+        (desktop / 'references/sources.md').write_text('# Sources\n\n## guide.md\n\n- Tauri docs: https://v2.tauri.app/\n', encoding='utf-8')
+        result, report = self.run_validator(target=desktop)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertTrue(report['ok'], report)
+
+        (desktop / 'SKILL.md').write_text(
+            '---\nname: wrong-name\ndescription: "Use when auditing Tauri 2 desktop behavior."\n---\n# Desktop\nRead [guide](references/guide.md).\n',
+            encoding='utf-8',
+        )
+        bad_result, bad_report = self.run_validator(target=desktop)
+        self.assertNotEqual(bad_result.returncode, 0)
+        self.assertTrue(any('name' in e for e in bad_report['errors']), bad_report)
+
+    def test_missing_or_unused_bracketed_source_in_sectioned_sources_md_is_rejected(self):
+        plugin_root = self.root / 'plugin2'
+        desktop = plugin_root / 'skills/tauri-native-desktop'
+        (desktop / 'references').mkdir(parents=True)
+        (desktop / 'SKILL.md').write_text(
+            '---\nname: tauri-native-desktop\ndescription: "Use when auditing Tauri 2 desktop behavior."\n---\n# Desktop\nRead [guide](references/guide.md).\n',
+            encoding='utf-8',
+        )
+        (desktop / 'references/guide.md').write_text('# Guide\nCite [Missing Ref]. See [sources](sources.md).\n', encoding='utf-8')
+        (desktop / 'references/sources.md').write_text('# Sources\n\n## guide.md\n\n- Unused Ref: https://v2.tauri.app/\n', encoding='utf-8')
+        result, report = self.run_validator(target=desktop)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(any('Missing source' in e for e in report['errors']), report)
+        self.assertTrue(any('Unused source' in e for e in report['errors']), report)
+
+    def test_citations_in_reference_without_sources_section_is_rejected(self):
+        plugin_root = self.root / 'plugin2b'
+        desktop = plugin_root / 'skills/tauri-native-desktop'
+        (desktop / 'references').mkdir(parents=True)
+        (desktop / 'SKILL.md').write_text(
+            '---\nname: tauri-native-desktop\ndescription: "Use when auditing Tauri 2 desktop behavior."\n---\n# Desktop\nRead [guide](references/guide.md) and [extra](references/extra.md).\n',
+            encoding='utf-8',
+        )
+        (desktop / 'references/guide.md').write_text('# Guide\nCite [Tauri docs]. See [sources](sources.md).\n', encoding='utf-8')
+        (desktop / 'references/extra.md').write_text('# Extra\nCite [Unlisted Section Source].\n', encoding='utf-8')
+        (desktop / 'references/sources.md').write_text('# Sources\n\n## guide.md\n\n- Tauri docs: https://v2.tauri.app/\n', encoding='utf-8')
+        result, report = self.run_validator(target=desktop)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(any('Unlisted Section Source' in e for e in report['errors']), report)
+
+    def test_shared_native_plugins_drift_is_rejected(self):
+        plugin_root = self.root / 'plugin3'
+        shared = plugin_root / 'shared'
+        skill_dir = plugin_root / 'skills/tauri-native-desktop'
+        (skill_dir / 'references').mkdir(parents=True)
+        shared.mkdir(parents=True)
+        (shared / 'native-plugins.md').write_text('# Canonical\nVersion A\n', encoding='utf-8')
+        (skill_dir / 'references/native-plugins-data.md').write_text('# Canonical\nVersion B\n', encoding='utf-8')
+        (skill_dir / 'SKILL.md').write_text(
+            '---\nname: tauri-native-desktop\ndescription: "Use when auditing Tauri 2 desktop behavior."\n---\n# Desktop\nRead [data](references/native-plugins-data.md).\n',
+            encoding='utf-8',
+        )
+        result, report = self.run_validator(target=skill_dir)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(any('native-plugins' in e for e in report['errors']), report)
 
     def test_empty_description_is_rejected(self):
         self.write('SKILL.md', '---\nname: tauri-native-mobile\ndescription:\n---\n# Body\n')

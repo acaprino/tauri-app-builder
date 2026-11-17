@@ -2,6 +2,14 @@
 
 Part of the tauri-native-desktop references: versions, scope and limits are in [guide.md](guide.md). Bracketed names are sources; their URLs are in [sources.md](sources.md).
 
+## Gate: when NOT to open a separate OS window
+
+Before creating a `WebviewWindow`, verify the surface actually belongs outside the main window ([guide.md](guide.md)):
+
+- **Never extract side drawers or lateral detail panels into separate OS windows.** A drawer/sheet/inspector anchored to the side of the viewport (leaving the parent list or workspace visible or dimmed behind it) must stay an in-window panel on desktop too. Turning a lateral drawer into a blocking OS window adds a duplicate title bar, destroys master-detail context and pays WebView startup/IPC synchronization on every item click.
+- **Do not assume dialogs should become OS windows either.** Making an app native does **not** imply converting all in-page modals into separate `WebviewWindow`s. Keep `<dialog>.showModal()` and existing in-page forms inside the main window unless the user explicitly asks to detach a specific dialog, or a concrete constraint requires leaving the main window's bounds (side-by-side/multi-monitor reference, quick entry while main is hidden, or a compact tray/utility host too small for the form). When detaching a dialog (such as Settings) is a design option rather than an explicit request, ask the user before extracting it.
+- **Default external windows to non-modal.** Apply OS input blocking (`set_enabled(false)`, GTK `set_modal(true)`, AppKit sheet) only when concurrent interaction with the owner window would invalidate an in-flight transaction.
+
 Observed Rust API:
 
 ```rust
@@ -38,7 +46,7 @@ In Windows handling do not rely only on `Destroyed` for the release: it is alrea
 
 For React frontends also cover StrictMode: in development the effects' setup/cleanup cycle is repeated. Do not create and immediately destroy OS windows in that cycle without coordination. A deferred, cancellable open before creating the resource is one possible solution; a test must show a single actual open and the runtime must confirm repeated closing and reopening. Do not disable StrictMode to hide the defect.
 
-For every converted surface define an event → result → cleanup → focus table. Separate non-terminal Save/Apply in an editor or Settings window from a transactional form's terminal confirmation; successful non-terminal operations keep the window/session open. Cover successful confirm, rejected confirm, Cancel, Escape, X/Alt+F4, owner close, unexpected destruction and app exit. Confirmation completes only after the authoritative operation succeeds; an error keeps the draft and the message in the form. When the contract calls for closure, unmounting the form's component does not prove the OS host was closed: verify that the window really disappears and the main window becomes usable again, with no empty hosts, blocks or leftover listeners. Late events and repeated closes must converge on the same idempotent completion.
+For every surface intentionally hosted in its own OS window define an event → result → cleanup → focus table. Separate non-terminal Save/Apply in an editor or Settings window from a transactional form's terminal confirmation; successful non-terminal operations keep the window/session open. Cover successful confirm, rejected confirm, Cancel, Escape, X/Alt+F4, owner close, unexpected destruction and app exit. Confirmation completes only after the authoritative operation succeeds; an error keeps the draft and the message in the form. When the contract calls for closure, unmounting the form's component does not prove the OS host was closed: verify that the window really disappears and the main window becomes usable again, with no empty hosts, blocks or leftover listeners. Late events and repeated closes must converge on the same idempotent completion.
 
 Choose one close decider per window, Rust or JS. The mere presence of a JS `onCloseRequested` listener makes the Rust side always call `prevent_close()` and moves the decision to the frontend, even if a Rust handler exists; the JS wrapper awaits the handler and then calls `destroy()`. [manager/window.rs], [window.ts].
 

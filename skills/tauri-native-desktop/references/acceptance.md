@@ -10,8 +10,9 @@ For a whole-app request, classify every section using [baseline.md](baseline.md)
 
 ## Windows and dialogs
 
-- [ ] The external form is a system window and can extend past the main window's edges.
-- [ ] Owner/transient/child relationship appropriate to the target; modality demonstrated with mouse and keyboard on the main window.
+- [ ] Surface classification fits the workflow: side drawers and lateral detail sheets **never** open as separate OS windows, and ordinary dialogs stay in-page (`<dialog>` / overlay) unless external window management was explicitly requested or required by multi-monitor use, hidden-main launch or a compact host frame.
+- [ ] When an external OS window is intentionally in scope, it is a real system window and can extend past the main window's edges; non-modal is used unless owner input would corrupt an active operation.
+- [ ] Owner/transient/child relationship appropriate to the target; when OS modality is required, input blocking is demonstrated with mouse and keyboard on the main window.
 - [ ] GTK work runs on its main thread, including async creation paths; modality blocks exactly the intended windows, leaving unrelated windows usable when required.
 - [ ] Cancel, X, Escape, confirm and error have defined outcomes; the result is applied exactly once.
 - [ ] A transactional form's terminal confirmation closes the OS window, restores the owner's usability and returns focus; disappearing fields alone do not count, and no empty host remains. Editor Save and Settings Apply keep the window open when the product contract requires it; they do not accidentally run terminal cleanup.
@@ -22,7 +23,7 @@ For a whole-app request, classify every section using [baseline.md](baseline.md)
 - [ ] With a JS close listener installed, a failed/hung handler, denied terminal command or crashed renderer reaches native supervision: recoverable drafts retained, unavoidable loss reported, owned modality released exactly once, reopening possible.
 - [ ] Reopening, nested dialogs, tray and second instance reactivate the relevant window; no orphan windows.
 - [ ] With a React frontend, StrictMode's repeated mount does not create two OS windows for one dialog: a cancellable deferred open or other verified coordination avoids duplicate resources and races with destruction.
-- [ ] In-page dialogs and popovers: Escape closes them, focus returns to the invoker, the background is inert while a modal is open; submenus stay open during diagonal pointer movement.
+- [ ] In-page dialogs, side drawers and popovers: Escape closes them, focus returns to the invoker, the background is inert while a modal or blocking drawer is open, and parent list context stays intact; submenus stay open during diagonal pointer movement.
 - [ ] Each control type follows one rule across the product (for example all context menus native, or all custom).
 
 ## Frame and monitors
