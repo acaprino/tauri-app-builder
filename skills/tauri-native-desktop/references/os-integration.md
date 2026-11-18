@@ -20,6 +20,8 @@ Sources for the options: [Menu], [Tray], [tray source], [Single instance], [Deep
 
 Predefined menu items are not portable. Linux does not support `undo`, `redo`, `minimize`, `maximize`, `fullscreen`, `hide`, `hide_others`, `show_all`, `close_window`, `quit`, `services` and `bring_all_to_front`; Windows does not support `undo`, `redo`, `fullscreen`, `show_all`, `services` and `bring_all_to_front`. Replace the ones the product needs with custom items. The macOS app menu, with its Window and Help submenu ids, is in [frame.md](frame.md). [predefined menu items].
 
+Confirm an open choice about what the main window’s close button does through [Manual or Auto](../SKILL.md#confirm-product-choices). Explain whether the process stays alive, what happens to background work and how the user reopens or quits the app.
+
 Define separately close window, hide, terminate process and reopen. On macOS there is `RunEvent::Reopen { has_visible_windows }`, visible in the Darwin target documentation; the model of staying alive without windows is a product choice. Its counterpart is `RunEvent::ExitRequested { api, code, .. }`: call `api.prevent_exit()` only when `code` is `None`, so an explicit Quit still works. For menu-bar apps see `set_activation_policy(ActivationPolicy::Accessory)` and `set_dock_visibility`. [RunEvent Darwin], [app.rs].
 
 ```rust

@@ -1,10 +1,12 @@
 # Native desktop notifications
 
-Read this when the app already sends, or is being asked to send, desktop alerts: background job completion, incoming messages, reminders or events the user should see while the app is unfocused. Prefer the official `tauri-plugin-notification` and, for JS callers, `@tauri-apps/plugin-notification` as the native adapter on supported desktop platforms, including Windows. Keep field validation and immediate local feedback in the app; choose whether an unfocused event needs a system notification instead of duplicating every in-app toast. [Notification]
+When notification delivery is an open product choice, use [Manual or Auto](../SKILL.md#confirm-product-choices) to decide which events stay in the app and which need a system notification, such as background job completion, incoming messages or reminders. Keep field validation and immediate local feedback in the app. Check delivery while the app is focused, unfocused, hidden and exited against the approved close behavior.
 
-## Integrate the existing notification flow
+## Integrate system notification delivery
 
-1. Inspect the existing provider and its callers. Choose which events warrant desktop delivery, user opt-in/preferences, privacy of preview text and duplicate suppression. Keep domain decisions in the existing service; change its desktop delivery adapter and preserve the web implementation.
+For approved system notifications, prefer the official `tauri-plugin-notification` and, for JS callers, `@tauri-apps/plugin-notification` on supported desktop platforms. [Notification]
+
+1. Inspect the existing provider and its callers. Use the approved delivery choices to define user opt-in or preferences, preview privacy and duplicate suppression. Keep domain decisions in the existing service and preserve the web implementation when adapting desktop delivery.
 2. Add the official plugin with the project's Tauri CLI/package manager, for example `cargo tauri add notification`. Verify the resolved Rust and JS versions and the toolchain requirement. Confirm `.plugin(tauri_plugin_notification::init())` is registered; a frontend package alone is insufficient. [Notification]
 3. For JS callers, grant only the needed notification permissions to the actual caller windows. Basic sending uses `notification:allow-is-permission-granted`, `notification:allow-request-permission` and `notification:allow-notify`; add action/listener permissions only if used. `notification:default` grants the entire plugin set. Rust-side delivery uses `NotificationExt`; frontend capability grants are not required merely to call the plugin from Rust. [Notification permissions], [Notification commands]
 4. Follow the plugin permission API before sending and handle denied/unavailable states without repeated prompts. The desktop Rust implementation in 2.8.1 returns `Granted` without querying all OS notification settings: that result does not prove a banner will appear. Account for system notification settings, Do Not Disturb/Focus and the app's own preferences. Keep the event/status available in the app if desktop delivery is suppressed. [Notification desktop 2.8.1]

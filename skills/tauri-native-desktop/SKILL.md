@@ -16,7 +16,7 @@ For a whole-app audit or a request to make the app native, read [baseline.md](re
 Always distinguish four levels, starting from the lightest one that fits the task:
 
 - **In-window surface (default for application UI)**: side panels, detail drawers/inspectors, split views, in-page `<dialog>` modals and `popover` layers inside the main `WebviewWindow`. Keeps spatial context, zero window-spawn latency and parity with a shared web frontend.
-- **Native OS control**: file/folder picker, simple OS message box, native menu bar, native context menu, system tray; use system APIs, directly or through a verified plugin.
+- **Native OS control or service**: file/folder picker, simple OS message box, native menu bar, native context menu, system tray and system notifications. Use system APIs directly or through a verified plugin.
 - **Separate `WebviewWindow` with web content**: a distinct OS window managed by the window manager (the form inside stays HTML/CSS). Reserve this for surfaces that genuinely need independent multi-window/side-by-side placement, launch while main is hidden, or must exceed a compact host frame—**never** for routine item-detail sheets or side drawers.
 - **Fully native interface**: AppKit, WinUI/Win32 or GTK widgets; requires a platform-specific integration or a different toolkit choice. Tauri does not turn HTML components into these controls.
 
@@ -24,15 +24,32 @@ Making an app behave natively does **not** mean turning in-page panels, drawers 
 
 ## Procedure
 
-1. **Gather the context.** Read local instructions, manifests and lockfiles. Identify shipped platforms, Tauri/plugin/WebView versions, windows, any shared web frontend, authentication, application state and ACLs. Read [guide.md](references/guide.md) and compare the resolved tauri version with its minimum-version matrix before proposing an API; Tauri 3.x is not covered. If the project already holds an audit or a native-rules document from an earlier pass, take it as the baseline: check each reference in scope against it and report the differences. Ask only what changes the solution and cannot be derived from the project.
-2. **Classify the surfaces.** Inventory side drawers, dialogs, panels, menus and notices. For each one choose **in-window surface**, **OS control** or **separate `WebviewWindow`**, recording the rationale:
+1. **Gather the context.** Read local instructions, manifests and lockfiles. Identify shipped platforms, Tauri/plugin/WebView versions, windows, any shared web frontend, authentication, application state and ACLs. Read [guide.md](references/guide.md) and compare the resolved tauri version with its minimum-version matrix before proposing an API; Tauri 3.x is not covered. If the project already holds an audit or a native-rules document from an earlier pass, take it as the baseline: check each reference in scope against it and report the differences. Ask for missing context only when it changes the solution.
+2. **Classify the surfaces.** Inventory side drawers, dialogs, panels, menus and notices. Record which levels fit each surface and why:
    - **Never turn side drawers or lateral detail sheets into separate OS windows.** A right/left drawer or inspector that opens over or beside a list/workspace (keeping the parent view visible or dimmed behind it) stays an in-window panel on desktop too; flag any existing blocking OS window used for a drawer/item sheet as UX over-extraction.
-   - **Do not assume dialogs must become OS windows either.** Keep in-page modals (`<dialog>.showModal()`), confirmations, toolbars, popovers, tooltips and dropdowns **in-window** by default. Converting dialogs into separate `WebviewWindow`s is a per-surface product choice, not an automatic "make it native" rule: propose or ask before detaching a dialog (such as Settings) unless the user explicitly requested external windows or a hard constraint applies.
-   - Choose an **OS control** only for file/folder pickers, native menus/tray and standard OS message alerts.
+   - **Default routine application UI to in-window.** This includes in-page modals (`<dialog>.showModal()`), confirmations, toolbars, popovers, tooltips and dropdowns.
+   - Use **OS controls or services** for file/folder pickers, native menus/tray, standard OS message alerts and system notifications when the workflow calls for them.
    - Choose a **separate `WebviewWindow`** only when explicitly requested or objectively required by multi-monitor/side-by-side reference, launch while main is hidden, an independent multi-window workspace, or a host window too compact to fit the form. Default secondary windows to **non-modal**.
-3. **Define the desktop contract.** Read the reference files for the surfaces in scope (table below) and the matching sections of [the checklist](references/acceptance.md). Define owner, modality, sizing, focus, closing, result and authoritative state. Verify against the actual versions: `parent`, `owner`, `transient_for`, sheets and modality are not synonyms.
-4. **Deliver the authorized scope.** In an audit, deliver evidence and priorities. When changes are requested, implement verifiable increments that reuse the existing domain and transport. Define the least privileges for new windows and test the caller. Keep the browser path when the product requires it. Before setting an engine switch, check its default in the resolved versions. Add meaningful regression checks for changed behavior and shared initialization paths; scope chrome cursor rules to chrome, composition guards to submitting handlers, and desktop lifecycle rules to Tauri-managed windows.
-5. **Verify in the real app.** Run the relevant automated checks and tests in the installed app on the declared platforms. Distinguish inspected code, build, automated tests and observed behavior. Report the tests that still need a different environment.
+3. **Confirm product choices.** Use [Manual or Auto](#confirm-product-choices) for the unresolved behaviors listed there when they are in scope for implementation. For report-only work, include recommendations in the report.
+4. **Define the desktop contract.** Read the reference files for the surfaces in scope (table below) and the matching sections of [the checklist](references/acceptance.md). Define owner, modality, sizing, focus, closing, result and authoritative state. Verify against the actual versions: `parent`, `owner`, `transient_for`, sheets and modality are not synonyms.
+5. **Deliver the authorized scope.** In an audit, deliver evidence and priorities. When changes are requested, implement verifiable increments that reuse the existing domain and transport. Define the least privileges for new windows and test the caller. Keep the browser path when the product requires it. Before setting an engine switch, check its default in the resolved versions. Add meaningful regression checks for changed behavior and shared initialization paths; scope chrome cursor rules to chrome, composition guards to submitting handlers, and desktop lifecycle rules to Tauri-managed windows.
+6. **Verify in the real app.** Run the relevant automated checks and tests in the installed app on the declared platforms. Distinguish inspected code, build, automated tests and observed behavior. Report the tests that still need a different environment.
+
+### Confirm product choices
+
+Carry forward decisions already established by the user or by explicit product requirements. For the choices below, confirm any that implementation needs to make. A repair to an established behavior uses that behavior as its requirement.
+
+- **Dialog placement.** For each new dialog or existing dialog whose placement is being reviewed, compare opening it in the main window, in a separate window, or as a standard OS alert where applicable. Explain whether the main window stays usable. [Dialogs](references/dialogs.md)
+- **Title bar.** Compare the system title bar with a custom title bar. Explain how dragging, system menus and controls such as Windows Snap Layouts would work. [Frame](references/frame.md)
+- **Main window close.** Compare closing the window, quitting the app and hiding to the tray where supported. Explain what happens to running work and how the user reopens or quits the app. [OS integration](references/os-integration.md)
+- **Notification delivery.** For each affected event, compare in-app feedback with a system notification where appropriate. Explain what happens while the app is focused, unfocused, hidden or exited. Check that delivery can work with the chosen close behavior. [Notifications](references/notifications.md)
+
+For each open choice, show the current behavior if one exists, the feasible options and their effect on the user. Offer **Manual** and **Auto** in one prompt for all open choices in scope. Honor a mode the user has already selected for the task.
+
+- **Manual.** Let the user choose each open behavior. Their explicit choices approve those behaviors.
+- **Auto.** Recommend one option per open choice using the defaults and the app's actual workflow. Give a short reason for each. Let the user approve the proposal or amend individual choices. Wait for explicit approval of the resulting proposal before implementing those behaviors.
+
+Use the confirmed behaviors when defining the desktop contract.
 
 ## References
 
@@ -43,7 +60,7 @@ Read the files the work in scope needs, not all of them. [native-plugins-data.md
 | Versions covered, minimum-version matrix, choosing the level, proving the result, limits | [guide.md](references/guide.md) |
 | Whole-app native audit or implementation: essential coverage and completion criteria | [baseline.md](references/baseline.md) |
 | Title bar, decorations, Snap Layouts, startup flash, drag regions, Mica/vibrancy/Liquid Glass | [frame.md](references/frame.md) |
-| Only when a surface is explicitly chosen to open in its own OS window: owner/parent, modality, close lifecycle, React StrictMode | [dialogs.md](references/dialogs.md) |
+| Existing or proposed separate OS windows, including owner/parent, modality, close lifecycle and React StrictMode | [dialogs.md](references/dialogs.md) |
 | What a new window may call and read: capabilities, credentials, events, relay or broker | [boundaries.md](references/boundaries.md) |
 | Bootstrap of every WebView, WebView2 switches, selection and cursors, bounce, scrollbars | [web-layer.md](references/web-layer.md) |
 | Removing browser behavior, Edge right-click menu, editing menus or WebView bootstrap changes | [context-menus.md](references/context-menus.md) |
@@ -58,7 +75,7 @@ Read the files the work in scope needs, not all of them. [native-plugins-data.md
 
 ## Key decisions
 
-- **Frame.** Prefer the OS frame when native behavior is the priority. On Windows 11, `decorations: false` with HTML buttons loses Snap Layouts on hovering maximize unless dedicated Win32 code is added: keep the system decorations unless a custom bar is a requirement; if it is, budget that work and verify Win+Z and the other system features it replaces.
+- **Frame.** Recommend the OS frame when native behavior is the priority. On Windows 11, `decorations: false` with HTML buttons loses Snap Layouts on hovering maximize unless dedicated Win32 code is added. If a custom bar is chosen, budget that work and verify Win+Z and the other system features it replaces.
 - **First frame.** Every window, main and secondary, opens on the theme background: no white flash.
 - **Chrome and content.** Chrome is not selectable, not draggable and uses the arrow cursor; content (documents, fields, code, data to copy) stays selectable.
 - **In-window vs external window.** Side drawers, lateral detail sheets and inspectors **must** stay inside the main window (preserving the visible/dimmed list behind them and instant switching). Even for ordinary dialogs, extracting them into separate OS windows is **not** automatic: in-page `<dialog>.showModal()` is valid desktop UI, so never bulk-convert dialogs into `WebviewWindow`s unless requested or required by multi-window/side-by-side use, hidden-main entry or a compact host frame.
