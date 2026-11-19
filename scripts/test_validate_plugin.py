@@ -85,6 +85,16 @@ class PluginValidationTests(unittest.TestCase):
         self.assertTrue(report['ok'], report)
         self.assertEqual(sorted(report['skills_checked']), ['tauri-native-desktop', 'tauri-native-mobile'])
 
+    def test_changelog_without_section_for_the_version_is_rejected(self):
+        self.write('CHANGELOG.md', '# Changelog\n\n## 1.0.0\n\n- First.\n')
+        result, report = self.run_plugin_validator()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(any('CHANGELOG.md has no section for version 1.1.0' in e for e in report['errors']), report)
+
+        self.write('CHANGELOG.md', '# Changelog\n\n## 1.1.0\n\n- Second.\n\n## 1.0.0\n\n- First.\n')
+        result, report = self.run_plugin_validator()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_missing_openai_yaml_is_rejected(self):
         (self.root / 'skills/tauri-native-mobile/agents/openai.yaml').unlink()
         result, report = self.run_plugin_validator()

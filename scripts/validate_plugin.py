@@ -54,6 +54,11 @@ def validate_plugin(plugin_root, sync_shared=False):
             for key in ('name', 'version', 'description', 'license'):
                 if not isinstance(pj.get(key), str) or not pj[key].strip():
                     errors.append(f'Invalid .claude-plugin/plugin.json: nonempty {key} required')
+            changelog_path = plugin_root / 'CHANGELOG.md'
+            if changelog_path.is_file() and isinstance(pj.get('version'), str):
+                heading = re.compile(r'^## ' + re.escape(pj['version'].strip()) + r'[ \t]*$', re.M)
+                if not heading.search(changelog_path.read_text(encoding='utf-8-sig')):
+                    errors.append(f'CHANGELOG.md has no section for version {pj["version"].strip()}')
             icon_field = pj.get('icon')
             if isinstance(icon_field, str) and icon_field.strip():
                 icon_path = (plugin_root / icon_field).resolve()
