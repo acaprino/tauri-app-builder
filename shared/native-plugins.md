@@ -44,6 +44,8 @@ Crate name is `tauri-plugin-<name>`; the JS package is `@tauri-apps/plugin-<name
 
 The repository README marks several of these `?` on platforms where the manifest declares a level; the manifest is the more specific statement.
 
+`stronghold`: do not choose it for new work. A Tauri maintainer wrote in September 2023 that it "is no longer recommended and will be deprecated and therefore removed in v3" ([discussion 7846](https://github.com/orgs/tauri-apps/discussions/7846)). The plugin's own pages carry no notice and v3 alpha releases exist, so the removal is announced, not done. For secrets use the OS credential store: each skill's credentials reference says how.
+
 ## Maintained plugins
 
 Native plugins built for needs the official catalog does not cover. Integration details are in the mobile skill's `references/native-plugins.md`.

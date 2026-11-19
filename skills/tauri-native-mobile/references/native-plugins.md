@@ -30,7 +30,7 @@ For every plugin, check the five pieces in [plugin integration](plugins-core.md)
 | File access | `fs` | partial | partial | Restricted to the application folder by default | [file export](file-export.md) |
 | Clipboard | `clipboard-manager` | partial | partial | Plain text only | — |
 | Key-value settings | `store` | full | full | Not encrypted: no credentials | [plugin integration](plugins-core.md) |
-| Encrypted vault | `stronghold` | full | full | App-managed vault, not the OS Keychain/Keystore | [device security](device-security.md) |
+| Encrypted vault | `stronghold` | full | full | App-managed vault, not the OS Keychain/Keystore. Announced for deprecation and removal in Tauri 3: not for new work | [device security](device-security.md) |
 | SQLite and other SQL | `sql` | full | full | Migrations must match the plugin version | [plugin integration](plugins-core.md) |
 | HTTP from Rust | `http` | full | full | Scope the allowed URLs | [plugin integration](plugins-core.md) |
 | Upload/download to disk | `upload` | full | full | — | — |
@@ -67,6 +67,7 @@ Do not promise these from the official catalog. Check the maintained plugins abo
 | Photo/video capture, gallery pick | CameraX / Photo Picker; AVFoundation / PHPicker | Android photos: `tauri-plugin-native-camera` above. Video, gallery and iOS remain open; `barcode-scanner` does not capture media | [camera and media](camera-media.md) |
 | Microphone recording | MediaRecorder / AVAudioSession | WebView capture depends on WebView permission handling | [camera and media](camera-media.md) |
 | Credentials in OS secure storage | Android Keystore; iOS Keychain | `store` is plaintext; biometric-bound keys need native key setup | [device security](device-security.md) |
+| Passwords and passkeys the user already saved | Credential Manager; iOS password autofill and AuthenticationServices | No official plugin: Kotlin or Swift code, and the app associated with the product's website | [device security](device-security.md) |
 | Google sign-in | Credential Manager; GoogleSignIn-iOS | Android: `tauri-plugin-google-auth-firebase` above. iOS remains open; external-browser OAuth is the alternative | [native Google auth](google-auth-native.md) |
 | Apple sign-in, OAuth session | AuthenticationServices (`ASWebAuthenticationSession`); Custom Tabs | `opener` is not an auth-session API | [auth architecture](authentication.md) |
 | Remote push | FCM; APNs | `notification` schedules local notifications only | [push and background work](push-background.md) |

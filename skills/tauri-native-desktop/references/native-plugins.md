@@ -36,7 +36,7 @@ All are `full` on Windows, macOS and Linux unless noted.
 | In-app updates | `updater` | Signing required |
 | Clipboard (text, image, HTML) | `clipboard-manager` | — |
 | Settings | `store` | Not encrypted: no credentials |
-| Encrypted vault | `stronghold` | App-managed vault, not the OS credential store |
+| Encrypted vault | `stronghold` | App-managed vault, not the OS credential store. Announced for deprecation and removal in Tauri 3: not for new work ([credentials.md](credentials.md)) |
 | SQL databases | `sql` | — |
 | HTTP, upload, WebSocket from Rust | `http`, `upload`, `websocket` | Scope the allowed URLs |
 | Logging | `log` | — |
@@ -54,7 +54,8 @@ Do not promise these from the official catalog. The middle column names the nati
 
 | Need | Native service | Decision |
 |---|---|---|
-| Credentials and tokens | Windows Credential Manager; macOS Keychain; Secret Service / KWallet on Linux | A Rust keychain crate behind an app command. Keep secrets out of `store`, URLs and other WebViews ([boundaries.md](boundaries.md)). Linux needs a running secret service: define the fallback |
+| Credentials and tokens | Windows Credential Manager; macOS Keychain; Secret Service / KWallet on Linux | A Rust keychain crate behind an app command ([credentials.md](credentials.md)). Keep secrets out of `store`, URLs and other WebViews ([boundaries.md](boundaries.md)). Linux needs a running secret service: define the fallback |
+| Passwords the user already saved, passkeys | No OS API for saved passwords on Windows; Windows Hello through the WebAuthn API for passkeys | Sign in through the system browser, or platform code for passkeys ([credentials.md](credentials.md)) |
 | Biometric or OS re-authentication on Windows/Linux | Windows Hello (`UserConsentVerifier`); polkit / fprintd | Platform code or a community plugin; `biometric` covers macOS only. A prompt does not protect a secret unless the key is bound to it |
 | Sign-in (OAuth) | System browser with PKCE and a loopback or custom-scheme redirect | `opener` to launch, `deep-link` to return, `single-instance` so a running app receives the callback on Windows and Linux; validate state and the redirect before use. Not an embedded login WebView |
 | Camera and microphone | Engine media capture; AVFoundation / Media Foundation / PipeWire for native capture | WebView `getUserMedia` first: macOS needs the usage-description keys in `Info.plist`, WebView2 and WebKitGTK have their own permission handling. Test per engine on the installed package |

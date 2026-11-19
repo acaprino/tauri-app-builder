@@ -24,7 +24,7 @@ For a whole-app request (port a web app to phones, audit the mobile app, make it
    - for capabilities the app already uses, the whole chain is complete: Tauri capability, manifest or entitlement, runtime grant, and a result for denial, cancellation and failure ([permissions](references/permissions.md));
    - browser-only actions that silently do nothing on a phone (downloads, popups, links) report a result instead of pretending to complete.
    Apply a change even when no device was available to observe it, and record the device check as pending.
-3. **Ask which native capabilities to add.** Each one adds permissions the user will be prompted for, store declarations and review questions, so none is added without being chosen. Offer the list in one prompt, with the current state of each from phase 1, what the user gets and what it adds (permissions, store declarations, native code): camera and microphone, photo and document import, native sign-in, links into the app, location, NFC and Bluetooth, biometric unlock, push and background work, notifications and exact alarms, file export and sharing, purchases, contacts and calendars. Let the user pick each one, or recommend a set from the app's actual workflows and wait for approval. Leave out what does not apply and say so. Record every answer, including "no".
+3. **Ask which native capabilities to add.** Each one adds permissions the user will be prompted for, store declarations and review questions, so none is added without being chosen. Offer the list in one prompt, with the current state of each from phase 1, what the user gets and what it adds (permissions, store declarations, native code): camera and microphone, photo and document import, native sign-in, saved passwords and passkeys, links into the app, location, NFC and Bluetooth, biometric unlock, push and background work, notifications and exact alarms, file export and sharing, purchases, contacts and calendars. Let the user pick each one, or recommend a set from the app's actual workflows and wait for approval. Leave out what does not apply and say so. Record every answer, including "no".
 4. **Implement and verify.** Build the chosen capabilities from their references in the table below, and verify them on a device.
 
 ## Read by task
@@ -36,7 +36,7 @@ For a whole-app request (port a web app to phones, audit the mobile app, make it
 | Location, background journeys and geofencing | [geolocation](references/geolocation.md) |
 | NFC tags, card capability boundaries and BLE peripherals | [NFC and Bluetooth](references/nfc-bluetooth.md) |
 | Push, background jobs and offline sync | [push and background work](references/push-background.md) |
-| Biometric unlock and credential protection | [device security](references/device-security.md) |
+| Biometric unlock, credential protection, the user's saved passwords and passkeys, Stronghold's status | [device security](references/device-security.md) |
 | Machine/project setup | [setup](references/setup.md), [mobile toolchain](references/setup-mobile.md) |
 | Permission denied, no dialog, no recovery | [permissions](references/permissions.md) |
 | Camera, gallery, microphone, cancellation | [camera and media](references/camera-media.md) |

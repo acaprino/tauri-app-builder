@@ -54,7 +54,7 @@ The [standard changes](references/baseline.md#standard-changes) are what every T
 
 ### Phase 3: Ask which native features to add
 
-Everything beyond the baseline is the user's decision. Present the [native feature menu](references/native-features.md) in one prompt, through [Manual or Auto](#confirm-product-choices): dialog placement, title bar, close button and tray icon, start at login, second launch, window position, menu bar, notifications, taskbar status, links into the app, updates, the OS credential store, unlock with the OS, sign-in in the system browser, device access.
+Everything beyond the baseline is the user's decision. Present the [native feature menu](references/native-features.md) in one prompt, through [Manual or Auto](#confirm-product-choices): dialog placement, title bar, close button and tray icon, start at login, second launch, window position, menu bar, notifications, taskbar status, links into the app, updates, the OS credential store, passkeys, unlock with the OS, sign-in in the system browser, device access.
 
 - Show the current state of each item from phase 1, what the user gets and what it costs.
 - Leave out what does not apply or is already decided, and say so.
@@ -108,6 +108,7 @@ Read the files the work in scope needs, not all of them. [native-plugins-data.md
 | App keeps running with its window closed: tray icon, close to tray, restore, start at login, when a Windows service fits | [background-presence.md](references/background-presence.md) |
 | Installers (NSIS/MSI/DMG/Linux), signing/notarization, updater artifacts and keys, sidecars/shell, CI | [packaging-updates.md](references/packaging-updates.md) |
 | Which plugin or core API covers a capability: credentials, sign-in, biometrics, camera, disk access, location, clipboard, updates; gaps with no official plugin | [native-plugins.md](references/native-plugins.md), [native-plugins-data.md](references/native-plugins-data.md) |
+| Storing tokens and passwords in the OS credential store, the user's saved passwords, passkeys, Stronghold's status | [credentials.md](references/credentials.md) |
 | App sends desktop notifications, background alerts or completed-job notices | [notifications.md](references/notifications.md) |
 | Engine error page, WebView process crash, release build that loads the dev URL | [recovery.md](references/recovery.md) |
 | Acceptance checks to run and record | [acceptance.md](references/acceptance.md) |
