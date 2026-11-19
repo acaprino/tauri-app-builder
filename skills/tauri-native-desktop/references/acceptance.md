@@ -103,6 +103,7 @@ For a whole-app request, classify every section using [baseline.md](baseline.md)
 
 ## Tray and start at login (when the product uses them)
 
+- [ ] The user was asked about the close button and about start at login, and the recorded answers match what the app does; a "no" left the app without tray or startup entry.
 - [ ] Close button, Alt+F4 and the app's close command hide the main window and keep the process alive; background work and alerts continue.
 - [ ] Tray click, tray menu Show, a second launch and a notification click all restore the same window: shown, unminimized, focused, on a connected monitor. On Linux the tray menu alone is enough to restore and quit.
 - [ ] Quit from the tray menu and from the menu bar ends the process and runs shutdown cleanup; no process remains.
