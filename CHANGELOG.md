@@ -2,6 +2,19 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
+## 1.6.0
+
+### Desktop skill
+
+- The window's content never moves as a whole: locking the root of every WebView against overscroll is now a default, on Windows too, where a precision touchpad or a touchscreen makes the whole view slide and uncover the background.
+- The lock is applied without waiting to observe the effect on a device; an audit can no longer defer it as "to be observed first".
+- Explains why a full-height shell with hidden overflow does not prevent it, and that it is not WebView2's pull to refresh.
+- New acceptance checks for the locked root.
+
+### Mobile skill
+
+- New section on overscroll and pull to refresh: lock the root, scroll inside each screen's container, match the background, and build pull to refresh as a gesture of the list that needs it.
+
 ## 1.5.0
 
 ### Desktop skill

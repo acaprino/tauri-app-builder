@@ -91,7 +91,39 @@ img, a { -webkit-user-drag: none; }      /* or draggable="false" in the markup *
 
 Apply the property to the actual scroll container: it is not inherited. Syntax support does not prove trackpad behavior. WebKit's nonoverflowing-container limitation is tracked in WebKit 243452; test the actual container and shipped runtime. The separate short-viewport issue 244232 was fixed in January 2023, so it is not evidence of a current universal WKWebView defect. Keep ordinary scrolling and test short pages without adding blanket wheel/touch interception. [MDN overscroll-behavior], [BCD overscroll-behavior], [WebKit 243452], [WebKit 244232].
 
-**Proposed policy:** on macOS keep the system feedback in lists when appropriate; prevent the app's fixed structure from being dragged or revealing empty backgrounds. On Windows/Linux follow the runtime's behavior without globally simulating macOS rubber-banding. Use `contain` to isolate nested lists and `none` on the surfaces where you explicitly want to remove the bounce. These are per-surface choices, not a universal reset.
+### The window's content never moves as a whole
+
+This is a default for every WebView, not a per-surface choice. Pulling past an edge must not slide the whole interface and uncover the background behind it: that is how a web page behaves, and users describe it as "pull to refresh".
+
+It is not a macOS-only concern. Microsoft Edge enabled an overscroll bounce on the page's root scroller "both for touch input and for PTP touchpad input", by default; WebView2 runs the same engine, so expect it there with a precision touchpad or a touchscreen. Chromium also planned the effect for nested scroll containers on platforms that already have one. On macOS, WKWebView rubber-bands the document. [Edge scrolling personality], [blink-dev overscroll PSA].
+
+A shell with `height: 100vh` and `overflow: hidden` does not prevent it: the viewport is still the root scroller, and a panel at its end hands the gesture to it. It is also not the browser's pull to refresh: in WebView2 "swiping down to refresh is off by default" and needs the `--pull-to-refresh` browser argument, and wry already turns swipe navigation off. [ICoreWebView2Settings6].
+
+```css
+/* Shared stylesheet of every WebView. */
+html {
+  height: 100%;
+  overflow: hidden;           /* only panels scroll, never the document */
+  overscroll-behavior: none;  /* html is the viewport-defining element */
+}
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+```
+
+Rules:
+
+- **Put it on `html`.** The specification's own example sets the value "on the viewport defining element"; repeat it on `body`. A value only on the app's shell element does not reach the viewport. [Editor's draft].
+- **Apply it without waiting to observe the bounce.** A review on a machine with no precision touchpad or touchscreen, or with no running build, cannot see it. The rule changes nothing for wheel, keyboard or scrollbar scrolling, so record it as applied with the device observation pending. Do not defer it as "to be observed first".
+- **Match the background.** `html`, `body` and the native window use the theme's ground color ([frame.md](frame.md)), so a frame that still shows a gap never shows white.
+- **A window whose document must scroll** (a long reading view) moves that scrolling into a container inside the locked root.
+
+### Lists and panels
+
+**Proposed policy:** inside the locked root, bounce is a per-surface choice. On macOS keep the system feedback in lists when appropriate. On Windows/Linux follow the runtime's behavior without globally simulating macOS rubber-banding. Use `contain` to isolate nested lists and `none` on the surfaces where you explicitly want to remove the bounce.
 
 ```css
 /* Illustrative classes: assign them to the project's actual scroll containers. */
@@ -105,7 +137,7 @@ Apply the property to the actual scroll container: it is not inherited. Syntax s
 }
 ```
 
-If the problem is the viewport, consider its scrolling element instead of applying `none` only to a child. The change can affect navigation/pull-to-refresh gestures in the web frontend: verify them separately. Prefer CSS over global `wheel`/`touchmove` blocks that interfere with scrolling and latency.
+A shared web frontend that relies on the browser's pull to refresh or swipe navigation loses them under the locked root: scope the lock to the desktop build, or verify those gestures separately. Prefer CSS over global `wheel`/`touchmove` blocks that interfere with scrolling and latency.
 
 For **elastic animations created by the app**, decide where they help feedback; do not make them mandatory to look native. Reduce/remove non-essential ones with `prefers-reduced-motion`. This does not guarantee control over the engine's native bounce. Do not add animation dependencies if scroll handling is enough.
 
