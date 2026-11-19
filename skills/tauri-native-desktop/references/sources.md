@@ -153,6 +153,18 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - FileChooser XML: https://github.com/flatpak/xdg-desktop-portal/blob/main/data/org.freedesktop.portal.FileChooser.xml
 - window identifiers: https://github.com/flatpak/xdg-desktop-portal/blob/main/doc/window-identifiers.rst
 
+## background-presence.md
+
+- tray source: https://github.com/tauri-apps/tauri/blob/tauri-v2.12.5/crates/tauri/src/tray/mod.rs
+- Autostart: https://v2.tauri.app/plugin/autostart/
+- autostart lib.rs: https://docs.rs/crate/tauri-plugin-autostart/2.7.0/source/src/lib.rs
+- autostart permissions: https://docs.rs/crate/tauri-plugin-autostart/2.7.0/source/permissions/default.toml
+- auto-launch windows.rs: https://docs.rs/crate/auto-launch/0.6.0/source/src/windows.rs
+- auto-launch linux.rs: https://docs.rs/crate/auto-launch/0.6.0/source/src/linux.rs
+- ICoreWebView2Controller: https://learn.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2controller
+- Interactive services: https://learn.microsoft.com/en-us/windows/win32/services/interactive-services
+- Task Scheduler: https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
+
 ## packaging-updates.md
 
 - Distribute overview: https://v2.tauri.app/distribute/

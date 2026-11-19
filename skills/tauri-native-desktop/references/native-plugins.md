@@ -31,7 +31,7 @@ All are `full` on Windows, macOS and Linux unless noted.
 | Second launch, forwarded arguments | `single-instance` | Register first ([os-integration.md](os-integration.md)) |
 | Restore window size and position | `window-state` | — |
 | Place a window at a known position, tray-relative | `positioner` | — |
-| Start at login | `autostart` | Product choice, user-controllable |
+| Start at login | `autostart` | Product choice, user-controllable ([background-presence.md](background-presence.md)) |
 | System-wide shortcuts | `global-shortcut` | Needs a stronger reason than in-app shortcuts |
 | In-app updates | `updater` | Signing required |
 | Clipboard (text, image, HTML) | `clipboard-manager` | — |
@@ -61,6 +61,7 @@ Do not promise these from the official catalog. The middle column names the nati
 | Location | Windows Geolocation API; CoreLocation; GeoClue | `geolocation` is mobile-only. Engine geolocation or platform code, with the OS permission |
 | Bluetooth, serial, USB | OS stacks | Community plugin or Rust crate behind a command |
 | Screen capture, system permissions on macOS | ScreenCaptureKit, TCC | Community plugin or platform code; the user grants these in System Settings |
+| Run as a Windows service, work with no user signed in | Service Control Manager | A separate headless binary with the app as its client; a windowed app cannot be a service ([background-presence.md](background-presence.md)) |
 | Native context menu | Tauri core `Menu` popup | Core API, no plugin ([context-menus.md](context-menus.md)) |
 
 ## Shared data
