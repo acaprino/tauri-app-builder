@@ -2,9 +2,57 @@
 
 Part of the tauri-native-desktop references: versions, scope and limits are in [guide.md](guide.md). Bracketed names are sources; their URLs are in [sources.md](sources.md).
 
-An app that keeps working with its window closed (alerts, sync, monitoring) needs four pieces that are decided together: a tray icon, a close button that hides, one restore path and, optionally, start at login. Each is a product choice: confirm it through [Manual or Auto](../SKILL.md#confirm-product-choices). An app with no background work closes and quits normally.
+An app that keeps working with its window closed (alerts, sync, monitoring) needs four pieces that are decided together: a tray icon, a close button that hides, one restore path and, optionally, start at login. Each is a product choice the user makes, not one to infer: ask as described below. An app with no background work closes and quits normally.
 
 Sources were read on 2026-11-19: `tauri-plugin-autostart` 2.7.0, `auto-launch` 0.6.0 and tauri 2.12.5. No code in this file was built or run for this skill.
+
+## What to tell the user before they choose
+
+Ask both questions through [Manual or Auto](../SKILL.md#confirm-product-choices), with the current behavior first. Give the answers below in plain words, limited to the systems the app ships on. In Auto, recommend close to tray and start at login only when the app does work the user expects to continue unattended; otherwise recommend a normal close and no autostart.
+
+**Close button: quit, or hide to the tray?**
+
+| | Quit (default) | Hide to tray |
+|---|---|---|
+| Closing the window | The app ends; background work and alerts stop | The window disappears, the app keeps running |
+| Getting the window back | Start the app again | Click the tray icon, start the app again, or click a notification |
+| Quitting | The close button | Quit in the tray menu or in the app menu |
+| Added to the app | Nothing | A tray icon with Show and Quit, and a one-time notice that the app is still running |
+
+**Start at login: no, yes with the window, or yes in the tray?**
+
+| OS | How the app is started | Where the user sees it and turns it off |
+|---|---|---|
+| Windows | A startup entry for the app in the registry, read by Windows at sign-in | Settings > Apps > Startup, or Task Manager > Startup apps |
+| macOS | A launch agent for the user (default), or a login item | System Settings > General > Login Items |
+| Linux | A `.desktop` file in `~/.config/autostart` | The desktop's startup-applications tool (GNOME Tweaks, KDE System Settings > Autostart) |
+
+The OS locations are the usual ones for current releases and were not checked on a device for this skill: confirm them on the installed app before putting them in user-facing text.
+
+Also say:
+
+- The app gains one setting, off by default, for example "Start at login" in its Settings or Preferences. Name the exact screen or menu where it will go, and ask if the user wants it elsewhere. With a tray, a second setting or the same one decides whether a login start opens the window or stays in the tray.
+- Nothing is installed with admin rights and no service is created. The entry starts the app only after the user signs in.
+- Turning it off in the OS location above is honored: the app's setting then shows it as off.
+
+## What changes and where
+
+List these to the user with the real paths of the project before implementing. Paths are the Tauri defaults.
+
+| Choice | File | Change |
+|---|---|---|
+| Hide to tray | `src-tauri/Cargo.toml` | `tray-icon` feature on the `tauri` dependency |
+| | `src-tauri/src/lib.rs` | Tray icon and menu in `setup`, `CloseRequested` handler that hides, the restore function |
+| | `src-tauri/Cargo.toml`, `src-tauri/src/lib.rs` | `tauri-plugin-single-instance`, registered first, if not already present |
+| | Frontend | One-time "still running in the tray" notice; an Exit item in the app menu |
+| Start at login | `src-tauri/Cargo.toml` | `tauri-plugin-autostart`, desktop targets only |
+| | `src-tauri/src/lib.rs` | Plugin registration, with the launch argument when a login start goes to the tray |
+| | `src-tauri/capabilities/*.json` | `autostart:allow-enable`, `autostart:allow-disable`, `autostart:allow-is-enabled` for the window that holds the setting; nothing here when app commands are used instead |
+| | `package.json` | `@tauri-apps/plugin-autostart`, only when the frontend calls the plugin directly |
+| | Frontend settings screen | The toggle, reading its state from the OS each time it is shown |
+| Start in the tray | `src-tauri/src/lib.rs` or the startup module | Skip the first show of the main window when the launch argument is present |
+
+`tauri.conf.json` does not change for either choice, unless the main window is not yet created hidden and a tray start needs it ([frame.md](frame.md)). Nothing changes in the installer configuration; the startup entry is written at run time when the user turns the setting on.
 
 ## Choose the mechanism
 

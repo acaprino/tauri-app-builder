@@ -41,8 +41,11 @@ Carry forward decisions already established by the user or by explicit product r
 
 - **Dialog placement.** For each new dialog or existing dialog whose placement is being reviewed, compare opening it in the main window, in a separate window, or as a standard OS alert where applicable. Explain whether the main window stays usable. [Dialogs](references/dialogs.md)
 - **Title bar.** Compare the system title bar with a custom title bar. Explain how dragging, system menus and controls such as Windows Snap Layouts would work. [Frame](references/frame.md)
-- **Main window close.** Compare closing the window, quitting the app and hiding to the tray where supported. Explain what happens to running work and how the user reopens or quits the app. [OS integration](references/os-integration.md), [Background presence](references/background-presence.md)
+- **Main window close.** Ask whether the close button quits the app or hides it to the tray. Explain what happens to running work, how the user reopens the window and how they quit. [OS integration](references/os-integration.md), [Background presence](references/background-presence.md)
+- **Start at login.** Ask whether the app should start when the user signs in. If yes, ask whether it opens its window or starts in the tray. Before the user decides, say how it would work on each shipped OS, which setting the app gains and where, where the user can turn it off in the OS, and which project files change. [Background presence](references/background-presence.md#what-to-tell-the-user-before-they-choose)
 - **Notification delivery.** For each affected event, compare in-app feedback with a system notification where appropriate. Explain what happens while the app is focused, unfocused, hidden or exited. Check that delivery can work with the chosen close behavior. [Notifications](references/notifications.md)
+
+Main window close and start at login are open in every whole-app pass, and in any task that adds background work, a tray icon or notifications, even when the request does not mention them. An app with neither is a valid answer: record it and add nothing.
 
 For each open choice, show the current behavior if one exists, the feasible options and their effect on the user. Offer **Manual** and **Auto** in one prompt for all open choices in scope. Honor a mode the user has already selected for the task.
 
