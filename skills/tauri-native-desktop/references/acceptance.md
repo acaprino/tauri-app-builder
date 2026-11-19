@@ -101,6 +101,18 @@ For a whole-app request, classify every section using [baseline.md](baseline.md)
 - [ ] Click/actions while visible, notification-center click, app hidden and process exited have separate recorded outcomes; unsupported activation is explicit. Listener registration precedes sending, duplicate events do not repeat business actions, focus returns only as intended.
 - [ ] For new notifications after process exit, the event producer and sender have an explicit lifetime contract; exit before job completion/delivery is tested separately from clicking an existing notification after exit. If delivery requires a running app, that limit and any catch-up on restart are explicit. Scheduling, grouping, cancellation and richer actions are used only where supported by the resolved backend.
 
+## Tray and start at login (when the product uses them)
+
+- [ ] Close button, Alt+F4 and the app's close command hide the main window and keep the process alive; background work and alerts continue.
+- [ ] Tray click, tray menu Show, a second launch and a notification click all restore the same window: shown, unminimized, focused, on a connected monitor. On Linux the tray menu alone is enough to restore and quit.
+- [ ] Quit from the tray menu and from the menu bar ends the process and runs shutdown cleanup; no process remains.
+- [ ] The first hide tells the user the app is still running and where to find it.
+- [ ] A page reload or recovery while hidden does not show the window.
+- [ ] Windows: with the window hidden or minimized, the WebView stops rendering (near-zero CPU, `document.visibilityState` is `hidden`) and resumes on restore.
+- [ ] Start at login is off until the user turns it on; the setting shows the OS state, including after the user disables the entry in Task Manager, System Settings or the desktop's startup tool.
+- [ ] After sign-out and sign-in, and after a reboot, the installed app starts as configured: window shown, or tray only when launched with the autostart argument. A user launch always shows the window.
+- [ ] After an update the startup entry still points to the installed executable; after uninstall no startup entry remains.
+
 ## Installed app
 
 - [ ] Package name/icon and associations correct; second launch and deep link verified where planned.

@@ -5,7 +5,7 @@ Part of the tauri-native-desktop references: versions, scope and limits are in [
 | Operation | Tauri option | Constraint to verify |
 |---|---|---|
 | Menu and editing | Menu + predefined items | Platform roles and structure (unsupported items per platform, below), resources released |
-| Background presence | Tray | Explicit exit gesture; on Linux `TrayIconEvent` is not emitted (the right-click menu is), the icon may appear only with a menu set, no tooltip |
+| Background presence | Tray | Explicit exit gesture; on Linux `TrayIconEvent` is not emitted (the right-click menu is), the icon may appear only with a menu set, no tooltip. Close to tray, restore and start at login in [background-presence.md](background-presence.md) |
 | Second launch | Single-instance | Plugin registered first; reactivate the relevant dialog; a Tauri restart (`request_restart`) releases its lock, but not the app's own locks ([recovery.md](recovery.md)) |
 | External links into the app | Deep-link | Cold start and running app; validate and queue until the UI is ready |
 | Window restore | Window-state | Disconnected monitor; exclude temporary dialogs where appropriate |
