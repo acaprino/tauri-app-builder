@@ -2,6 +2,24 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
+## 2.1.0
+
+### Desktop skill
+
+- New reference on credentials, saved passwords and passkeys: the three needs behind "the system password wallet" and what each one uses on Windows.
+- Storing the app's own secrets in the OS credential store through a keyring crate behind an app command.
+- Windows has no OS API that hands an app the user's saved passwords; signing in through the system browser is the route that reuses them.
+- Passkeys through Windows Hello and the WebAuthn API, with what is still unverified inside WebView2.
+- Passkey sign-in added to the native feature menu.
+
+### Mobile skill
+
+- Android Credential Manager for the user's saved passwords and passkeys, the website association it needs, and its WebView support.
+
+### Both
+
+- Stronghold is marked as not for new work: a Tauri maintainer announced its deprecation and removal in Tauri 3.
+
 ## 2.0.0
 
 Both skills now work in phases instead of going straight to changes.

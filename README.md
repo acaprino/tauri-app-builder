@@ -69,6 +69,7 @@ Neither skill is for web-only restyling. Desktop behavior belongs to the desktop
 | Boundaries | What each window may call and read: capabilities, credentials, events between windows |
 | Recovery | The engine's error page, WebView process crashes, reload handled by the app, release builds that load the dev URL |
 | Packaging and updates | NSIS, MSI, DMG and Linux packages, signing and notarization, updater artifacts and keys, sidecars, CI |
+| Credentials and passkeys | The app's secrets in the OS credential store, the user's saved passwords, passkey sign-in with Windows Hello, why Stronghold is not for new work |
 | Native plugins | Which core API or plugin covers a capability, and which have no official plugin (keychain, Windows Hello, OAuth, camera, location) |
 
 ## What the mobile skill covers
@@ -80,7 +81,7 @@ Neither skill is for web-only restyling. Desktop behavior belongs to the desktop
 | Camera and media | Camera, gallery and microphone capture, cancellation and timeouts |
 | Sign-in | Native Google and Firebase sign-in, Apple sign-in, other OAuth, callback lifecycle and deep links |
 | Layout | Safe areas, the on-screen keyboard, a screen that never drags as a whole on overscroll, older WebView engines |
-| Device features | Geolocation and geofencing, NFC and Bluetooth LE, biometric unlock and credential protection |
+| Device features | Geolocation and geofencing, NFC and Bluetooth LE, biometric unlock and credential protection, saved passwords and passkeys through Credential Manager |
 | Background work | Push, background jobs, offline sync, notifications, exact alarms and snooze |
 | Files | ZIP export, downloads, save and share |
 | Purchases | In-app purchases |
@@ -122,7 +123,7 @@ Each skill maps capabilities to plugins for its platforms and names the capabili
 
 | Path | Content |
 |---|---|
-| `skills/tauri-native-desktop/` | `SKILL.md` and 18 reference files |
+| `skills/tauri-native-desktop/` | `SKILL.md` and 19 reference files |
 | `skills/tauri-native-mobile/` | `SKILL.md`, 37 reference files, example adapters and its own validator |
 | `shared/native-plugins.md` | Plugin data shared by both skills |
 | `scripts/` | Plugin validator and its tests |

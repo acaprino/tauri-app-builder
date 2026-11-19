@@ -184,6 +184,16 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - official plugins table: https://github.com/tauri-apps/plugins-workspace/blob/v2/README.md
 - plugin manifests: https://github.com/tauri-apps/plugins-workspace/tree/v2/plugins
 
+## credentials.md
+
+- keyring crate: https://docs.rs/keyring/4.2.0/keyring/
+- CredWrite: https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credwritew
+- Stronghold deprecation: https://github.com/orgs/tauri-apps/discussions/7846
+- Stronghold plugin: https://v2.tauri.app/plugin/stronghold/
+- keyring-store plugin: https://crates.io/crates/tauri-plugin-keyring-store
+- Windows passkeys: https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys/
+- WebAuthn API: https://learn.microsoft.com/en-us/windows/win32/api/webauthn/nf-webauthn-webauthnauthenticatorgetassertion
+
 ## notifications.md
 
 - Notification: https://v2.tauri.app/plugin/notification/
