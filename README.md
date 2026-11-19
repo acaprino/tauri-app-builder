@@ -29,6 +29,8 @@ Claude loads a skill by itself when the request matches. You can also name the s
 | You want to | Example request | Skill |
 |---|---|---|
 | Audit a whole desktop app | "Audit this Tauri app and tell me where it still behaves like a web page" | desktop |
+| Choose native features | "Which native features could this app use? Let me pick" | desktop or mobile |
+| Store secrets safely | "Keep the login token in the system credential store" | desktop |
 | Make a desktop app feel native | "Make this app behave natively on Windows 11" | desktop |
 | Fix the startup flash | "The window flashes white before the UI appears" | desktop |
 | Decide where a dialog lives | "Should the settings dialog be a separate window?" | desktop |
@@ -88,9 +90,17 @@ Neither skill is for web-only restyling. Desktop behavior belongs to the desktop
 
 ## How the skills work
 
+**Three steps, in order.** For a whole app, both skills work the same way:
+
+1. **Assess.** Claude reads the project and reports where the app stands. Nothing changes yet.
+2. **Native baseline.** The standard changes that every Tauri app needs are applied together, without a question for each: no white flash, interface text that does not select, no browser shortcuts or browser menu, content that does not drag as a whole, no engine error page.
+3. **Your choice of native features.** Claude offers a menu and adds only what you pick. On desktop: dialog placement, title bar, tray icon and close behavior, start at login, notifications, the OS credential store, sign-in in the system browser, updates and more. On mobile: camera, sign-in, location, push, biometrics, file export and the other device capabilities.
+
+A request about one thing, such as the startup flash, goes straight to it.
+
 **The lightest level that fits.** The desktop skill separates four levels: a surface inside the main window, a native OS control or service, a separate window with web content, and a fully native interface. It starts from the first. Making an app native does not mean turning every panel into an OS window.
 
-**Product choices are asked, not assumed.** Before implementing, the desktop skill asks about the behaviors that are yours to decide and explains the effect of each option:
+**Product choices are asked, not assumed.** For each feature in the menu the skill says what the app has today, what you would get and what it costs. Some choices need more explanation, and get it:
 
 - where each dialog opens
 - system or custom title bar
@@ -112,7 +122,7 @@ Each skill maps capabilities to plugins for its platforms and names the capabili
 
 | Path | Content |
 |---|---|
-| `skills/tauri-native-desktop/` | `SKILL.md` and 17 reference files |
+| `skills/tauri-native-desktop/` | `SKILL.md` and 18 reference files |
 | `skills/tauri-native-mobile/` | `SKILL.md`, 37 reference files, example adapters and its own validator |
 | `shared/native-plugins.md` | Plugin data shared by both skills |
 | `scripts/` | Plugin validator and its tests |

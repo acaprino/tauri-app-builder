@@ -8,6 +8,13 @@ Project/commit: … · OS/build/desktop: … · Tauri/plugins/runtime (resolved 
 
 For a whole-app request, classify every section using [baseline.md](baseline.md). Each applicable check records pass/fail, evidence type, window labels and remaining work; not-applicable and deferred checks record a reason. A failed or untested check cannot become a pass because the code exists.
 
+## Assessment and choices (whole-app work)
+
+- [ ] The user saw a status of the app before any change: standard changes in place or missing, native features present or absent.
+- [ ] Every missing standard change was applied in every WebView, or moved to a question with the reason.
+- [ ] The native feature menu was offered once, with the current state, benefit and cost of each item; every answer is recorded, including "no".
+- [ ] Nothing was added beyond the standard changes and the chosen features.
+
 ## Windows and dialogs
 
 - [ ] Surface classification fits the workflow: side drawers and lateral detail sheets **never** open as separate OS windows, and ordinary dialogs stay in-page (`<dialog>` / overlay) unless external window management was explicitly requested or required by multi-monitor use, hidden-main launch or a compact host frame.

@@ -9,7 +9,7 @@ Act as a desktop integration engineer. Optimize the observable behavior on the c
 
 ## Set the scope and completion bar
 
-For a whole-app audit or a request to make the app native, read [baseline.md](references/baseline.md) and classify every section of [acceptance.md](references/acceptance.md). A narrow request covers its affected surfaces and shared dependencies; it does not authorize an unrelated redesign. Keep a coverage record: surface/window → expected behavior → implementation → evidence → remaining work. Record a reason for each not-applicable or deferred item; an untested item stays untested. Existing audit documents are evidence to recheck, not a reason to skip a failing behavior.
+For a whole-app request (make the app native, audit it, start a new desktop app), work through the [phases](#work-in-phases): assess, apply the native baseline, then ask which native features to add. Read [baseline.md](references/baseline.md) and classify every section of [acceptance.md](references/acceptance.md). A narrow request covers its affected surfaces and shared dependencies; it does not authorize an unrelated redesign. Keep a coverage record: surface/window → expected behavior → implementation → evidence → remaining work. Record a reason for each not-applicable or deferred item; an untested item stays untested. Existing audit documents are evidence to recheck, not a reason to skip a failing behavior.
 
 ## Identify the required level
 
@@ -22,7 +22,13 @@ Always distinguish four levels, starting from the lightest one that fits the tas
 
 Making an app behave natively does **not** mean turning in-page panels, drawers or forms into separate OS windows. If native toolkit widgets are needed, state the cost and verify the integration before promising it.
 
-## Procedure
+## Work in phases
+
+Do the phases in order. Tell the user which phase you are in and what comes next.
+
+### Phase 1: Assess
+
+Nothing is changed in this phase.
 
 1. **Gather the context.** Read local instructions, manifests and lockfiles. Identify shipped platforms, Tauri/plugin/WebView versions, windows, any shared web frontend, authentication, application state and ACLs. Read [guide.md](references/guide.md) and compare the resolved tauri version with its minimum-version matrix before proposing an API; Tauri 3.x is not covered. If the project already holds an audit or a native-rules document from an earlier pass, take it as the baseline: check each reference in scope against it and report the differences. Ask for missing context only when it changes the solution.
 2. **Classify the surfaces.** Inventory side drawers, dialogs, panels, menus and notices. Record which levels fit each surface and why:
@@ -30,14 +36,43 @@ Making an app behave natively does **not** mean turning in-page panels, drawers 
    - **Default routine application UI to in-window.** This includes in-page modals (`<dialog>.showModal()`), confirmations, toolbars, popovers, tooltips and dropdowns.
    - Use **OS controls or services** for file/folder pickers, native menus/tray, standard OS message alerts and system notifications when the workflow calls for them.
    - Choose a **separate `WebviewWindow`** only when explicitly requested or objectively required by multi-monitor/side-by-side reference, launch while main is hidden, an independent multi-window workspace, or a host window too compact to fit the form. Default secondary windows to **non-modal**.
-3. **Confirm product choices.** Use [Manual or Auto](#confirm-product-choices) for the unresolved behaviors listed there when they are in scope for implementation. For report-only work, include recommendations in the report.
-4. **Define the desktop contract.** Read the reference files for the surfaces in scope (table below) and the matching sections of [the checklist](references/acceptance.md). Define owner, modality, sizing, focus, closing, result and authoritative state. Verify against the actual versions: `parent`, `owner`, `transient_for`, sheets and modality are not synonyms.
-5. **Deliver the authorized scope.** In an audit, deliver evidence and priorities. When changes are requested, implement verifiable increments that reuse the existing domain and transport. Define the least privileges for new windows and test the caller. Keep the browser path when the product requires it. Before setting an engine switch, check its default in the resolved versions. Add meaningful regression checks for changed behavior and shared initialization paths; scope chrome cursor rules to chrome, composition guards to submitting handlers, and desktop lifecycle rules to Tauri-managed windows.
+3. **Report where the app stands.** Give the user a short status before changing anything:
+   - each [standard change](references/baseline.md#standard-changes): already in place, partial or missing, with the file that shows it;
+   - each feature of the [native feature menu](references/native-features.md): present, partial or absent;
+   - defects found in what is already there, most serious first.
+
+For report-only work, stop here: deliver the status with recommendations for phases 2 and 3.
+
+### Phase 2: Apply the native baseline
+
+The [standard changes](references/baseline.md#standard-changes) are what every Tauri desktop app needs to stop behaving like a web page: no white flash, interface text that does not select, no browser shortcuts or browser menu, content that does not drag as a whole, no engine error page. They do not change what the product does, so they need no product decision.
+
+- When the user asked for changes, list the missing standard changes in one message and apply them all, without asking about each one. Apply them in every WebView, through the shared bootstrap.
+- A standard change that would alter something the product visibly relies on (a shared web frontend that needs the browser behavior, a custom title bar already chosen, a reading view that must stay selectable) is not applied blindly: move it to the questions of phase 3.
+- Apply a standard change even when its effect cannot be observed in the current environment, and record the observation as pending.
+- Report what was changed, file by file, before moving on.
+
+### Phase 3: Ask which native features to add
+
+Everything beyond the baseline is the user's decision. Present the [native feature menu](references/native-features.md) in one prompt, through [Manual or Auto](#confirm-product-choices): dialog placement, title bar, close button and tray icon, start at login, second launch, window position, menu bar, notifications, taskbar status, links into the app, updates, the OS credential store, unlock with the OS, sign-in in the system browser, device access.
+
+- Show the current state of each item from phase 1, what the user gets and what it costs.
+- Leave out what does not apply or is already decided, and say so.
+- Add only what was chosen. A reference file existing for a feature is not a reason to add it.
+
+### Phase 4: Implement and verify
+
+4. **Define the desktop contract.** Read the reference files for the chosen features and the surfaces in scope (table below) and the matching sections of [the checklist](references/acceptance.md). Define owner, modality, sizing, focus, closing, result and authoritative state. Verify against the actual versions: `parent`, `owner`, `transient_for`, sheets and modality are not synonyms.
+5. **Deliver the authorized scope.** Implement verifiable increments that reuse the existing domain and transport. Define the least privileges for new windows and test the caller. Keep the browser path when the product requires it. Before setting an engine switch, check its default in the resolved versions. Add meaningful regression checks for changed behavior and shared initialization paths; scope chrome cursor rules to chrome, composition guards to submitting handlers, and desktop lifecycle rules to Tauri-managed windows.
 6. **Verify in the real app.** Run the relevant automated checks and tests in the installed app on the declared platforms. Distinguish inspected code, build, automated tests and observed behavior. Report the tests that still need a different environment.
+
+### Narrow requests
+
+A request about one thing (the startup flash, one dialog, the tray) skips the full sequence: assess the affected surfaces, make the change, and ask only the choices that request touches. Mention missing standard changes noticed on the way without fixing them unasked.
 
 ### Confirm product choices
 
-Carry forward decisions already established by the user or by explicit product requirements. For the choices below, confirm any that implementation needs to make. A repair to an established behavior uses that behavior as its requirement.
+Carry forward decisions already established by the user or by explicit product requirements. Confirm the open items of the [native feature menu](references/native-features.md); the five below need the most explanation. A repair to an established behavior uses that behavior as its requirement.
 
 - **Dialog placement.** For each new dialog or existing dialog whose placement is being reviewed, compare opening it in the main window, in a separate window, or as a standard OS alert where applicable. Explain whether the main window stays usable. [Dialogs](references/dialogs.md)
 - **Title bar.** Compare the system title bar with a custom title bar. Explain how dragging, system menus and controls such as Windows Snap Layouts would work. [Frame](references/frame.md)
@@ -61,7 +96,8 @@ Read the files the work in scope needs, not all of them. [native-plugins-data.md
 | Work in scope | File |
 |---|---|
 | Versions covered, minimum-version matrix, choosing the level, proving the result, limits | [guide.md](references/guide.md) |
-| Whole-app native audit or implementation: essential coverage and completion criteria | [baseline.md](references/baseline.md) |
+| Whole-app native audit or implementation: standard changes, essential coverage and completion criteria | [baseline.md](references/baseline.md) |
+| Optional native features to offer the user, with what each gives and costs | [native-features.md](references/native-features.md) |
 | Title bar, decorations, Snap Layouts, startup flash, drag regions, Mica/vibrancy/Liquid Glass | [frame.md](references/frame.md) |
 | Existing or proposed separate OS windows, including owner/parent, modality, close lifecycle and React StrictMode | [dialogs.md](references/dialogs.md) |
 | What a new window may call and read: capabilities, credentials, events, relay or broker | [boundaries.md](references/boundaries.md) |

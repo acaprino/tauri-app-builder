@@ -13,6 +13,20 @@ Identify target OS, device/WebView version, package ID, signing identity, instal
 
 Trace a failing feature through JS invocation → Tauri capability → plugin registration → native manifest/entitlement → runtime permission → callback → UI result. A successful web build does not verify that chain. Separate confirmed defects, historical reports, retired fixes and device checks still needed.
 
+## Work in phases
+
+For a whole-app request (port a web app to phones, audit the mobile app, make it feel native), work in this order and tell the user which phase you are in. A request about one feature goes straight to that feature and asks only what it touches.
+
+1. **Assess.** Nothing is changed. Use the [capability inventory](references/migration-inventory.md) to list every browser-dependent action and every native capability the app already uses. Report to the user where the app stands: for each one, a native adapter in place, a browser-only path, or nothing; then the defects found, most serious first. For report-only work, stop here with recommendations.
+2. **Apply the native baseline.** These make the app stop behaving like a web page in a frame and do not change what the product does. When changes were requested, list the missing ones in one message and apply them all, without asking about each:
+   - safe areas with one layout owner, and the keyboard inset handled apart from them ([mobile layout](references/plugins-mobile.md));
+   - the screen never drags as a whole on overscroll, and a gap never shows a color other than the theme ([mobile layout](references/plugins-mobile.md));
+   - for capabilities the app already uses, the whole chain is complete: Tauri capability, manifest or entitlement, runtime grant, and a result for denial, cancellation and failure ([permissions](references/permissions.md));
+   - browser-only actions that silently do nothing on a phone (downloads, popups, links) report a result instead of pretending to complete.
+   Apply a change even when no device was available to observe it, and record the device check as pending.
+3. **Ask which native capabilities to add.** Each one adds permissions the user will be prompted for, store declarations and review questions, so none is added without being chosen. Offer the list in one prompt, with the current state of each from phase 1, what the user gets and what it adds (permissions, store declarations, native code): camera and microphone, photo and document import, native sign-in, links into the app, location, NFC and Bluetooth, biometric unlock, push and background work, notifications and exact alarms, file export and sharing, purchases, contacts and calendars. Let the user pick each one, or recommend a set from the app's actual workflows and wait for approval. Leave out what does not apply and say so. Record every answer, including "no".
+4. **Implement and verify.** Build the chosen capabilities from their references in the table below, and verify them on a device.
+
 ## Read by task
 
 | Task | Local reference |
