@@ -2,6 +2,21 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
+## 2.0.0
+
+Both skills now work in phases instead of going straight to changes.
+
+### Desktop skill
+
+- **Phase 1, assess:** a status of the app before anything changes: which standard changes are in place, which native features exist, which defects were found.
+- **Phase 2, native baseline:** eleven standard changes that stop the app behaving like a web page are applied together, without a question for each one.
+- **Phase 3, native features:** a menu of optional integrations is offered in one prompt, each with what the user gets and what it costs: dialog placement, title bar, close button and tray icon, start at login, second launch, window position, menu bar, notifications, taskbar status, links into the app, updates, the OS credential store, unlock with the OS, sign-in in the system browser, device access.
+- Nothing beyond the baseline and the chosen features is added. A request about one thing still goes straight to it.
+
+### Mobile skill
+
+- The same order: assess with the capability inventory, apply the layout and permission baseline, then ask which native capabilities to add, since each one adds permissions and store declarations.
+
 ## 1.6.0
 
 ### Desktop skill
