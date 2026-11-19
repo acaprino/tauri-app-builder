@@ -37,6 +37,7 @@ Claude loads a skill by itself when the request matches. You can also name the s
 | Start the app with the computer | "Start the app when the user signs in" | desktop |
 | Send desktop alerts | "Notify the user when a job finishes while the window is hidden" | desktop |
 | Remove browser behavior | "Remove the Edge right-click menu and the F5 reload" | desktop |
+| Stop the whole view from dragging | "Pulling down moves the entire app and shows a white strip" | desktop or mobile |
 | Survive WebView failures | "The app shows a blank page after the WebView crashes" | desktop |
 | Package and update | "Set up the NSIS installer, signing and the updater" | desktop |
 | Pick a plugin for a capability | "How do I store a token in the OS keychain?" | desktop or mobile |
@@ -60,7 +61,7 @@ Neither skill is for web-only restyling. Desktop behavior belongs to the desktop
 | Background presence | Tray icon, close to tray, one restore path, start at login, starting in the tray, and when a Windows service fits |
 | OS integration | Menus, single instance, deep links, window-state restore, badge and overlay icon, taskbar progress, exit and reopen, Linux file dialogs |
 | Notifications | System notifications against in-app feedback, delivery while focused, hidden or exited, Windows toast identity, permissions, callbacks |
-| Web layer | Bootstrap shared by every WebView, text selection and cursors, overscroll bounce, scrollbars, WebView2 switches |
+| Web layer | Bootstrap shared by every WebView, text selection and cursors, a root that never drags on overscroll, bounce in lists, scrollbars, WebView2 switches |
 | Context menus | Removing the engine's menu, native or app-owned replacements, editing menus that keep working |
 | Keyboard and accessibility | Disabling browser shortcuts and replacing the needed ones, zoom and text size, screen readers, forced colors, system accent, IME, a command registry |
 | Boundaries | What each window may call and read: capabilities, credentials, events between windows |
@@ -76,7 +77,7 @@ Neither skill is for web-only restyling. Desktop behavior belongs to the desktop
 | Permissions | The chain from Tauri capability to manifest or entitlement to runtime grant; denial, cancellation and recovery |
 | Camera and media | Camera, gallery and microphone capture, cancellation and timeouts |
 | Sign-in | Native Google and Firebase sign-in, Apple sign-in, other OAuth, callback lifecycle and deep links |
-| Layout | Safe areas, the on-screen keyboard, older WebView engines |
+| Layout | Safe areas, the on-screen keyboard, a screen that never drags as a whole on overscroll, older WebView engines |
 | Device features | Geolocation and geofencing, NFC and Bluetooth LE, biometric unlock and credential protection |
 | Background work | Push, background jobs, offline sync, notifications, exact alarms and snooze |
 | Files | ZIP export, downloads, save and share |

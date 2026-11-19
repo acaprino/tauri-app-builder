@@ -63,8 +63,9 @@ For a whole-app request, classify every section using [baseline.md](baseline.md)
 
 ## Bounce and scrolling
 
-- [ ] Explicit decision for list, panel and viewport: OS feedback kept or bounce suppressed; spring animations evaluated separately.
-- [ ] Trackpad and wheel tested at the top/bottom edges and on the relevant axes: no unintended movement of the app structure or empty background.
+- [ ] Every WebView locks its root: `html` has `overscroll-behavior: none` and the document does not scroll. Applied even when no device was available to observe the bounce, with that observation recorded as pending.
+- [ ] Precision touchpad, touchscreen and wheel, pulling past each edge from an empty area, from a list at its end and on a short page: the content never slides as a whole and no background strip appears. Windows included.
+- [ ] Explicit decision for each list and panel: OS feedback kept or bounce suppressed; spring animations evaluated separately.
 - [ ] A nested list at its edge does not drag the underlying surface when it must be isolated; ordinary scrolling keeps working.
 - [ ] `contain` and `none` tested on the shipped WebView, without inferring the outcome from the CSS alone (WKWebView short pages included).
 - [ ] Web frontend: intended gestures preserved; reduced motion removes non-essential elastic animations without removing understandable feedback.

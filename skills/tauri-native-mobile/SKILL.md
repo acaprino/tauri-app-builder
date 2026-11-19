@@ -28,7 +28,7 @@ Trace a failing feature through JS invocation → Tauri capability → plugin re
 | Camera, gallery, microphone, cancellation | [camera and media](references/camera-media.md) |
 | Android/iOS Google login/Firebase session | [native Google auth](references/google-auth-native.md) |
 | Other OAuth, Apple, callback lifecycle | [auth architecture](references/authentication.md), [mobile auth and links](references/authentication-mobile.md) |
-| Safe areas, keyboard, old WebViews | [mobile layout](references/plugins-mobile.md), [engine compatibility](references/platform-webviews.md) |
+| Safe areas, keyboard, whole view dragging on overscroll ("pull to refresh"), old WebViews | [mobile layout](references/plugins-mobile.md), [engine compatibility](references/platform-webviews.md) |
 | Wrong UI in APK / missing Rust or Kotlin output | [stale builds](references/mobile-stale-builds.md), [builds](references/build-deploy-mobile.md) |
 | Native plugin/JS boundary | [core plugins](references/plugins-core.md), [Rust](references/rust-patterns.md), [frontend](references/frontend-patterns.md) |
 | Device investigation | [debugging](references/debugging-mobile.md), [verification matrix](references/testing.md) |

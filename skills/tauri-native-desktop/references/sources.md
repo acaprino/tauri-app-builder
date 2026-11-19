@@ -104,6 +104,9 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - Editor's draft: https://drafts.csswg.org/css-overscroll-1/
 - MDN overscroll-behavior: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/overscroll-behavior
 - BCD overscroll-behavior: https://github.com/mdn/browser-compat-data/blob/main/css/properties/overscroll-behavior.json
+- Edge scrolling personality: https://blogs.windows.com/msedgedev/2020/04/02/scrolling-personality-improvements/
+- blink-dev overscroll PSA: https://groups.google.com/a/chromium.org/g/blink-dev/c/0rMc8bTNVCo
+- ICoreWebView2Settings6: https://learn.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2settings6
 - WebKit 243452: https://bugs.webkit.org/show_bug.cgi?id=243452
 - WebKit 244232: https://bugs.webkit.org/show_bug.cgi?id=244232
 - SDK 1.0.2535.41: https://github.com/MicrosoftDocs/edge-developer/blob/main/microsoft-edge/webview2/release-notes/sdk/1-0-2535-41.md

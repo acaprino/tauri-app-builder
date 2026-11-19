@@ -1,6 +1,6 @@
 {
   "name": "tauri-app-builder",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Build, audit and ship Tauri 2 apps with native behavior: desktop (Windows, macOS, Linux) windows, dialogs, frame, notifications and WebView lifecycle; mobile (Android, iOS) permissions, capture, auth, builds and store delivery.",
   "author": {
     "name": "Alfio Caprino",
