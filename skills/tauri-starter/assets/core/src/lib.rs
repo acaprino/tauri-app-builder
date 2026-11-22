@@ -1,5 +1,8 @@
 use tauri::{Manager, Url};
 
+#[cfg(windows)]
+mod recovery;
+
 #[tauri::command]
 fn platform_name() -> &'static str {
     log::info!("platform_name requested");
@@ -53,6 +56,15 @@ pub fn run() {
         .plugin(tauri_plugin_window_state::Builder::default().build());
 
     builder
+        .setup(|app| {
+            #[cfg(windows)]
+            if let Some(window) = app.get_webview_window("main") {
+                recovery::install(&window);
+            }
+            #[cfg(not(windows))]
+            let _ = app;
+            Ok(())
+        })
         .plugin(tauri_plugin_log::Builder::default().level(log::LevelFilter::Info).build())
         .plugin(tauri_plugin_opener::init())
         .plugin(navigation_guard())

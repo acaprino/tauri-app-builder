@@ -17,7 +17,7 @@ Both paths use the same core. The new-app path also adds a minimal frontend with
 ## The core
 
 - One `src-tauri` for both platforms: desktop-only dependencies behind `cfg` and target-specific tables, one capability file per platform, a Content Security Policy that is not null.
-- Only what runs and is observed: window state, single instance, an opener with a navigation guard, logging. Everything else (updater, tray, notifications, deep links, sign-in) belongs to the two native skills.
+- Only what runs and is observed: window state, single instance, an opener with a navigation guard, logging, and on Windows recovery of the WebView (a dead renderer is reloaded within a limit, a dead browser process restarts the app). Everything else (updater, tray, notifications, deep links, sign-in) belongs to the two native skills.
 - The system title bar stays the default. Title bar, close behavior, dialog placement and notification delivery are the choices `tauri-native-desktop` asks the user to make.
 - Pin the Tauri CLI per project as an npm dev dependency and run it with `npm run tauri -- ...`; never rely on a global CLI.
 

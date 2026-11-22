@@ -28,7 +28,8 @@ On Windows the Visual Studio Build Tools with the C++ workload and the WebView2 
 3. **Install.** In the target directory run `npm install`. This also installs the Tauri CLI for this project; always run it as `npm run tauri -- <command>`.
 4. **Run.** `npm run tauri -- dev`. The first build compiles the Tauri crates and takes several minutes. Expected: a window titled with the product name opens and shows "Running on windows".
 5. **Check the page.** "Open tauri.app (granted)" shows `opener: allowed` and opens the system browser (the capability allows only that address; any other is refused). "Save window state (not granted)" shows `window-state denied` followed by the ACL message: the capability files work as intended. The "External link" opens the system browser and the window stays on the app: that is the navigation guard. Move and resize the window, close it and run step 4 again: it reopens where you left it. Start the executable a second time while it runs: the first window comes to the front and no second process stays.
-6. **Check the packaged build.** `npm run tauri -- build --no-bundle`, then start `src-tauri/target/release/<crate-name>.exe` without the dev server. Expected: the same page. Installers are not part of this check.
+6. **Check the recovery (Windows).** Follow the kill test in section 6 of `wiring.md` on the packaged build: after the renderer is stopped the page returns by itself; after the browser process is stopped the app restarts.
+7. **Check the packaged build.** `npm run tauri -- build --no-bundle`, then start `src-tauri/target/release/<crate-name>.exe` without the dev server. Expected: the same page. Installers are not part of this check.
 
 ## After the start
 

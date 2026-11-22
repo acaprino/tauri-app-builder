@@ -67,6 +67,19 @@ class CoreTemplateTests(unittest.TestCase):
         self.assertEqual(len(desktop_tables), 1)
         self.assertLessEqual(DESKTOP_ONLY_CRATES, set(desktop_tables[0]))
 
+    def test_webview2_recovery_is_windows_only_and_handles_process_failures(self):
+        cargo = tomllib.loads((CORE / 'Cargo.toml').read_text(encoding='utf-8'))
+        self.assertNotIn('webview2-com', cargo['dependencies'])
+        windows_tables = [t['dependencies'] for key, t in cargo['target'].items() if key.replace(' ', '') == 'cfg(windows)']
+        self.assertEqual(len(windows_tables), 1)
+        self.assertIn('webview2-com', windows_tables[0])
+        recovery = (CORE / 'src/recovery.rs').read_text(encoding='utf-8')
+        for needle in ('add_ProcessFailed', 'request_restart', '#[cfg(test)]'):
+            self.assertIn(needle, recovery)
+        lib = (CORE / 'src/lib.rs').read_text(encoding='utf-8')
+        self.assertIn('#[cfg(windows)]\nmod recovery;', lib)
+        self.assertIn('recovery::install', lib)
+
     def test_lib_exposes_the_mobile_entry_point(self):
         lib = (CORE / 'src/lib.rs').read_text(encoding='utf-8')
         self.assertIn('#[cfg_attr(mobile, tauri::mobile_entry_point)]', lib)
