@@ -1,6 +1,6 @@
 {
   "name": "tauri-app-builder",
-  "description": "Skills for building, auditing and shipping native-feeling Tauri 2 desktop and mobile apps.",
+  "description": "Skills for building, auditing and shipping native-feeling Tauri 2 desktop and mobile apps, and starting new ones.",
   "owner": {
     "name": "acaprino"
   },
@@ -8,7 +8,7 @@
     {
       "name": "tauri-app-builder",
       "source": "./",
-      "description": "Skills for building, auditing and shipping native-feeling Tauri 2 desktop and mobile apps."
+      "description": "Skills for building, auditing and shipping native-feeling Tauri 2 desktop and mobile apps, and starting new ones."
     }
   ]
 }

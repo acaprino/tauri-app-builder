@@ -90,6 +90,11 @@ class PluginValidationTests(unittest.TestCase):
         self.assertIn('tauri-starter', report['skills_checked'])
         self.assertTrue(report['ok'], report['errors'])
 
+    def test_readme_lists_every_skill_of_the_repository(self):
+        readme = (REPO_ROOT / 'README.md').read_text(encoding='utf-8')
+        for skill_dir in sorted((REPO_ROOT / 'skills').iterdir()):
+            self.assertIn(f'`{skill_dir.name}`', readme)
+
     def test_missing_openai_yaml_is_rejected(self):
         (self.root / 'skills/tauri-native-mobile/agents/openai.yaml').unlink()
         result, report = self.run_plugin_validator()

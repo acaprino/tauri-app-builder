@@ -27,4 +27,4 @@ Run the toolchain check in [android.md](references/android.md) (`scripts/check-a
 
 ## Hand-off
 
-Once the app starts, move to `tauri-native-desktop` for windows, dialogs, frame, notifications and packaging, and to `tauri-native-mobile` for permissions, capture, sign-in, builds and store delivery. Choose plugins from [native-plugins-data.md](references/native-plugins-data.md): check the Windows and Android columns before adding one.
+Once the app starts, move to `tauri-native-desktop` for windows, dialogs, frame, notifications and packaging, and to `tauri-native-mobile` for permissions, capture, sign-in, builds and store delivery. Choose plugins from [native-plugins-data.md](references/native-plugins-data.md): check the Windows and Android columns before adding one. What was run to prove the starter, and what was not: [verification.md](references/verification.md).
