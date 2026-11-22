@@ -4,5 +4,8 @@
   "description": "Permissions of the main window on desktop",
   "windows": ["main"],
   "platforms": ["windows", "macOS", "linux"],
-  "permissions": ["core:default", "opener:default"]
+  "permissions": [
+    "core:default",
+    { "identifier": "opener:allow-open-url", "allow": [{ "url": "https://tauri.app" }, { "url": "https://tauri.app/*" }] }
+  ]
 }

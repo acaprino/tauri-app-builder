@@ -11,7 +11,7 @@ The core is `src-tauri/`. This is the order in which it is put together and what
 
 ## 2. Capabilities (`capabilities/`)
 
-One file per platform: `desktop.json` for Windows, macOS and Linux, `mobile.json` for Android and iOS. Each grants the main window `core:default` and `opener:default` and nothing else. To grant more, read the permission names from the installed plugin (the build generates the schemas under `gen/schemas`), add them to the file of the platform that needs them and check the call in the running app. A capability cannot grant an Android runtime permission; see `tauri-native-mobile`.
+One file per platform: `desktop.json` for Windows, macOS and Linux, `mobile.json` for Android and iOS. Each grants the main window `core:default` (the standard baseline) and one scoped permission, `opener:allow-open-url` for `https://tauri.app` only, which is what the demo button uses; widen the scope to the addresses your app really opens. Anything else is refused. To grant more, read the permission names from the installed plugin (the build generates the schemas under `gen/schemas`), add them to the file of the platform that needs them and check the call in the running app. A capability cannot grant an Android runtime permission; see `tauri-native-mobile`.
 
 ## 3. Content Security Policy (`tauri.conf.json`)
 

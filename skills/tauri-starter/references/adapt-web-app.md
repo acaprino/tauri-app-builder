@@ -33,7 +33,7 @@ It writes only `src-tauri/` and refuses when that folder exists (exit 3, nothing
 New files and keys go in directly:
 
 - In `src-tauri/tauri.conf.json` set `build.devUrl` to the detected dev URL, `build.frontendDist` to the output directory relative to `src-tauri` (for example `../dist`), and `build.beforeDevCommand` and `build.beforeBuildCommand` to the project's own dev and build scripts run with its package manager.
-- In `package.json` add `@tauri-apps/cli` as a dev dependency (use the version `new-app.md` installs) with the project's package manager, and a `"tauri": "tauri"` script if there is none.
+- In `package.json` add `@tauri-apps/cli` as a dev dependency (use the version in this skill's `assets/web/package.json`) with the project's package manager, and a `"tauri": "tauri"` script if there is none.
 
 Edits to files the project already owns are shown as a diff and applied only after the user approves; without approval stop:
 

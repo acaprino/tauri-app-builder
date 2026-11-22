@@ -122,6 +122,21 @@ class InstantiateTests(unittest.TestCase):
             self.assertEqual(res.returncode, 2, f'{kwargs}: {res.stderr}')
             self.assertFalse(target.exists(), kwargs)
 
+    def test_fails_on_lowercase_and_spaced_tokens(self):
+        for typo in ('{{product_name}}', '{{ PRODUCT_NAME }}', '{{Product-Name}}'):
+            target = self.tmp / 'app'
+            self.put('assets/core/src/typo.rs', f'const X: &str = "{typo}";\n')
+            res = self.run_script(target)
+            self.assertEqual(res.returncode, 4, f'{typo}: {res.stderr}')
+            self.assertFalse((target / 'src-tauri').exists(), typo)
+
+    def test_rejects_java_keywords_in_the_identifier(self):
+        for ident in ('com.example.new', 'com.class.app', 'org.example.package'):
+            target = self.tmp / 'bad'
+            res = self.run_script(target, ident=ident)
+            self.assertEqual(res.returncode, 2, f'{ident}: {res.stderr}')
+            self.assertFalse(target.exists(), ident)
+
     def test_fails_when_a_token_remains(self):
         target = self.tmp / 'app'
         self.put('assets/core/src/typo.rs', 'const X: &str = "{{TYPO}}";\n')

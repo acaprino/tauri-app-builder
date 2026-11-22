@@ -8,7 +8,7 @@ A Claude Code plugin with three skills for starting, building, auditing and ship
 | `tauri-native-mobile` | Android and iOS: permissions, camera and microphone, sign-in, deep links, insets, location, NFC/BLE, biometrics, push and background work, file export, builds and store delivery |
 | `tauri-starter` | Starting a new Tauri 2 app, or wrapping an existing web app, for Windows and Android: one shared `src-tauri` core, a minimal frontend for new apps, a check of the Android toolchain, and the build and run steps |
 
-Each skill has its own native plugin map: which plugin covers a capability on its platforms and which capabilities have no official plugin. The canonical data lives in [`shared/native-plugins.md`](shared/native-plugins.md) (31 official plugins on all five platforms, maintained plugins and community candidates) and is mirrored in each skill's `references/native-plugins-data.md` so either skill can also be installed standalone.
+Each skill has its own native plugin map: which plugin covers a capability on its platforms and which capabilities have no official plugin. The canonical data lives in [`shared/native-plugins.md`](shared/native-plugins.md) (31 official plugins on all five platforms, maintained plugins and community candidates) and is mirrored in each skill's `references/native-plugins-data.md` so each skill can also be installed standalone.
 
 ## Install
 
@@ -35,9 +35,9 @@ python scripts/validate_bundle.py
 python -m unittest discover -s scripts -p "test_*.py"
 ```
 
-The tests of the `tauri-starter` scripts need Node and are skipped without it.
+The new tests need Python 3.11 or newer (`tomllib`); the tests of the `tauri-starter` scripts also need Node and are skipped without it.
 
-After editing `shared/native-plugins.md`, run `python scripts/validate_plugin.py --sync-shared` to update both standalone skill copies.
+After editing `shared/native-plugins.md`, run `python scripts/validate_plugin.py --sync-shared` to update the three standalone skill copies.
 
 ## License
 

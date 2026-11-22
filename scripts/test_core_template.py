@@ -22,7 +22,7 @@ class CoreTemplateTests(unittest.TestCase):
             data = path.read_bytes() if path.is_file() else b''
             if b'\x00' in data:
                 continue
-            found |= set(re.findall(r'\{\{([A-Z][A-Z0-9_]*)\}\}', data.decode('utf-8', errors='ignore')))
+            found |= set(re.findall(r'\{\{\s*([A-Za-z][A-Za-z0-9_-]*)\s*\}\}', data.decode('utf-8', errors='ignore')))
         self.assertTrue(found, 'the template uses no placeholder at all')
         self.assertLessEqual(found, TOKENS)
 
@@ -51,6 +51,14 @@ class CoreTemplateTests(unittest.TestCase):
         self.assertIn('windows', desktop_platforms)
         self.assertIn('android', mobile_platforms)
         self.assertEqual(desktop_platforms & mobile_platforms, set())
+
+    def test_opener_is_granted_for_one_scoped_url_only(self):
+        for rel in ('capabilities/desktop.json', 'capabilities/mobile.json'):
+            permissions = load_json(rel)['permissions']
+            self.assertNotIn('opener:default', permissions, rel)
+            scoped = [p for p in permissions if isinstance(p, dict) and p['identifier'] == 'opener:allow-open-url']
+            self.assertEqual(len(scoped), 1, rel)
+            self.assertTrue(scoped[0]['allow'], rel)
 
     def test_desktop_plugins_only_in_target_dependencies(self):
         cargo = tomllib.loads((CORE / 'Cargo.toml').read_text(encoding='utf-8'))

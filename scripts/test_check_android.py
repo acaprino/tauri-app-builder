@@ -34,6 +34,7 @@ class CheckAndroidTests(unittest.TestCase):
             (sdk / 'platform-tools/adb.exe').write_bytes(b'')
             (sdk / 'platform-tools/adb').write_bytes(b'')
             ndk.mkdir()
+            (ndk / 'source.properties').write_text('Pkg.Revision = 28.2.13676358\n')
             _, report = self.run_check(ANDROID_HOME=str(sdk), NDK_HOME=str(ndk))
             for item in ('ANDROID_HOME', 'NDK_HOME', 'SDK platform', 'SDK build-tools', 'adb'):
                 self.assertNotIn(item, report['missing'])
@@ -46,6 +47,17 @@ class CheckAndroidTests(unittest.TestCase):
                 (jdk / 'bin' / name).write_bytes(b'')
             _, report = self.run_check(JAVA_HOME=str(jdk), PATH=tmp)
             self.assertNotIn('JDK', report['missing'])
+
+    def test_empty_ndk_folder_is_not_an_ndk(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _, report = self.run_check(NDK_HOME=tmp)
+            self.assertIn('NDK_HOME', report['missing'])
+
+    def test_names_rustup_when_it_is_missing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _, report = self.run_check(PATH=tmp)
+            self.assertIn('rustup', report['missing'])
+            self.assertFalse([m for m in report['missing'] if m.startswith('Rust target')])
 
     def test_missing_jdk_is_named(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -18,6 +18,8 @@ What was run, on what, and what was not. Date: 2026-11-22. A result here is an o
 | Page shows "Running on windows" | passed | |
 | Granted plugin call (opener) | passed | `opener: allowed` |
 | Plugin call not granted | passed | refused with the ACL message |
+| Opener scope | passed on Windows | `https://tauri.app` allowed, `https://example.org` refused with `Not allowed to open url`; the Android capability file has the same scope; the Windows build validated both files, but the Android app was not re-run |
+| Packaged origin | passed on Windows | `http://tauri.localhost` (also seen on Android) |
 | Navigation guard on an external link | passed | the window stays on the app and the log line is written; the browser opening was not seen on Windows (on Android Chrome started) |
 | A request to the app's own origin from a packaged build | passed after a fix | the first policy blocked it (`connect-src` had no `'self'`), the corrected one allowed it |
 | Log lines | passed | on the terminal in dev |

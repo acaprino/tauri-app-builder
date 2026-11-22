@@ -25,11 +25,16 @@ if (!isDir(sdk)) {
   if (!['adb', 'adb.exe'].some((f) => existsSync(join(sdk, 'platform-tools', f)))) missing.push('adb');
 }
 
-if (!isDir(process.env.NDK_HOME)) missing.push('NDK_HOME');
+// A real NDK folder holds source.properties; an empty or wrong folder is not an NDK.
+if (!isDir(process.env.NDK_HOME) || !existsSync(join(process.env.NDK_HOME, 'source.properties'))) missing.push('NDK_HOME');
 
-const installed = run('rustup', ['target', 'list', '--installed']).stdout ?? '';
-for (const target of ['aarch64-linux-android', 'x86_64-linux-android']) {
-  if (!installed.split(/\s+/).includes(target)) missing.push(`Rust target ${target}`);
+const rustup = run('rustup', ['target', 'list', '--installed']);
+if (rustup.error || rustup.status !== 0) {
+  missing.push('rustup');
+} else {
+  for (const target of ['aarch64-linux-android', 'x86_64-linux-android']) {
+    if (!rustup.stdout.split(/\s+/).includes(target)) missing.push(`Rust target ${target}`);
+  }
 }
 
 console.log(JSON.stringify({ ok: missing.length === 0, missing }));

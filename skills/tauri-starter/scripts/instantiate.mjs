@@ -29,6 +29,12 @@ if (!target) fail(2, '--target is required');
 // Tauri's config schema: productName must match ^[^/\\:*?"<>|]+$ (checked before any file is written).
 if (!name || /[\u0000-\u001f\u007f/\\:*?"<>|]/.test(name)) fail(2, '--name must be non-empty, without control characters and without / \\ : * ? " < > |');
 if (!/^[A-Za-z][A-Za-z0-9-]*(\.[A-Za-z][A-Za-z0-9-]*)+$/.test(id ?? '')) fail(2, '--id must be a reverse-DNS identifier such as com.example.app');
+// The identifier becomes the Android package name, whose segments cannot be Java keywords.
+const javaKeywords = new Set(('abstract assert boolean break byte case catch char class const continue default do double else enum extends final finally float for goto if '
+  + 'implements import instanceof int interface long native new package private protected public return short static strictfp super switch synchronized this throw '
+  + 'throws transient try void volatile while true false null').split(' '));
+const badSegment = id.split('.').find((segment) => javaKeywords.has(segment.toLowerCase()));
+if (badSegment) fail(2, `--id segment "${badSegment}" is a Java keyword and cannot be part of an Android package name`);
 if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(crate ?? '')) fail(2, '--crate must be lowercase kebab-case such as my-app');
 
 const targetRoot = resolve(target);
@@ -67,8 +73,8 @@ const outputs = plan.map(({ file, dest }) => {
   if (text === null) return { dest, data: bytes };
   const ext = file.slice(file.lastIndexOf('.'));
   const values = { PRODUCT_NAME: (escapers[ext] ?? ((s) => s))(name), IDENTIFIER: id, CRATE_NAME: crate, LIB_NAME: `${crate.replaceAll('-', '_')}_lib` };
-  const data = text.replace(/\{\{([A-Z][A-Z0-9_]*)\}\}/g, (token, key) => {
-    if (key in values) return values[key];
+  const data = text.replace(/\{\{\s*([A-Za-z][A-Za-z0-9_-]*)\s*\}\}/g, (token, key) => {
+    if (token === `{{${key}}}` && key in values) return values[key];
     remaining.push(`${relative(assets, file)}: ${token}`);
     return token;
   });
