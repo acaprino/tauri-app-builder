@@ -1,6 +1,6 @@
 # tauri-app-builder
 
-A Claude Code plugin with three skills for starting, building, auditing and shipping Tauri 2 apps that behave like native apps.
+A Claude Code plugin with four skills for starting, building, auditing, debugging and shipping Tauri 2 apps that behave like native apps.
 
 Tauri gives a web frontend a native shell: an OS window, a system WebView, a Rust backend and installers. What it does not give is native behavior. Out of the box the app still acts like a web page in a frame: a white flash at startup, selectable interface text, the browser's context menu and shortcuts, dialogs that ignore OS conventions, permissions that fail silently on a phone. These skills hold the knowledge for that layer, the part between the web UI and the operating system, so Claude handles it deliberately instead of leaving browser defaults in place.
 
@@ -11,6 +11,7 @@ The desktop and mobile skills are documentation and decision guides that Claude 
 | `tauri-native-desktop` | Windows, macOS, Linux | Windows and dialogs, title bar, tray and start at login, menus, notifications, installers and updates, keyboard and accessibility, WebView lifecycle and recovery |
 | `tauri-native-mobile` | Android, iOS | Permissions, camera and microphone, sign-in, deep links, safe areas, location, NFC/BLE, biometrics, push and background work, file export, builds and store delivery |
 | `tauri-starter` | Windows, Android | Starting a new Tauri 2 app, or wrapping an existing web app: one shared `src-tauri` core (with recovery of the WebView on Windows), a minimal frontend for new apps, a check of the Android toolchain, and the build and run steps |
+| `tauri-live-debug` | Running Tauri 2 apps | Debugging and checking a running app through the plugin's MCP server: blank or wrong window, console errors, failing or denied IPC, a screen to build and check live. Loads on those symptoms |
 
 ## Install
 
@@ -128,13 +129,33 @@ Each skill maps capabilities to plugins for its platforms and names the capabili
 | `skills/tauri-native-desktop/` | `SKILL.md` and 19 reference files |
 | `skills/tauri-native-mobile/` | `SKILL.md`, 37 reference files, example adapters and its own validator |
 | `skills/tauri-starter/` | `SKILL.md`, 6 reference files, the project template in `assets/` and two Node scripts |
-| `shared/native-plugins.md` | Plugin data shared by the three skills |
+| `skills/tauri-live-debug/` | `SKILL.md` and its copy of the plugin data |
+| `commands/` | The four commands that drive the MCP server |
+| `.mcp.json` | The `tauri` MCP server the plugin starts |
+| `shared/native-plugins.md` | Plugin data shared by the four skills |
 | `scripts/` | Plugin validator and its tests |
 | `CHANGELOG.md` | What changed in each version |
 
 ## Start an app
 
 Ask for a new Tauri 2 app, or to wrap a web app in Tauri 2, for Windows and Android. The `tauri-starter` skill copies its template with `scripts/instantiate.mjs` (Node, no dependencies) and checks the Android toolchain with `scripts/check-android.mjs`; it never installs that toolchain. What was run to prove it, and what was not, is in `skills/tauri-starter/references/verification.md`.
+
+## MCP server: debug and drive a running app
+
+The plugin starts [`@hypothesi/tauri-mcp-server`](https://github.com/hypothesi/mcp-server-tauri) (MIT, Tauri 2 only, pinned to 0.13.2 in `.mcp.json`, checked 2026-11-22; needs Node 20+). It gives Claude screenshots, DOM snapshots, clicks and typing, console and Android logcat output, and IPC monitoring of the running app.
+
+The app must register the `tauri-plugin-mcp-bridge` crate. It needs Tauri 2.12.2 or a later 2.12 patch and Rust 1.90+. Register it under `#[cfg(debug_assertions)]` only. By default the bridge binds `0.0.0.0`; on desktop use `Builder::new().bind_address("127.0.0.1").build()`. It also needs `app.withGlobalTauri: true` and the `mcp-bridge:default` capability.
+
+The `tauri-live-debug` skill tells Claude when to use the server and how. Four commands run its procedures on request:
+
+| Command | Use it for |
+|---|---|
+| `/tauri-app-builder:bridge` | Add the debug-only bridge crate to a project and prove the connection |
+| `/tauri-app-builder:debug <symptom>` | Capture logs, DOM, IPC and screenshots, find the cause, fix it and show the change |
+| `/tauri-app-builder:build <what>` | Build or change a screen and check each step in the live window |
+| `/tauri-app-builder:verify [area]` | Run the acceptance checks the webview can show and list what stays manual |
+
+The server connected on the author's Windows machine on 2026-11-22 (`/mcp` showed 19 tools and 3 prompts). No app was driven with it, and the skill's activation was tried once with a simulated router, not in a live session.
 
 ## Limits
 
@@ -152,7 +173,7 @@ python -m unittest discover -s scripts -p "test_*.py"
 
 The new tests need Python 3.11 or newer (`tomllib`); the tests of the `tauri-starter` scripts also need Node and are skipped without it.
 
-After editing `shared/native-plugins.md`, run `python scripts/validate_plugin.py --sync-shared` to update the three standalone skill copies.
+After editing `shared/native-plugins.md`, run `python scripts/validate_plugin.py --sync-shared` to update the four standalone skill copies.
 
 ## Releases
 

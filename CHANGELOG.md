@@ -2,6 +2,16 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
+## 2.3.0
+
+### Live debugging
+
+- The plugin starts the `tauri` MCP server (`@hypothesi/tauri-mcp-server` 0.13.2, Tauri 2 only) through `.mcp.json`: screenshots, DOM snapshots, input, console and logcat output and IPC monitoring of a running app.
+- New skill `tauri-live-debug`: when to use the server, how to check that its tools are available, the evidence-first procedure, which tools only read, and which references of the desktop and mobile skills to take for each symptom.
+- Four commands: `/tauri-app-builder:bridge` adds the debug-only MCP bridge crate, `:debug` finds the cause of a symptom in the running app, `:build` builds a screen and checks each step live, `:verify` runs the acceptance checks the webview can show.
+- The desktop and mobile skills point to the commands, and the desktop guide says what the webview cannot prove: the native frame, OS dialogs, tray, notifications after exit, installers and the task switcher.
+- The server connected on a Windows machine (19 tools, 3 prompts). No app was driven with it, the commands were not run against an app, and a phone or emulator reaching the bridge was not checked.
+
 ## 2.2.0
 
 ### Starter skill

@@ -8,7 +8,7 @@
     {
       "name": "tauri-app-builder",
       "source": "./",
-      "description": "Skills for building, auditing and shipping native-feeling Tauri 2 desktop and mobile apps, and starting new ones."
+      "description": "Skills for building, auditing and shipping native-feeling Tauri 2 desktop and mobile apps, and starting new ones, plus the Tauri MCP server and commands to debug and verify a running app."
     }
   ]
 }
