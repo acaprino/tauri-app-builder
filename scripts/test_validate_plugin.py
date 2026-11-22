@@ -44,7 +44,7 @@ class PluginValidationTests(unittest.TestCase):
         self.write('README.md', '# Plugin\n' + (' word' * 45) + '\n')
         self.write('shared/native-plugins.md', '# Shared native plugins\nCanonical table.\n')
 
-        for skill_name in ('tauri-native-desktop', 'tauri-native-mobile'):
+        for skill_name in ('tauri-native-desktop', 'tauri-native-mobile', 'tauri-starter'):
             sdir = self.root / 'skills' / skill_name
             (sdir / 'references').mkdir(parents=True)
             (sdir / 'agents').mkdir(parents=True)
@@ -79,11 +79,16 @@ class PluginValidationTests(unittest.TestCase):
         report = json.loads(stdout) if stdout.strip().startswith('{') else None
         return result, report
 
-    def test_valid_dual_skill_plugin_passes(self):
+    def test_valid_three_skill_plugin_passes(self):
         result, report = self.run_plugin_validator()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue(report['ok'], report)
-        self.assertEqual(sorted(report['skills_checked']), ['tauri-native-desktop', 'tauri-native-mobile'])
+        self.assertEqual(sorted(report['skills_checked']), ['tauri-native-desktop', 'tauri-native-mobile', 'tauri-starter'])
+
+    def test_repository_includes_starter_skill(self):
+        report = VALIDATE_PLUGIN.validate_plugin(REPO_ROOT)
+        self.assertIn('tauri-starter', report['skills_checked'])
+        self.assertTrue(report['ok'], report['errors'])
 
     def test_missing_openai_yaml_is_rejected(self):
         (self.root / 'skills/tauri-native-mobile/agents/openai.yaml').unlink()
@@ -115,7 +120,7 @@ class PluginValidationTests(unittest.TestCase):
         sync_res, sync_rep = self.run_plugin_validator('--sync-shared')
         self.assertEqual(sync_res.returncode, 0, sync_res.stdout + sync_res.stderr)
         self.assertTrue(sync_rep['ok'], sync_rep)
-        for skill_name in ('tauri-native-desktop', 'tauri-native-mobile'):
+        for skill_name in ('tauri-native-desktop', 'tauri-native-mobile', 'tauri-starter'):
             self.assertEqual(
                 (self.root / f'skills/{skill_name}/references/native-plugins-data.md').read_text(encoding='utf-8'),
                 '# Shared native plugins\nUpdated v2 table.\n',

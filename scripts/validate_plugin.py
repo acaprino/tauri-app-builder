@@ -152,7 +152,7 @@ def validate_plugin(plugin_root, sync_shared=False):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description='Validate the dual-skill Tauri plugin repository.')
+    parser = argparse.ArgumentParser(description='Validate the Tauri plugin repository and all its skills.')
     parser.add_argument('path', nargs='?', default=str(ROOT), help='Plugin root directory.')
     parser.add_argument('--sync-shared', action='store_true', help='Copy shared/native-plugins.md into each skill before validating.')
     args = parser.parse_args(argv)

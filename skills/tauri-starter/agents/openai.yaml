@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tauri Starter"
+  short_description: "Start or wrap a Tauri 2 app for Windows and Android"
+  default_prompt: "Use $tauri-starter to start a new Tauri 2 app, or to wrap this web app in Tauri 2, for Windows and Android."
