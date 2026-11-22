@@ -20,6 +20,7 @@ Expected: `{"ok":true,"missing":[]}` and exit code 0. On exit code 1 tell the us
 - Keep the project and `CARGO_HOME` on the same volume: plugin sources on another volume can break the Kotlin build (see `tauri-native-mobile`).
 - On Windows, Developer Mode must be on for the symlinks Tauri creates.
 - `android init` installs all four Android Rust targets with rustup, which writes into `RUSTUP_HOME`. On a small system disk run it with `--skip-targets-install` and install only the two targets above.
+- Give every project its own Cargo target directory. Sharing one `CARGO_TARGET_DIR` between projects made a second project's Android build fail with `Unresolved reference 'TauriActivity'`: the cached `wry` build did not regenerate the Kotlin files into the new project. Rebuilding with the project's own `target` fixed it (see `tauri-native-mobile` on stale builds).
 - Record the versions you actually used (CLI, crates, JDK, Gradle, AGP, SDK platform, NDK); a newer release is not a tested combination.
 
 ## 3. Generate the Android project and build an APK
