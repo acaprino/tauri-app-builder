@@ -31,6 +31,18 @@ class CoreTemplateTests(unittest.TestCase):
         self.assertIsInstance(csp, str)
         self.assertIn('default-src', csp)
 
+    def test_connect_src_allows_the_apps_own_origin(self):
+        # an explicit connect-src replaces default-src, so without 'self' a packaged app cannot fetch its own files
+        security = load_json('tauri.conf.json')['app']['security']
+        for key in ('csp', 'devCsp'):
+            directive = next(d for d in security[key].split(';') if d.strip().startswith('connect-src'))
+            self.assertIn("'self'", directive, key)
+
+    def test_rust_version_matches_the_crates_floor(self):
+        cargo = tomllib.loads((CORE / 'Cargo.toml').read_text(encoding='utf-8'))
+        major, minor, *_ = (int(x) for x in cargo['package']['rust-version'].split('.'))
+        self.assertGreaterEqual((major, minor), (1, 90))  # tauri 2.12 and its plugins declare rust 1.90
+
     def test_capability_files_are_json_and_platform_scoped(self):
         desktop = load_json('capabilities/desktop.json')
         mobile = load_json('capabilities/mobile.json')
@@ -65,6 +77,11 @@ class WebTemplateTests(unittest.TestCase):
         # vite.config.ts reads process.env; type-checking it would need @types/node, which the page does not use.
         tsconfig = json.loads((ASSETS / 'web/tsconfig.json').read_text(encoding='utf-8'))
         self.assertEqual(tsconfig['include'], ['src'])
+
+    def test_new_apps_ignore_node_modules_and_dist(self):
+        lines = (ASSETS / 'web/.gitignore').read_text(encoding='utf-8').split()
+        self.assertIn('node_modules', lines)
+        self.assertIn('dist', lines)
 
 
 if __name__ == '__main__':

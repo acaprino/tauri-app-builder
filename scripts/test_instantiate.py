@@ -94,7 +94,7 @@ class InstantiateTests(unittest.TestCase):
 
     def test_special_characters_survive_json_toml_and_rust(self):
         target = self.tmp / 'app'
-        name = 'Café & "Muro"'
+        name = "Café & Co's"
         res = self.run_script(target, name=name)
         self.assertEqual(res.returncode, 0, res.stderr)
         conf = json.loads((target / 'src-tauri/tauri.conf.json').read_text(encoding='utf-8'))
@@ -102,9 +102,17 @@ class InstantiateTests(unittest.TestCase):
         cargo = tomllib.loads((target / 'src-tauri/Cargo.toml').read_text(encoding='utf-8'))
         self.assertEqual(cargo['package']['description'], name)
         self.assertEqual((target / 'src-tauri/src/lib.rs').read_text(encoding='utf-8'),
-                         'pub const NAME: &str = "Café & \\"Muro\\"";\n')
+                         'pub const NAME: &str = "Café & Co\'s";\n')
         self.assertEqual((target / 'index.html').read_text(encoding='utf-8'),
-                         '<title>Café &amp; &quot;Muro&quot;</title>\n')
+                         '<title>Café &amp; Co\'s</title>\n')
+
+    def test_rejects_product_names_the_tauri_schema_refuses(self):
+        # tauri.conf.json productName must match ^[^/\\:*?"<>|]+$
+        for char in '/\\:*?"<>|':
+            target = self.tmp / 'bad'
+            res = self.run_script(target, name=f'My{char}App')
+            self.assertEqual(res.returncode, 2, f'{char!r}: {res.stderr}')
+            self.assertFalse(target.exists(), char)
 
     def test_rejects_invalid_arguments_before_writing(self):
         cases = [{'crate': 'My_Crate'}, {'ident': 'com..x'}, {'ident': 'nodots'}, {'name': ''}, {'mode': 'other'}]

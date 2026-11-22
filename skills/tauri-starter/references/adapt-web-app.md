@@ -48,3 +48,4 @@ Then run the app with the project's package manager (`tauri dev`), and `android.
 2. With a history router, load a route inside the app directly (reload on it, or open its URL), not only by clicking a link: the page must render the app, not an error. Observed with a React history router: the packaged Windows build and the Android debug APK both rendered the route.
 3. The browser path: run the project's original `dev` and `build` scripts. They must behave as before the adaptation, and the build output must list the same files.
 4. Remote origins the user allowed load; the ones they did not are blocked.
+5. Requests to the app's own origin (for example `fetch('/data.json')` or a translation file) work in a packaged build: the core's policy allows `'self'` in `connect-src`. A `tauri dev` run does not prove it, because the policy is not enforced on the dev server's page.

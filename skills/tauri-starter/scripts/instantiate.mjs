@@ -26,7 +26,8 @@ try {
 const { mode, target, name, id, crate } = args;
 if (mode !== 'new' && mode !== 'adapt') fail(2, '--mode must be "new" or "adapt"');
 if (!target) fail(2, '--target is required');
-if (!name || /[\u0000-\u001f\u007f]/.test(name)) fail(2, '--name must be non-empty and contain no control characters');
+// Tauri's config schema: productName must match ^[^/\\:*?"<>|]+$ (checked before any file is written).
+if (!name || /[\u0000-\u001f\u007f/\\:*?"<>|]/.test(name)) fail(2, '--name must be non-empty, without control characters and without / \\ : * ? " < > |');
 if (!/^[A-Za-z][A-Za-z0-9-]*(\.[A-Za-z][A-Za-z0-9-]*)+$/.test(id ?? '')) fail(2, '--id must be a reverse-DNS identifier such as com.example.app');
 if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(crate ?? '')) fail(2, '--crate must be lowercase kebab-case such as my-app');
 

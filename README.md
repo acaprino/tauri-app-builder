@@ -19,7 +19,7 @@ Each skill has its own native plugin map: which plugin covers a capability on it
 
 ## Start an app
 
-Ask for a new Tauri 2 app, or to wrap a web app in Tauri 2, for Windows and Android. The `tauri-starter` skill copies its template with `scripts/instantiate.mjs` (Node 20 or newer, no dependencies) and checks the Android toolchain with `scripts/check-android.mjs`; it never installs that toolchain. What was run to prove it, and what was not, is in `skills/tauri-starter/references/verification.md`.
+Ask for a new Tauri 2 app, or to wrap a web app in Tauri 2, for Windows and Android. The `tauri-starter` skill copies its template with `scripts/instantiate.mjs` (Node, no dependencies) and checks the Android toolchain with `scripts/check-android.mjs`; it never installs that toolchain. What was run to prove it, and what was not, is in `skills/tauri-starter/references/verification.md`.
 
 ## Limits
 

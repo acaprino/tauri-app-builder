@@ -52,8 +52,8 @@ To drive the page from the computer, forward the WebView's DevTools socket: find
 
 ## 5. Not verified
 
-- Live development with `npm run tauri -- android dev` and Vite on `TAURI_DEV_HOST`: Gradle finished but the CLI never installed or started the app from a non-interactive shell, in two tries of seven minutes each. Try it from a terminal you can watch before relying on it.
-- A physical phone, and the `aarch64` build.
+- Live development with `npm run tauri -- android dev` and Vite on `TAURI_DEV_HOST`: three tries on the emulator (output redirected, verbose, and in a console window) of seven minutes each. Gradle finished every time but the CLI never installed or started the app. Treat it as unverified, and use the build and install steps above instead.
+- A physical phone: none was connected.
 
 ## 6. Emulator notes
 

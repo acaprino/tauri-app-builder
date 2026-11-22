@@ -7,15 +7,17 @@ Use this path when there is no web app yet. It writes the shared `src-tauri` cor
 Check, and stop at the first missing item (name it to the user):
 
 ```text
-rustc --version        Rust stable, 1.77.2 or newer
-node --version         Node 20 or newer
+rustc --version        Rust 1.90 or newer (the floor declared by the tauri crates)
+node --version         Node 20.19 or newer, or 22.12 or newer (the floor of the template's Vite 8)
 ```
+
+Both floors come from the packages' own metadata; the starter was run only with Rust 1.99.1 and Node 24.14.1.
 
 On Windows the Visual Studio Build Tools with the C++ workload and the WebView2 runtime are also needed. Android steps have their own check in `android.md`.
 
 ## Steps
 
-1. **Decide three values.** The product name (any text, shown in the title bar), the identifier (reverse-DNS such as `com.example.notes`, letters, digits, hyphens and dots) and the crate name (lowercase kebab-case such as `notes`). Pick the target directory.
+1. **Decide three values.** The product name (shown in the title bar; Tauri refuses `/ \ : * ? " < > |` in it, so the script does too), the identifier (reverse-DNS such as `com.example.notes`, letters, digits, hyphens and dots) and the crate name (lowercase kebab-case such as `notes`). Pick the target directory.
 2. **Instantiate.** Run the skill's script. `<skill-dir>` is this skill's own directory.
 
    ```text

@@ -11,7 +11,10 @@ const run = (cmd, args) => spawnSync(cmd, args, { encoding: 'utf8' });
 
 const missing = [];
 
-if (run('java', ['-version']).status !== 0) missing.push('JDK');
+// A JDK is found through JAVA_HOME (what Gradle and Tauri use) or, failing that, on the PATH.
+const javaHome = process.env.JAVA_HOME;
+const javaInHome = isDir(javaHome) && ['java', 'java.exe'].some((f) => existsSync(join(javaHome, 'bin', f)));
+if (!javaInHome && run('java', ['-version']).status !== 0) missing.push('JDK');
 
 const sdk = process.env.ANDROID_HOME;
 if (!isDir(sdk)) {
