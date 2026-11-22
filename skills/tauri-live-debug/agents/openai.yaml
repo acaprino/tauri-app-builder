@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tauri Live Debug"
+  short_description: "Debug and check a running Tauri 2 app through the MCP server"
+  default_prompt: "Use $tauri-live-debug to find the cause of this symptom in the running Tauri 2 app and show the evidence."

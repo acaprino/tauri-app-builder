@@ -19,6 +19,8 @@ URLs of the bracketed source names used in the reference files, grouped by file.
 - Tauri WebDriver: https://v2.tauri.app/develop/tests/webdriver/
 - WebView2 WebDriver: https://learn.microsoft.com/en-us/microsoft-edge/webview2/how-to/webdriver
 - Moving OpenCode Desktop to Electron: https://dev.to/brendonovich/moving-opencode-desktop-to-electron-4hip
+- MCP bridge README: https://github.com/hypothesi/mcp-server-tauri/blob/main/packages/tauri-plugin-mcp-bridge/README.md
+- MCP server getting started: https://hypothesi.github.io/mcp-server-tauri/guides/getting-started.html
 
 ## frame.md
 
