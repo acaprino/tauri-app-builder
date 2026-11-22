@@ -23,7 +23,7 @@ Both paths use the same core. The new-app path also adds a minimal frontend with
 
 ## Before any Android step
 
-Check the toolchain listed in `references/android.md`: JDK, SDK platform, build-tools, NDK, the Rust Android targets, `ANDROID_HOME`, `NDK_HOME` and `adb`. When something is missing, name it and stop. This skill never installs the Android toolchain; setup is described in `tauri-native-mobile`.
+Run the toolchain check in [android.md](references/android.md) (`scripts/check-android.mjs`): JDK, SDK platform, build-tools, NDK, the Rust Android targets, `ANDROID_HOME`, `NDK_HOME` and `adb`. When something is missing, name it and stop. This skill never installs the Android toolchain; setup is described in `tauri-native-mobile`. The same page has the build, install and run steps.
 
 ## Hand-off
 
