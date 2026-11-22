@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Copies the starter template into a target directory and substitutes four placeholders:
-// {{PRODUCT_NAME}}, {{IDENTIFIER}}, {{CRATE_NAME}} and {{LIB_NAME}} (the crate name with "-" as "_").
+// {{PRODUCT_NAME}}, {{IDENTIFIER}}, {{CRATE_NAME}} and {{LIB_NAME}} (the crate name with "-" as "_" and a "_lib" suffix:
+// a library named like the binary makes Cargo warn about clashing output files on Windows).
 // Usage: node instantiate.mjs --mode <new|adapt> --target <dir> --name <product> --id <reverse-dns> --crate <kebab-case>
 // Exit codes: 0 done, 2 invalid argument, 3 would overwrite something, 4 a placeholder remains.
 // Nothing is written unless every check passes.
@@ -64,7 +65,7 @@ const outputs = plan.map(({ file, dest }) => {
   }
   if (text === null) return { dest, data: bytes };
   const ext = file.slice(file.lastIndexOf('.'));
-  const values = { PRODUCT_NAME: (escapers[ext] ?? ((s) => s))(name), IDENTIFIER: id, CRATE_NAME: crate, LIB_NAME: crate.replaceAll('-', '_') };
+  const values = { PRODUCT_NAME: (escapers[ext] ?? ((s) => s))(name), IDENTIFIER: id, CRATE_NAME: crate, LIB_NAME: `${crate.replaceAll('-', '_')}_lib` };
   const data = text.replace(/\{\{([A-Z][A-Z0-9_]*)\}\}/g, (token, key) => {
     if (key in values) return values[key];
     remaining.push(`${relative(assets, file)}: ${token}`);

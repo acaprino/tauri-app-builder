@@ -9,7 +9,7 @@ Start a Tauri 2 app that runs on Windows and Android from one shared `src-tauri`
 
 ## Pick the path
 
-- **New app**, from an empty directory: `references/new-app.md`.
+- **New app**, from an empty directory: [new-app.md](references/new-app.md). The part of the core each file is for: [wiring.md](references/wiring.md).
 - **Existing web app**, to wrap in Tauri: `references/adapt-web-app.md`.
 
 Both paths use the same core. The new-app path also adds a minimal frontend with plain HTML and TypeScript; the adapt path leaves the host app's frontend alone and edits its files only after the user approves a shown diff.

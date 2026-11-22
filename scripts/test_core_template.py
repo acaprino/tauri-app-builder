@@ -60,5 +60,12 @@ class CoreTemplateTests(unittest.TestCase):
         self.assertEqual([p for p in ASSETS.rglob('gen') if p.is_dir()], [])
 
 
+class WebTemplateTests(unittest.TestCase):
+    def test_tsconfig_leaves_the_vite_config_out(self):
+        # vite.config.ts reads process.env; type-checking it would need @types/node, which the page does not use.
+        tsconfig = json.loads((ASSETS / 'web/tsconfig.json').read_text(encoding='utf-8'))
+        self.assertEqual(tsconfig['include'], ['src'])
+
+
 if __name__ == '__main__':
     unittest.main()

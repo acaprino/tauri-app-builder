@@ -1,7 +1,8 @@
-use tauri::Url;
+use tauri::{Manager, Url};
 
 #[tauri::command]
 fn platform_name() -> &'static str {
+    log::info!("platform_name requested");
     std::env::consts::OS
 }
 
@@ -28,6 +29,7 @@ fn navigation_guard<R: tauri::Runtime>() -> tauri::plugin::TauriPlugin<R> {
                 return true;
             }
             if matches!(url.scheme(), "http" | "https") {
+                log::info!("opening {url} in the system browser");
                 let _ = tauri_plugin_opener::open_url(url.as_str(), None::<&str>);
             }
             false
@@ -43,7 +45,6 @@ pub fn run() {
     #[cfg(desktop)]
     let builder = builder
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            use tauri::Manager;
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.unminimize();
                 let _ = window.set_focus();

@@ -50,7 +50,7 @@ class InstantiateTests(unittest.TestCase):
         self.assertEqual(res.returncode, 0, res.stderr)
         cargo = tomllib.loads((target / 'src-tauri/Cargo.toml').read_text(encoding='utf-8'))
         self.assertEqual(cargo['package']['name'], 'my-app')
-        self.assertEqual(cargo['lib']['name'], 'my_app')
+        self.assertEqual(cargo['lib']['name'], 'my_app_lib')  # the suffix avoids a Windows output-name clash with the binary
         conf = json.loads((target / 'src-tauri/tauri.conf.json').read_text(encoding='utf-8'))
         self.assertEqual(conf, {'productName': 'My App', 'identifier': 'com.example.myapp'})
         self.assertEqual((target / 'index.html').read_text(encoding='utf-8'), '<title>My App</title>\n')

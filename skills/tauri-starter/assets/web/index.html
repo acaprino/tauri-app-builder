@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{{PRODUCT_NAME}}</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      }
+      main { padding: 1rem; }
+      button { margin: 0 0.5rem 0.5rem 0; padding: 0.5rem 0.75rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>{{PRODUCT_NAME}}</h1>
+      <p id="platform">Starting</p>
+      <button id="open" type="button">Open tauri.app (granted)</button>
+      <button id="denied" type="button">Save window state (not granted)</button>
+      <p><a id="external" href="https://example.org/">External link (opens the system browser)</a></p>
+      <pre id="out"></pre>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
