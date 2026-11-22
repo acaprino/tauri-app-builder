@@ -1,15 +1,16 @@
 # tauri-app-builder
 
-A Claude Code plugin with two skills for building, auditing and shipping Tauri 2 apps that behave like native apps.
+A Claude Code plugin with three skills for starting, building, auditing and shipping Tauri 2 apps that behave like native apps.
 
 Tauri gives a web frontend a native shell: an OS window, a system WebView, a Rust backend and installers. What it does not give is native behavior. Out of the box the app still acts like a web page in a frame: a white flash at startup, selectable interface text, the browser's context menu and shortcuts, dialogs that ignore OS conventions, permissions that fail silently on a phone. These skills hold the knowledge for that layer, the part between the web UI and the operating system, so Claude handles it deliberately instead of leaving browser defaults in place.
 
-The skills are documentation and decision guides that Claude loads when the task calls for them. They are not a library, a template or a CLI, and they add nothing to your app's dependencies.
+The desktop and mobile skills are documentation and decision guides that Claude loads when the task calls for them; they add nothing to your app's dependencies. The starter skill also ships a small project template and two dependency-free Node scripts, and copies that template into a new or an existing project only when you ask it to start an app.
 
 | Skill | Platforms | Use it for |
 |---|---|---|
 | `tauri-native-desktop` | Windows, macOS, Linux | Windows and dialogs, title bar, tray and start at login, menus, notifications, installers and updates, keyboard and accessibility, WebView lifecycle and recovery |
 | `tauri-native-mobile` | Android, iOS | Permissions, camera and microphone, sign-in, deep links, safe areas, location, NFC/BLE, biometrics, push and background work, file export, builds and store delivery |
+| `tauri-starter` | Windows, Android | Starting a new Tauri 2 app, or wrapping an existing web app: one shared `src-tauri` core (with recovery of the WebView on Windows), a minimal frontend for new apps, a check of the Android toolchain, and the build and run steps |
 
 ## Install
 
@@ -28,6 +29,7 @@ Claude loads a skill by itself when the request matches. You can also name the s
 
 | You want to | Example request | Skill |
 |---|---|---|
+| Start an app | "Start a new Tauri 2 app" or "Put this web app in Tauri" | starter |
 | Audit a whole desktop app | "Audit this Tauri app and tell me where it still behaves like a web page" | desktop |
 | Choose native features | "Which native features could this app use? Let me pick" | desktop or mobile |
 | Store secrets safely | "Keep the login token in the system credential store" | desktop |
@@ -125,13 +127,18 @@ Each skill maps capabilities to plugins for its platforms and names the capabili
 |---|---|
 | `skills/tauri-native-desktop/` | `SKILL.md` and 19 reference files |
 | `skills/tauri-native-mobile/` | `SKILL.md`, 37 reference files, example adapters and its own validator |
-| `shared/native-plugins.md` | Plugin data shared by both skills |
+| `skills/tauri-starter/` | `SKILL.md`, 6 reference files, the project template in `assets/` and two Node scripts |
+| `shared/native-plugins.md` | Plugin data shared by the three skills |
 | `scripts/` | Plugin validator and its tests |
 | `CHANGELOG.md` | What changed in each version |
 
+## Start an app
+
+Ask for a new Tauri 2 app, or to wrap a web app in Tauri 2, for Windows and Android. The `tauri-starter` skill copies its template with `scripts/instantiate.mjs` (Node, no dependencies) and checks the Android toolchain with `scripts/check-android.mjs`; it never installs that toolchain. What was run to prove it, and what was not, is in `skills/tauri-starter/references/verification.md`.
+
 ## Limits
 
-The skills are documentation and decision guides. Plugin support levels are copied from the official plugin manifests on the date stated in each file; no plugin was built or run, and no feature was exercised on a device. Recheck versions against your lockfile and verify on the installed app. Tauri 1 and Tauri 3 are not covered.
+The skills are documentation and decision guides. Plugin support levels are copied from the official plugin manifests on the date stated in each file; no plugin was built or run and no feature was exercised on a device, except what the `tauri-starter` template needed: it was built and run on Windows and on an Android emulator, within the limits in its `references/verification.md`. Recheck versions against your lockfile and verify on the installed app. Tauri 1 and Tauri 3 are not covered.
 
 ## Validate the plugin and skill bundles
 
@@ -143,7 +150,9 @@ python scripts/validate_bundle.py
 python -m unittest discover -s scripts -p "test_*.py"
 ```
 
-After editing `shared/native-plugins.md`, run `python scripts/validate_plugin.py --sync-shared` to update both standalone skill copies.
+The new tests need Python 3.11 or newer (`tomllib`); the tests of the `tauri-starter` scripts also need Node and are skipped without it.
+
+After editing `shared/native-plugins.md`, run `python scripts/validate_plugin.py --sync-shared` to update the three standalone skill copies.
 
 ## Releases
 

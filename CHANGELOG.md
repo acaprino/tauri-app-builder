@@ -2,6 +2,17 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
+## 2.2.0
+
+### Starter skill
+
+- New skill `tauri-starter`: starts a new Tauri 2 app, or wraps an existing web app in Tauri 2, for Windows and Android from one shared `src-tauri` core.
+- The core has least-privilege capability files per platform, a Content Security Policy that is not null, window state and single instance on desktop, an opener limited to one address with a navigation guard, and logging.
+- On Windows the WebView is recovered: a dead renderer is reloaded at most three times a minute and a dead WebView2 browser process restarts the app.
+- A dependency-free script copies the template and refuses to overwrite anything; a second script checks the Android toolchain and stops without installing it.
+- The adapt path detects the package manager, static output, router, base path, service worker and remote origins, refuses what cannot work and shows a diff before editing the project's own files.
+- Run on Windows and on an Android 16 emulator; the live `tauri android dev` session, a phone, installers and macOS, Linux and iOS were not verified. See the skill's verification record.
+
 ## 2.1.0
 
 ### Desktop skill
