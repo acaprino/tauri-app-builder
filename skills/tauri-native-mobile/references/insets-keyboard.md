@@ -38,7 +38,7 @@ The WebView version is the user's, not the app's: a phone can run any of these. 
 
 ### Code for design A
 
-Not built or run for this skill. A listener of the same shape that consumed the insets ran on Android 14 and 15 emulators in one project; the zeroing variant below has not run anywhere.
+Not built or run for this skill, and the snippet below was not compiled as written. A zeroing listener of this shape ran in one project's emulator job on Android 14 and 15 (WebView 113 and 124): the page shrank above the keyboard, once, and the `env()` probe read 0 on all sides. Both WebViews are older than M136 and M139, so that run shows nothing about double counting on a newer one, and no phone was used.
 
 `InsetsOwner.kt`, in the app's package:
 
