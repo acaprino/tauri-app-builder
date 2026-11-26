@@ -18,7 +18,7 @@ Record device/OS/WebView, installed package/version/signature, build revision an
 | Export | Picker cancel, failed write/close, large ZIP, cloud provider, low disk, process death, inspect destination bytes and archive entries, no false completion |
 | Scheduling | Exact access denied/revoked, notifications disabled, idle, app closed, reboot, force-stop distinction, DST/timezone, duplicate reconciliation, edit/delete/snooze, logout, iOS supported/unsupported OS |
 | Links | Cold and warm launch, duplicate callback, verified/unverified host, Play signing, wrong path, installed old APK |
-| Layout | Samsung/other OEM, rotation, cutout, keyboard open/close, gestures/three-button nav, dialog scroll, pull past every edge (the screen never slides as a whole, no background strip) |
+| Layout | The WebView version of the run, then the checklist and device procedure in [Android insets and keyboard](insets-keyboard.md#4-checks): Samsung/other OEM, rotation, cold start in landscape and in split screen, cutout, keyboard open/close, gestures/three-button nav, dialog scroll, pull past every edge (the screen never slides as a whole, no background strip) |
 | Build | Fresh clone/submodules, clean native generation, selected ABI, packaged assets, no dev server, same-key update |
 | Distribution | Play-generated APK, 16 KB environment, purchase pending/restore/revoke, iOS entitlements/hardware |
 

@@ -60,6 +60,7 @@ To drive the page from the computer, forward the WebView's DevTools socket: find
 
 - Live development with `npm run tauri -- android dev` and Vite on `TAURI_DEV_HOST`: three tries on the emulator (output redirected, verbose, and in a console window) of seven minutes each. Gradle finished every time but the CLI never installed or started the app. Treat it as unverified, and use the build and install steps above instead.
 - A physical phone: none was connected.
+- Insets and keyboard. The page keeps clear of the bars through `env(safe-area-inset-*)`, which an Android WebView reports from M136; the emulator's WebView version was not recorded, so why the page sat below the status bar there is not established. A WebView older than M136 and the keyboard over a field were not tried. Decide who owns the insets and the keyboard with `tauri-native-mobile` (insets and keyboard) before shipping.
 - The icon command, backup rules, a pinned target SDK and a Back handler (section 3 and 4): described from the Tauri and Android documentation, not run.
 
 ## 6. Emulator notes

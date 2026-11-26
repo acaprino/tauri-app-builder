@@ -36,8 +36,15 @@ Consulted 2026-11-15. Online sources change: this is a dated review, not a toolc
 | [Tauri configuration](https://v2.tauri.app/reference/config/) | `bundle.android` has four fields, none for compile or target SDK; default version code formula |
 | [Tauri Android signing](https://v2.tauri.app/distribute/sign/android/) | `keystore.properties` written in CI, signing config in the Gradle file |
 | [Tauri app API](https://v2.tauri.app/reference/javascript/api/namespaceapp/) and the `tauri` crate's Android source (2.9.5, 2.12.5) | `onBackButtonPress` since 2.9.0 takes over the default; a listener stays until removed; `core:app:default` allows register and remove |
+| [Android WebView insets](https://developer.android.com/develop/ui/views/layout/webapps/understand-window-insets) (page dated 2026-10-28) | `env(safe-area-inset-*)` for bars and cutout added in WebView M136 (M144 for a WebView that does not fill the window); keyboard by visual viewport from M139; zero the insets a parent paid instead of consuming them |
+| [Android 16 behavior changes](https://developer.android.com/about/versions/16/behavior-changes-16) | No opt-out from edge-to-edge when targeting SDK 36 |
+| [Android keyboard guide](https://developer.android.com/develop/ui/views/layout/sw-keyboard) | `adjustResize` for the keyboard inset through AndroidX on older Android |
+| [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets), [WindowInsets.Type](https://developer.android.com/reference/android/view/WindowInsets.Type) and [View](https://developer.android.com/reference/android/view/View) references | Tappable-element and mandatory-gesture insets are not layout insets; `getInsetsIgnoringVisibility` and its IME exception; a listener replaces the view's own handling |
+| [Window](https://developer.android.com/reference/android/view/Window), [display cutout](https://developer.android.com/develop/ui/views/layout/display-cutout), [emulator console](https://developer.android.com/studio/run/emulator-console), [adb](https://developer.android.com/tools/adb), [KeyEvent](https://developer.android.com/reference/android/view/KeyEvent), [Android 14 features](https://developer.android.com/about/versions/14/features) | `setSoftInputMode`; which test steps of the insets page are documented (simulated cutout, `rotate`, `screencap`, `dumpsys`, Back key code, font size setting) and which adb shortcuts are not |
+| `wry` crate Android source (0.53.5, 0.57.1) | The WebView is set as the activity's content view |
+| Tauri CLI Android template at tag `tauri-cli-v2.12.4` (`MainActivity.kt`, `AndroidManifest.xml`) | The generated activity calls `enableEdgeToEdge()`; the manifest sets no `windowSoftInputMode` |
 
-The eight rows from Auto Backup down were consulted 2026-11-25.
+The eight rows from Auto Backup down were consulted 2026-11-25, and the seven rows from Android WebView insets down on 2026-11-26. They support [Android insets and keyboard](insets-keyboard.md).
 
 Some checks used indexed excerpts of the same official sources (Apple REST, Xcode, target API, Store); they are not full archived copies of the pages. No crawler was run over every URL, and the availability of every provider service was not checked.
 

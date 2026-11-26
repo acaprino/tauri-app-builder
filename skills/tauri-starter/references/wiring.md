@@ -20,7 +20,7 @@ One file per platform: `desktop.json` for Windows, macOS and Linux, `mobile.json
 
 ## 4. The page (`src/main.ts`, `index.html`)
 
-It uses only the core API: one command and two plugin calls, one granted and one refused on purpose. The `viewport-fit=cover` meta tag and the `env(safe-area-inset-*)` padding handle device insets; check them on a device. `vite.config.ts` binds the dev server to `TAURI_DEV_HOST` when it is set, which is how a device reaches it.
+It uses only the core API: one command and two plugin calls, one granted and one refused on purpose. The `viewport-fit=cover` meta tag and the `env(safe-area-inset-*)` padding keep the page clear of the bars on iOS and on an Android WebView from M136, the first that reports the bars to the page. On an older Android WebView the page is drawn under the bars, and no version shrinks the layout for the keyboard. Before shipping on Android, give the insets an owner as `tauri-native-mobile` describes (its Android insets and keyboard reference has the code and the checks); the template adds no native code for it. `vite.config.ts` binds the dev server to `TAURI_DEV_HOST` when it is set, which is how a device reaches it.
 
 ## 5. What is not here
 

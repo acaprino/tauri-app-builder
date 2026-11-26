@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "checked_at": "2026-11-17T12:01:10.863723+00:00",
-  "active_markdown_files": 39,
-  "local_links_checked": 139,
+  "checked_at": "2026-11-26T09:56:48.920616+00:00",
+  "active_markdown_files": 40,
+  "local_links_checked": 151,
   "preserved_sources_checked": 2,
   "errors": [],
   "scope": "Structure, local links, citations and declared hashes; not semantic coverage",

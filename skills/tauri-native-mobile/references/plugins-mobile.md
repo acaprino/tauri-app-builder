@@ -2,13 +2,11 @@
 
 Select plugins by documented support of the installed version, including individual commands. Android-only camera/auth code needs `target_os = "android"` gates, not a generic mobile gate. Separate capabilities by platform where it clarifies support; it is not mandatory to put them in a file literally named `mobile.json`.
 
-## Insets
+## Insets and keyboard
 
-Do not assume Android `env(safe-area-inset-*)` is permanently unsupported or use fixed 48/24px padding. Results depend on WebView version, native edge-to-edge setup, viewport metadata and the embedding layout. Measure on the supported device matrix. If a native fallback is necessary, use WindowInsets for system bars/cutout and convert native pixels to the CSS coordinate system used by the WebView.
+On Android the page is drawn under the system bars and the keyboard unless one owner pays each inset, and what the WebView does by itself depends on its version. The rules, the code for the recommended design, the static and device checks and the sources are in [Android insets and keyboard](insets-keyboard.md). In short: one owner per inset, native padding of the content view by default, values assigned at every dispatch and never accumulated, insets passed on as zero instead of consumed, and the keyboard paid once, natively.
 
-Give each inset one owner. The page container, header and bottom navigation must not each pay the same padding. Treat IME height separately from navigation-bar padding; don't retain the keyboard inset as a permanent safe area. Handle rotation, three-button/gesture navigation, resumed activity and a document created after the first native inset event.
-
-If a native inset bridge is needed, validate its message origin and replay the latest measurements after the WebView signals readiness. Test OEM-specific inset dispatch, double-counted header padding and keyboard-driven viewport shrink independently. A fixed CSS constant cannot correct all three failure modes.
+On iOS `env(safe-area-inset-*)` with `viewport-fit=cover` is the owner; keep the same one-owner rule in CSS. iOS keyboard behavior was not reviewed for this skill.
 
 ## Overscroll and pull to refresh
 

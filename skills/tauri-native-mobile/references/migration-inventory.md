@@ -4,6 +4,8 @@ Use this when auditing an existing web app for mobile migration. Inventory actua
 
 For each used capability record: Android/iOS/web adapter, supported OS/hardware, installed command support, ACL, native declarations, user authorization, foreground/background owner, persistence, cancellation/error result, observable completion and release-device test. Mark unimplemented and unsupported explicitly. Hardware absent, permission denied, service disabled, busy, cancelled, timed out and operation failed are not interchangeable.
 
+When auditing an Android app, run the static checks and the review checklist of [Android insets and keyboard](insets-keyboard.md#4-checks) in the assess phase: they find a running maximum, consumed insets, two owners of one edge, a missing `adjustResize` and an inset paid twice without a device.
+
 ## Detailed integration references
 
 | User action | Integration boundary |
