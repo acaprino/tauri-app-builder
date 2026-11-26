@@ -2,7 +2,7 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
-## Unreleased
+## 2.4.0
 
 ### Mobile skill
 

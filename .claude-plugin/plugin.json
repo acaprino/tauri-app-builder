@@ -1,6 +1,6 @@
 {
   "name": "tauri-app-builder",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Build, audit and ship Tauri 2 apps with native behavior: desktop (Windows, macOS, Linux) windows, dialogs, frame, notifications and WebView lifecycle; mobile (Android, iOS) permissions, capture, auth, builds and store delivery; start a new app or wrap a web app for Windows and Android. Ships the Tauri MCP server, a live-debug skill and commands to debug, build and verify a running app.",
   "author": {
     "name": "Alfio Caprino",
