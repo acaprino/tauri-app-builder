@@ -19,7 +19,7 @@ For a whole-app request (port a web app to phones, audit the mobile app, make it
 
 1. **Assess.** Nothing is changed. Use the [capability inventory](references/migration-inventory.md) to list every browser-dependent action and every native capability the app already uses. Report to the user where the app stands: for each one, a native adapter in place, a browser-only path, or nothing; then the defects found, most serious first. For report-only work, stop here with recommendations.
 2. **Apply the native baseline.** These make the app stop behaving like a web page in a frame and do not change what the product does. When changes were requested, list the missing ones in one message and apply them all, without asking about each:
-   - safe areas with one layout owner, and the keyboard inset handled apart from them ([mobile layout](references/plugins-mobile.md));
+   - safe areas with one owner per inset, and the keyboard paid once, natively ([Android insets and keyboard](references/insets-keyboard.md): rules, code and checks);
    - the screen never drags as a whole on overscroll, and a gap never shows a color other than the theme ([mobile layout](references/plugins-mobile.md));
    - for capabilities the app already uses, the whole chain is complete: Tauri capability, manifest or entitlement, runtime grant, and a result for denial, cancellation and failure ([permissions](references/permissions.md));
    - browser-only actions that silently do nothing on a phone (downloads, popups, links) report a result instead of pretending to complete;
@@ -43,7 +43,8 @@ For a whole-app request (port a web app to phones, audit the mobile app, make it
 | Camera, gallery, microphone, cancellation | [camera and media](references/camera-media.md) |
 | Android/iOS Google login/Firebase session | [native Google auth](references/google-auth-native.md) |
 | Other OAuth, Apple, callback lifecycle | [auth architecture](references/authentication.md), [mobile auth and links](references/authentication-mobile.md) |
-| Safe areas, keyboard, whole view dragging on overscroll ("pull to refresh"), old WebViews | [mobile layout](references/plugins-mobile.md), [engine compatibility](references/platform-webviews.md) |
+| Safe areas, system bars, cutout and keyboard on Android: rules, code, static and device checks | [Android insets and keyboard](references/insets-keyboard.md) |
+| Whole view dragging on overscroll ("pull to refresh"), old WebViews | [mobile layout](references/plugins-mobile.md), [engine compatibility](references/platform-webviews.md) |
 | Wrong UI in APK / missing Rust or Kotlin output | [stale builds](references/mobile-stale-builds.md), [builds](references/build-deploy-mobile.md) |
 | Native plugin/JS boundary | [core plugins](references/plugins-core.md), [Rust](references/rust-patterns.md), [frontend](references/frontend-patterns.md) |
 | Device investigation | [debugging](references/debugging-mobile.md), [verification matrix](references/testing.md) |
@@ -60,7 +61,7 @@ For a whole-app request (port a web app to phones, audit the mobile app, make it
 - Android Google sign-in can be native; external-browser OAuth is not the only option. Keep native Firebase and JS Firebase sessions behind one explicit identity/token boundary.
 - Tauri permissions, Android manifest declarations, OS runtime grants and WebView-origin authorization are separate controls. Grant only the command/resource required by the selected implementation.
 - User cancellation is not denial, absence of a plugin, or a timeout. A JS timeout does not cancel a native camera request.
-- Derive safe-area values from real measurements, with one layout owner. Do not turn a device's pixel values into universal constants.
+- Derive safe-area values from real measurements, with one owner per inset, and replace each value at every measurement (no running maximum). Do not turn a device's pixel values into universal constants, and do not rely on `env(safe-area-inset-*)` alone on Android: a WebView reports the bars only from M136.
 - Inspect the packaged APK and installed version before blaming caches. Cargo scans watched directories recursively; verify the actual packaging pipeline.
 - Check command options against the installed CLI. Pin compatible build dependencies; do not automatically choose the newest SDK/NDK/Gradle combination.
 - Prefer the native path for every device capability: official plugin, then a reviewed community plugin, then a narrow Kotlin/Swift bridge. Check the [native plugin map](references/native-plugins.md) before choosing; a WebView API is a fallback.

@@ -2,7 +2,7 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
-## Unreleased
+## 2.4.0
 
 ### Mobile skill
 
@@ -10,10 +10,12 @@ One section per released version of the plugin. The release workflow publishes t
 - Android defaults to decide before shipping: backup and device transfer, the source of the target SDK, the version code fields, user CAs and cleartext for a server the user names.
 - Reminders a server decides: push, or a foreground service with an open connection, with the service-type limits.
 - Signing and 16 KB alignment when the artifact is signed after Gradle, per-ABI artifacts, and an emulator job for the built APK.
+- New reference for Android insets and keyboard, in four parts. Guidelines: one owner per inset, two designs (native padding by default, measured CSS variables when the page paints behind the bars), which inset types are layout padding, no running maximum, zeroed insets instead of consumed ones, the keyboard per WebView version (M136, M139, M144) with `adjustResize`. Code: the Kotlin inset owner, how it survives a regenerated `gen/android`, the viewport tag and CSS. Checks: searches for the known defects, a pass/fail review checklist, page-side commands with expected values and a device procedure that says which commands are documented. References with the access date. Nothing was compiled or run for the skill and no device was used; a zeroing listener of the native-padding design ran in one project's emulator job on Android 14 and 15, on WebViews older than M136.
 
 ### Starter skill
 
 - The Android page names three defaults of the generated project (Tauri's launcher icon, backup on, Back closing the app) and what to do about each; the verification record lists them as not run.
+- The wiring and Android pages no longer say that `env(safe-area-inset-*)` handles the insets on Android: a WebView reports the bars to the page only from M136. They point to the mobile skill for the owner of the insets and the keyboard.
 
 ## 2.3.0
 
