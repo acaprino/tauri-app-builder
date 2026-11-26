@@ -12,6 +12,8 @@ Record device/OS/WebView, installed package/version/signature, build revision an
 | Biometrics/keys | No enrollment, cancel/lockout/fallback, changed enrollment, key invalidation, locked device, backup/restore, account switch |
 | Push/background/offline | Token refresh, account detach, foreground/background/tap routing, duplicates, missing push, worker expiration, offline restart, idempotent retry/conflict |
 | Other device APIs | Picker grant lifetime, limited contacts, calendar editor cancel, partial health access, LAN denial, predictive Back, TalkBack/VoiceOver and text scaling |
+| Back | Overlay on overlay, root with one press, two presses, and one press then a wait, overlay opened during the exit window, router navigation with an overlay open, Back after a page reload, return from another app |
+| Install defaults | Launcher and notification icon are the app's own, backup and device transfer as decided (restore on a second device), target SDK equals the tested system image, server with a private CA or plain HTTP as decided |
 | Google | Registered/unregistered signature, account picker cancel, no account, offline, native/JS switch, refresh, logout, reauth |
 | Export | Picker cancel, failed write/close, large ZIP, cloud provider, low disk, process death, inspect destination bytes and archive entries, no false completion |
 | Scheduling | Exact access denied/revoked, notifications disabled, idle, app closed, reboot, force-stop distinction, DST/timezone, duplicate reconciliation, edit/delete/snooze, logout, iOS supported/unsupported OS |

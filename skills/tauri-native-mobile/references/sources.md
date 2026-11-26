@@ -28,6 +28,16 @@ Consulted 2026-11-15. Online sources change: this is a dated review, not a toolc
 | [WebKit inspection](https://webkit.org/blog/13936/enabling-the-inspection-of-web-content-in-apps/) | Inspectability is configurable, not a universal debug/release property |
 | [Xcode 14 release notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes) | Remote push supported by some simulator configurations |
 | [Tauri updater](https://v2.tauri.app/plugin/updater/) | true / v1Compatible, not v2Compatible; target and arch are separate |
+| [Android Auto Backup](https://developer.android.com/identity/data/autobackup) | `allowBackup` defaults to true; on API 31+ both extraction-rule sections are needed |
+| [Android network security configuration](https://developer.android.com/privacy-and-security/security-config) | Target 24+ trusts system CAs only; cleartext off from target 28 |
+| [Android foreground service types](https://developer.android.com/develop/background-work/services/fgs/service-types) and [timeouts](https://developer.android.com/develop/background-work/services/fgs/timeout) | `specialUse` property and review; `dataSync` 6 hours in 24 and no start from boot on Android 15 |
+| [Android zipalign](https://developer.android.com/tools/zipalign) | `-P 16` for 16 KB; `-p` is 4 KiB and deprecated |
+| [Tauri icons](https://v2.tauri.app/develop/icons/) and the CLI reference | Default icon is Tauri's; `tauri icon` writes Android icons into the generated project; manifest keys for adaptive layers |
+| [Tauri configuration](https://v2.tauri.app/reference/config/) | `bundle.android` has four fields, none for compile or target SDK; default version code formula |
+| [Tauri Android signing](https://v2.tauri.app/distribute/sign/android/) | `keystore.properties` written in CI, signing config in the Gradle file |
+| [Tauri app API](https://v2.tauri.app/reference/javascript/api/namespaceapp/) and the `tauri` crate's Android source (2.9.5, 2.12.5) | `onBackButtonPress` since 2.9.0 takes over the default; a listener stays until removed; `core:app:default` allows register and remove |
+
+The eight rows from Auto Backup down were consulted 2026-11-25.
 
 Some checks used indexed excerpts of the same official sources (Apple REST, Xcode, target API, Store); they are not full archived copies of the pages. No crawler was run over every URL, and the availability of every provider service was not checked.
 

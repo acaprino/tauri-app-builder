@@ -6,7 +6,7 @@ The retrieved Android 16 KB guide now states 2027-02-01 for blocking incompatibl
 
 Before release: build a signed AAB; inspect its final package/versionCode and merged manifest; test generated APKs; preserve matching symbols; verify required account access, listing assets, privacy/data declarations and any account-specific testing requirements in Console. Review timing and internal-track review exemptions are not guaranteed.
 
-Use the app's version source of truth and confirm a monotonically valid versionCode in the artifact. A semver formula is not a substitute for inspecting custom Gradle logic. Keep signing credentials out of shared skill examples. The existing application's key-management policy remains project-specific.
+Use the app's version source of truth and confirm a monotonically valid versionCode in the artifact. A semver formula is not a substitute for inspecting custom Gradle logic. Without other settings Tauri derives the code from the app version (major*1000000 + minor*1000 + patch), so two builds of one version share a code; `bundle.android.versionCode` sets it and `autoIncrementVersionCode` raises it per build from `tauri.properties`, which must then be tracked ([Tauri configuration](https://v2.tauri.app/reference/config/)). Keep signing credentials out of shared skill examples. The existing application's key-management policy remains project-specific.
 
 Inspect **merged** permissions, including plugin contributions, before removing anything. Verify both runtime denial UX and the resource actually used. Don't force-grant notifications as release acceptance evidence.
 

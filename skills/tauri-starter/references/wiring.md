@@ -26,6 +26,8 @@ It uses only the core API: one command and two plugin calls, one granted and one
 
 Updater, tray, notifications, deep links, sign-in, a custom title bar and dialogs. Each is a decision for `tauri-native-desktop` or `tauri-native-mobile`; check their references and the plugin map before adding one.
 
+On Android the generated project also keeps three defaults the core does not change: Tauri's launcher icon, data backup switched on, and Back closing the app at the first page. `android.md` section 3 says what to do about each.
+
 Failed navigations, an unresponsive renderer, frames and windows other than `main` are not covered by the recovery in section 6; see the recovery reference of `tauri-native-desktop` for them.
 
 ## 6. WebView2 recovery (Windows, `src/recovery.rs`)

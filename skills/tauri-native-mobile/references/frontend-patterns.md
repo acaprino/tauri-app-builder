@@ -6,6 +6,10 @@ Register Channel handlers before passing channels to native code. A Channel is a
 
 Event/deep-link registration returns an asynchronous unlisten function. If disposal happens before registration resolves, run the unlisten immediately after resolution; catch registration errors. Ignore late messages for a closed component/request. An AbortController only cancels APIs actually wired to its signal; calling `abort()` does not cancel Tauri `invoke` by itself.
 
+A plugin event listener on Android (`addPluginListener`, and helpers built on it such as `onBackButtonPress`) lives in native code until it is removed. A page reload runs no cleanup, so the previous document's listener stays registered with a dead channel; for an event whose handler replaces a default, the default never returns. Wherever a reload is possible, store the listener's `channelId` (local storage, as a precaution: a foreground service can keep the process while the activity and its session storage are made again; not observed) and unregister it before registering again: `new PluginListener(plugin, event, channelId).unregister()`. Read in Tauri's Android source, not run.
+
+Gate phone-only behavior on what it needs, not on "not inside Tauri": the Android shell is inside Tauri, so such a gate switches the phone behavior off exactly there (seen in one project). Ask "desktop shell?" for desktop-only code and treat the Android shell as a phone.
+
 Don't collapse `cancelled`, `unavailable`, `denied` and `failed` into null. Don't mutate another account's state from a stale auth or sync reply. Keep browser picker actions in the user gesture when required.
 
 Sources: [IPC](https://v2.tauri.app/develop/calling-rust/), [events](https://v2.tauri.app/develop/calling-frontend/), [camera outcomes](camera-media.md).

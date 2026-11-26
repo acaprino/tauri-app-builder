@@ -50,6 +50,8 @@ What was run, on what, and what was not. Date: 2026-11-22. A result here is an o
 | `aarch64` debug APK | built, not run | native code arm64-v8a only, 133.4 MB; nothing arm64 was available to run it on |
 | A physical phone | not run | none was connected |
 | Release or bundle build, signing | not run | |
+| Target SDK 37 behavior | not observed | the emulator ran API 36 |
+| `tauri icon` for Android, backup rules in the manifest, a Back handler | not run | added to `android.md` from documentation; "Back closes the app" above is the template's default, not a decision |
 
 ## Adapt
 

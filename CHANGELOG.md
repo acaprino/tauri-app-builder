@@ -2,6 +2,19 @@
 
 One section per released version of the plugin. The release workflow publishes the section that matches `version` in `.claude-plugin/plugin.json` as the GitHub Release notes.
 
+## Unreleased
+
+### Mobile skill
+
+- Android Back as part of the native baseline: close what is on top, then a second press at the root to leave, with `onBackButtonPress` on Android and history entries on the web; the listener that survives a page reload, and the capability it needs. Not run on a device.
+- Android defaults to decide before shipping: backup and device transfer, the source of the target SDK, the version code fields, user CAs and cleartext for a server the user names.
+- Reminders a server decides: push, or a foreground service with an open connection, with the service-type limits.
+- Signing and 16 KB alignment when the artifact is signed after Gradle, per-ABI artifacts, and an emulator job for the built APK.
+
+### Starter skill
+
+- The Android page names three defaults of the generated project (Tauri's launcher icon, backup on, Back closing the app) and what to do about each; the verification record lists them as not run.
+
 ## 2.3.0
 
 ### Live debugging

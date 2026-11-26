@@ -32,6 +32,12 @@ npm run tauri -- android build --apk --debug --target x86_64
 
 `init` writes `src-tauri/gen/android`; run it after the identifier is final and review a diff before regenerating. The generated project takes its compile and target SDK from Tauri's template (37 here) and Gradle installs a missing SDK platform itself once the SDK licence is accepted. The first build takes several minutes. Expected: `src-tauri/gen/android/app/build/outputs/apk/universal/debug/app-universal-debug.apk`. The file name says universal but it holds only the ABI you asked for: check with `aapt2 dump badging <apk>` (the `native-code` line). Use `--target aarch64` for a phone.
 
+The generated project starts with three defaults to decide before the app reaches a user. None of these steps was run for this skill:
+
+- **Launcher icon.** The project carries Tauri's own icon. Run `npm run tauri -- icon <source>` after `init`, and again after every regeneration: it writes the Android icons into `gen/android`, not into `icons/`. A JSON manifest as the source (`android_bg`, `android_fg`, `android_monochrome`) gives the adaptive icon its layers. The icon pages do not cover a notification's small icon: give notifications a drawable of their own.
+- **Backup.** Android backs the app's data up unless the manifest says otherwise (`android:allowBackup` defaults to true). For data that must stay on the phone set it to false and add `android:dataExtractionRules` with both a `<cloud-backup>` and a `<device-transfer>` section; see device security in `tauri-native-mobile`.
+- **Target SDK.** Tauri's configuration has no field for the compile or target SDK (only `minSdkVersion` and the version code): the template of the installed CLI decides, so a CLI update can raise it. Record the value, keep it in the tracked Gradle file and run the app on a system image of that API level. Here the target was 37 and the emulator API 36, so target-37 behavior was not observed.
+
 ## 4. Install and run
 
 ```text
@@ -46,7 +52,7 @@ Expected: the page shows "Running on android", below the status bar. Observed on
 - The external link stays out of the webview: the page keeps its URL and the log shows the guard's line.
 - A script created at run time is blocked by the CSP (`Tauri/Console` in logcat).
 - The Rust log plugin writes to logcat under the library name (`adb logcat`).
-- Back at the first page closes the app.
+- Back at the first page closes the app. This is the template's default, not a choice: decide what Back does before shipping (close what is open, then ask for a second press to leave) with the Back contract in the migration inventory of `tauri-native-mobile`.
 
 To drive the page from the computer, forward the WebView's DevTools socket: find `webview_devtools_remote_<pid>` in `adb shell cat /proc/net/unix`, then `adb forward tcp:<port> localabstract:<that name>`. This is the same view as `chrome://inspect`.
 
@@ -54,6 +60,7 @@ To drive the page from the computer, forward the WebView's DevTools socket: find
 
 - Live development with `npm run tauri -- android dev` and Vite on `TAURI_DEV_HOST`: three tries on the emulator (output redirected, verbose, and in a console window) of seven minutes each. Gradle finished every time but the CLI never installed or started the app. Treat it as unverified, and use the build and install steps above instead.
 - A physical phone: none was connected.
+- The icon command, backup rules, a pinned target SDK and a Back handler (section 3 and 4): described from the Tauri and Android documentation, not run.
 
 ## 6. Emulator notes
 

@@ -31,4 +31,38 @@ For each used capability record: Android/iOS/web adapter, supported OS/hardware,
 
 **Navigation and accessibility.** Test Android system/predictive Back with modal, keyboard, WebView and app-route ownership; one gesture must not pop two stacks. Test TalkBack/VoiceOver focus across native dialogs and WebView, text scaling, touch targets, reduced motion, keyboard overlap, rotation and resume after process recreation. HTML appearance alone does not establish native accessibility. [Android predictive Back](https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture), [insets](plugins-mobile.md).
 
+**Android Back contract.** Tauri's default sends Back to the WebView's history and, with none left, closes the activity: a wrapped web app leaves at the first press on its first page. Recommended default (a product choice, not an Android rule): Back closes what is on top (sheet, dialog, panel, sub-page); at the root it shows "press back again to exit" and only a second press within about two seconds leaves. On Android implement it with `onBackButtonPress()` from `@tauri-apps/api/app` (2.9.0 and later; registering "takes over the default behavior", payload `canGoBack`); on the web and in a PWA keep history entries and `popstate`. The code below was not built or run on a device.
+
+```ts
+import { onBackButtonPress } from '@tauri-apps/api/app';
+import { PluginListener } from '@tauri-apps/api/core';
+
+const KEY = 'app-back-listener';
+
+async function listenForBack(): Promise<void> {
+  // A reload runs no cleanup: remove the listener the previous document left.
+  const stale = localStorage.getItem(KEY);
+  if (stale !== null) await new PluginListener('app', 'back-button', Number(stale)).unregister().catch(() => {});
+  const listener = await onBackButtonPress(({ canGoBack }) => {
+    if (canGoBack) return window.history.back(); // closes what is on top
+    showExitHint(); // "Press back again to exit"
+    // For two seconds the next press is Android's own; then take Back again.
+    void listener.unregister().then(() => {
+      localStorage.removeItem(KEY);
+      setTimeout(() => void listenForBack().catch(reportBackFailure), 2000);
+    });
+  });
+  localStorage.setItem(KEY, String(listener.channelId));
+}
+
+listenForBack().catch(reportBackFailure);
+```
+
+- **Each overlay owns one history entry**, so `canGoBack` is true while something is open and `history.back()` closes it. Closing it another way removes its entry, and that `popstate` must not close a second thing. A router that navigates with `replace` rewrites `history.state`: merge into the state instead of overwriting it, and do not rely on a marker surviving.
+- **No root sentinel on Android.** A web build needs a spare history entry to catch Back at the root; with the handler above it would keep `canGoBack` true forever. Dropping it has a cost: a registration that fails silently means Back leaves at once, so report the failure.
+- **A listener outlives the page.** Read in Tauri's Android source (2.9.5 and 2.12.5): a plugin listener stays until `remove_listener`, and a page reload removes nothing, so the orphaned channel still counts as a handler and Back does nothing at all. Store the listener's `channelId` and remove it before registering, as above.
+- **Capability.** `core:app:default`, part of `core:default`, allows registering and removing listeners; a narrower capability needs `core:app:allow-register-listener` and `core:app:allow-remove-listener`.
+- **Leave by letting Android handle the press.** Calling `exit()` instead is avoided here as a precaution: its effect on a running foreground service was not checked.
+- **Not observed:** how the predictive-back preview looks when the first press at the root is intercepted.
+
 For capabilities without a first-party implementation covering the required command, inspect a maintained community plugin or implement a narrow native bridge. Check source, licensing, release activity, platform lifecycle and a working device example; package popularity is not compatibility evidence. Use [version maintenance](version-maintenance.md) and [device verification](testing.md) for the final acceptance decision.

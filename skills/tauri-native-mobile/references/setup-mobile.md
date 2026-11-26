@@ -1,6 +1,6 @@
 # Android and iOS toolchains
 
-Record and pin the compatible combination actually used: Tauri CLI/crates, Rust, JDK, Gradle wrapper, AGP, Kotlin, compile/target/min SDK and NDK. A historical template version is not today's required version. Do not select an NDK by lexicographic 'latest' directory order.
+Record and pin the compatible combination actually used: Tauri CLI/crates, Rust, JDK, Gradle wrapper, AGP, Kotlin, compile/target/min SDK and NDK. A historical template version is not today's required version. Do not select an NDK by lexicographic 'latest' directory order. Tauri's `bundle.android` configuration sets `minSdkVersion` and the version code but has no compile or target SDK field: those come from the template of the installed CLI, so a CLI update can change them. Keep them in the tracked Gradle file, or check the built artifact (`aapt2 dump badging <apk>`) when the project is regenerated, and test on a system image of the target API level. [Tauri configuration](https://v2.tauri.app/reference/config/).
 
 Android needs installed SDK/platform/build tools, NDK, a compatible JDK and Rust targets matching the device/emulator ABIs. Start with `aarch64-linux-android` for arm64 devices and `x86_64-linux-android` only for emulators that need it; add other targets when shipping them. Validate SDK/NDK paths instead of copying machine-specific paths into configuration.
 
